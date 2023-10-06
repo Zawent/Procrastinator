@@ -1,0 +1,37 @@
+body{
+    background-color: aliceblue;
+}
+
+.header{
+    background-color: azure;
+    border: solid;
+    padding: 2%;
+    text-align: center;
+    font-size: 1.3vw;
+}
+h2{
+    text-align: center;
+    font-size: 2vw;
+}
+#ciudades{
+    font-size: 1.4vw;
+}
+#consultarClima{
+    font-size: 1.4vw;
+}
+#clima{
+    font-size: 1.2vw;
+}
+.resultado{
+    border: solid;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    padding: 2vw;
+    text-align: center;
+}
+#climagen{
+    display: flex;
+    margin-left: 20%;
+    margin-top: 0%;
+    bottom: 20vw;
+}
