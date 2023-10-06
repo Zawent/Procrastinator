@@ -18,6 +18,14 @@ function consultarClima() {
                 let imgUrl = `https://openweathermap.org/img/wn/${iconoClima}@2x.png`
                 let imagen = document.getElementById("climaa")
                 $(imagen).attr("src",imgUrl)
+                let nomCiudad = document.getElementById("nomCiudad")
+                $(nomCiudad).text("Ciudad: "+ciudad)
+                let codigoPost = $("#codPostal");
+                $(codigoPost).text("Pais: "+ data.sys.country)
+                let nombreClima = $("#nomClima")
+                $(nombreClima).text("Clima: " + data.weather[0].main)
+                let descript = $("#desClima");
+                $(descript).text("Descripcion: " + data.weather[0].description)
             },
             error: function (xhr, status, error) {
                 console.error('Error al consultar el clima:', status, error);

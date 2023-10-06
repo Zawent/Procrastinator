@@ -1,0 +1,56 @@
+body {
+    margin: 0%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.informacion{
+    border: solid black;
+    margin: 5% 10%;
+}
+
+.header{
+    display: flex;
+    justify-content: space-around;
+    margin: 3% 20%;
+    border: solid brown;
+    border-radius: 5rem;
+    padding: 2%;
+    align-items: center;
+}
+
+.ingCiudad{
+    height: 2vw;
+    font-size: 1vw;
+}
+
+.climaInfo{
+    border: solid brown;
+    border-radius: 5rem;
+    padding: 1% 5%;
+    margin: 0% 20% 5%;
+}
+
+.titulo h1{
+    text-align: center;
+}
+
+.centro{
+    display: flex;
+    justify-content: space-around;
+}
+
+.centro p{
+    font-size: 1.2vw;
+    font-weight: bold;
+}
+
+.abajo {
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    font-size: 1.3vw;
+}
+
+.abajo img{
+    margin-left: 7rem;
+}

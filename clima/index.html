@@ -2,16 +2,42 @@
 <html>
 <head>
     <title>Ejemplo de API de OpenWeatherMap</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Consulta el clima de ciudades</h1>
 
-    <input type="text" name="" id="ciudades">
+    <div class="informacion">
+        <div class="header">
+            <h1>Consulta el clima <br> de ciudades</h1>
+            <input class="ingCiudad" type="text" name="" id="ciudades">
+            <button class="botonS" onclick="consultarClima()">Consultar Clima</button>
+        </div>
 
-    <button onclick="consultarClima()">Consultar Clima</button>
 
-    <img id="climaa" src="" alt="">
+        <div class="climaInfo">
+            <div class="titulo">
+                <h1>Informacion Del Clima</h1>
+            </div>
+
+            <div class="centro">
+                <h2 id="nomCiudad"></h2>
+                <p id="codPostal"></p>
+            </div>
+
+            <div class="abajo">
+                
+                <p id="nomClima"></p>
+                <img id="climaa" src="" alt="">
+                <p id="desClima"></p>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
