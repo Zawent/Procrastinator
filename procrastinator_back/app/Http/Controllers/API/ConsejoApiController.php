@@ -27,6 +27,10 @@ class ConsejoApiController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'id_nivel' => 'required|integer|between:1,4',
+        'consejo' => 'required|string',
+        ]);
         $consejos =new Consejo();
         $consejos->id_nivel = $request->id_nivel ;
         $consejos->consejo = $request->consejo ;
