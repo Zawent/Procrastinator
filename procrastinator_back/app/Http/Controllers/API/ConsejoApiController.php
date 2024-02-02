@@ -47,7 +47,7 @@ class ConsejoApiController extends Controller
     public function show($id_nivel)
     
     {
-        $consejos = Consejo::where('id_nivel', $id_nivel)->first(); // sirve para que el nivel salga 
+        $consejos = Consejo::where('id_nivel', $id_nivel)->first(); // sirve para que segun el id_nivel salga el consejo de ese nivel
         return response()->json($consejos,200);
     }
     
