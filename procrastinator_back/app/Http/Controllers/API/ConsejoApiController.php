@@ -29,7 +29,6 @@ class ConsejoApiController extends Controller
     {
         $request->validate([
             'id_nivel' => 'required|integer|between:1,4',
-        'consejo' => 'required|string',
         ]);
         $consejos =new Consejo();
         $consejos->id_nivel = $request->id_nivel ;
@@ -45,9 +44,10 @@ class ConsejoApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_nivel)
+    
     {
-        $consejos = Consejo::find($id);
+        $consejos = Consejo::where('id_nivel', $id_nivel)->first(); // sirve para que el nivel salga 
         return response()->json($consejos,200);
     }
     
