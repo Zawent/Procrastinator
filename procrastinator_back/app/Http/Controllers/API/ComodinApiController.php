@@ -73,8 +73,9 @@ class ComodinApiController extends Controller
         
         if (!$comodin) {
             return response()->json(['mensaje' => 'No tienes comodines disponibles'], 404);
-
+        }
         $tiempoTranscurrido = now()->diffInHours($comodin->tiempo_generacion);
+
           if ($tiempoTranscurrido >= 50) {
             $comodin->update(['tiempo_generacion' => now()]); 
             return response()->json(['mensaje' => 'Comodín ganado con éxito']); 
@@ -83,7 +84,7 @@ class ComodinApiController extends Controller
         }
     }
     }
-}
+
 
 
 
