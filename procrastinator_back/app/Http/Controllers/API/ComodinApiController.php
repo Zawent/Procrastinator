@@ -38,7 +38,7 @@ class ComodinApiController extends Controller
      */
     public function show($id)
     {
-        $comodin = Comodin::find();
+        $comodin = Comodin::find($id);
         return response()->json($comodin,200);
     }
 
@@ -66,4 +66,27 @@ class ComodinApiController extends Controller
         $comodin->delete();
         return response()->json(null,204);
     }
-}
+    
+    /*
+    public function ganarComodin($id_app) {
+        $app = App::find($id_app);
+        $ultimaFechaComodin = $app->fecha_ultimo_comodin;
+    
+        $tiempoTranscurrido = now()->diffInHours($ultimaFechaComodin);
+    
+        if ($tiempoTranscurrido >= 50) {
+            $app->comodines_ganados++;
+            $app->fecha_ultimo_comodin = now();
+            $app->save();
+    
+            return response()->json(['message' => 'Comodín ganado con éxito']);
+        } else {
+            return response()->json(['message' => 'Aún no han pasado 50 horas desde el último comodín']);
+            
+        }
+
+    }
+    
+    
+  }
+

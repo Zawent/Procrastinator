@@ -52,6 +52,8 @@ Route::group([
         Route::get('logout', [AuthController::class,'logout']);
         Route::get('user', [AuthController::class,'user']);
     });
+    Route::post('/comodin/ganar/{id_app}', 'ApiController@ganarComodin');
+
 });
 
 
