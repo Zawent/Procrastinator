@@ -40,6 +40,8 @@ Route::apiResource('nivel', NivelApiController::class);
 Route::apiResource('respuesta', RespuestaApiController::class);
 Route::apiResource('rol', RolApiController::class);
 
+Route::post('/comodin/{id_comodin}', [ComodinApiController::class, 'ganarComodin']);
+
 Route::group([
     'prefix' => 'auth'
 ], function () {
