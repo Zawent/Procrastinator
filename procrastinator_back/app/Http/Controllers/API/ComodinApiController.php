@@ -71,10 +71,10 @@ class ComodinApiController extends Controller
     public function ganarComodin($id_comodin) {
         $comodin = Comodin::find($id_comodin);
         
-        if ($comodin) {
+        if (!$comodin) {
             return response()->json(['mensaje' => 'No tienes comodines disponibles'], 404);
-        } 
-          $tiempoTranscurrido = now()->diffInHours($comodin->tiempo_generacion);
+
+        $tiempoTranscurrido = now()->diffInHours($comodin->tiempo_generacion);
           if ($tiempoTranscurrido >= 50) {
             $comodin->update(['tiempo_generacion' => now()]); 
             return response()->json(['mensaje' => 'Comodín ganado con éxito']); 
@@ -82,7 +82,8 @@ class ComodinApiController extends Controller
             return response()->json(['mensaje' => 'Aún no han pasado 50 horas desde el último comodín']);
         }
     }
+    }
 }
-    
+
 
 
