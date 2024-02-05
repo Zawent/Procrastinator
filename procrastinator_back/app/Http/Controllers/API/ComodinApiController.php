@@ -38,7 +38,7 @@ class ComodinApiController extends Controller
      */
     public function show($id)
     {
-        $comodin = Comodin::find($id);
+        $comodin = Comodin::find();
         return response()->json($comodin,200);
     }
 
@@ -90,3 +90,4 @@ class ComodinApiController extends Controller
     
   }
   
+}

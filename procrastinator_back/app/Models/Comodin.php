@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class Comodin extends Model
 {
-
-
     use HasFactory;
+    protected $fillable = [""];
     public $timestamps = false;
 
     public function bloqueos() {
@@ -20,8 +18,4 @@ class Comodin extends Model
     public function users(){
         return $this->hasMany(User::class, 'id_user');
     }
-
-    }
-
-
-
+}
