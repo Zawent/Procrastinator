@@ -1,0 +1,32 @@
+
+.head{
+    display: flex;
+    padding: 1vw;
+    background-color: bisque;
+    top: 0%;
+}
+
+.titulo{
+    align-items: center;
+    margin-left: 5vw;
+    margin-top: 3.5vw;
+    font-size: 2rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.Cerrar{
+ position: absolute;
+ right: 5%;
+ top: 8vh;
+ padding: 15px;
+
+}
+.logo{
+    height: 10vw;
+    left: 5%;
+    width: 10vw;
+}
+
+
+
+
