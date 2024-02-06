@@ -17,18 +17,7 @@ class ComodinApiController extends Controller
     public function index()
     {
         $comodines = Comodin::all();
-        return response()->json($comodines,200);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return response()->json($comodines, 200);
     }
 
     /**
@@ -39,8 +28,8 @@ class ComodinApiController extends Controller
      */
     public function show($id)
     {
-        $comodin = Comodin::find();
-        return response()->json($comodin,200);
+        $comodin = Comodin::find($id);
+        return response()->json($comodin, 200);
     }
 
     /**
@@ -65,31 +54,25 @@ class ComodinApiController extends Controller
     {
         $comodin = Comodin::find($id);
         $comodin->delete();
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
-    
 
-    use Carbon\Carbon;
-
-    // ...
-    
-    public function ganarComodin($id_comodin) {
+    public function ganarComodin($id_comodin)
+    {
         $comodin = Comodin::find($id_comodin);
-        
+
         if (!$comodin) {
             return response()->json(['mensaje' => 'No tienes comodines disponibles'], 404);
         }
-    
-        $tiempoGeneracion = Carbon::parse($comodin->tiempo_generacion);
-        $tiempoLimite = $tiempoGeneracion->addHours(50);
-    
-        if (now()->gte($tiempoLimite)) {
-    
-            $comodin->update(['tiempo_generacion' => Carbon::now()->toDateTimeString()]); 
-            return response()->json(['mensaje' => 'Comodín ganado con éxito']); 
+
+        $tiempoGeneracion = Carbon::createFromTimestamp($comodin->tiempo_generacion);
+        $tiempoTranscurrido = Carbon::now()->diffInHours($tiempoGeneracion);
+
+        if ($tiempoTranscurrido >= 50) {
+            $comodin->update(['tiempo_generacion' => Carbon::now()->timestamp]);
+            return response()->json(['mensaje' => 'Comodín ganado con éxito']);
         } else {
             return response()->json(['mensaje' => 'Aún no han pasado 50 horas desde el último comodín']);
         }
     }
-    
 }

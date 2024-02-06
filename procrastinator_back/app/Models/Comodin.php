@@ -11,11 +11,11 @@ class Comodin extends Model
     protected $fillable = ["tiempo_generacion"];
     public $timestamps = false;
     protected $casts = [
-        'tiempo_generacion' => 'datetime',
+        'tiempo_generacion' => 'timestamp',
     ];
 
     public function bloqueos() {
-        return $this->hasMany(Bloqueo::class, 'duracion');
+        return $this->hasMany(Bloqueo::class, 'id_bloqueo');
     }
 
     public function users(){

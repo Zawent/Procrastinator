@@ -17,6 +17,8 @@ class CreateComodinTable extends Migration
             $table->id();
             $table->datetime('tiempo_generacion');
             $table->timestamps();
+            $table->foreignId('id_bloqueo');
+            $table->foreign('id_bloqueo')->references('id')->on('bloqueo');
         });
     }
 
