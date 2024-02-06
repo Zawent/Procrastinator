@@ -39,17 +39,10 @@ class ComodinApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-  
-        public function store(Request $request)
-        {
-            $comodin = new Comodin();
-            $comodin->tiempo_generacion = $request->tiempo_generacion;
-            $comodin->id_bloqueo = $request->id_bloqueo; // Asignar el valor de id_bloqueo proporcionado en la solicitud
-            $comodin->save();
-            
-            return response()->json($comodin, 201);
-        }
-        
+    public function update(Request $request, $id)
+    {
+        //
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -81,6 +74,5 @@ class ComodinApiController extends Controller
         } else {
             return response()->json(['mensaje' => 'Aún no han pasado 50 horas desde el último comodín']);
         }
-        
     }
 }
