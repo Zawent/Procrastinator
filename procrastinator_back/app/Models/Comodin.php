@@ -15,7 +15,7 @@ class Comodin extends Model
     ];
 
     public function bloqueos() {
-        return $this->hasMany(Bloqueo::class, 'id_bloqueo');
+        return $this->hasMany(Bloqueo::class, 'bloqueo_id');
     }
 
     public function users(){
