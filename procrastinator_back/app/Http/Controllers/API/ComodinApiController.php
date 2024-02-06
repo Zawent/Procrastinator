@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comodin;
+use Carbon\Carbon;
 
 class ComodinApiController extends Controller
 {
@@ -68,23 +69,27 @@ class ComodinApiController extends Controller
     }
     
 
+    use Carbon\Carbon;
+
+    // ...
+    
     public function ganarComodin($id_comodin) {
         $comodin = Comodin::find($id_comodin);
         
         if (!$comodin) {
             return response()->json(['mensaje' => 'No tienes comodines disponibles'], 404);
         }
-        $tiempoTranscurrido = now()->diffInHours($comodin->tiempo_generacion);
-
-          if ($tiempoTranscurrido >= 50) {
-            $comodin->update(['tiempo_generacion' => now()]); 
+    
+        $tiempoGeneracion = Carbon::parse($comodin->tiempo_generacion);
+        $tiempoLimite = $tiempoGeneracion->addHours(50);
+    
+        if (now()->gte($tiempoLimite)) {
+    
+            $comodin->update(['tiempo_generacion' => Carbon::now()->toDateTimeString()]); 
             return response()->json(['mensaje' => 'Comodín ganado con éxito']); 
         } else {
             return response()->json(['mensaje' => 'Aún no han pasado 50 horas desde el último comodín']);
         }
     }
-    }
-
-
-
-
+    
+}

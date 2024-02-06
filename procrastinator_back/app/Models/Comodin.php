@@ -10,6 +10,9 @@ class Comodin extends Model
     use HasFactory;
     protected $fillable = ["tiempo_generacion"];
     public $timestamps = false;
+    protected $casts = [
+        'tiempo_generacion' => 'datetime',
+    ];
 
     public function bloqueos() {
         return $this->hasMany(Bloqueo::class, 'duracion');

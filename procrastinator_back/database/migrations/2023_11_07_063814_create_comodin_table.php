@@ -15,7 +15,8 @@ class CreateComodinTable extends Migration
     {
         Schema::create('comodins', function (Blueprint $table) {
             $table->id();
-            $table->time('tiempo_generacion');
+            $table->datetime('tiempo_generacion');
+            $table->timestamps();
         });
     }
 
