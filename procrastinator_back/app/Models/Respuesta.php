@@ -18,6 +18,9 @@ class Respuesta extends Model
     public function nivel() { 
         return $this->hasOne(Nivel::class, 'id_nivel','nombre');
     }
+    public function pregunta(){
+        return $this->belongsto(Pregunta::class, 'id_pregunta');
+    }
 
     }
 
