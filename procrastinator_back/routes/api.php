@@ -11,6 +11,7 @@ use App\Http\Controllers\API\ConsejoApiController;
 use App\Http\Controllers\API\NivelApiController;
 use App\Http\Controllers\API\RespuestaApiController;
 use App\Http\Controllers\API\RolApiController;
+use App\Http\Controllers\API\PreguntaApiController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,7 @@ Route::apiResource('consejo', ConsejoApiController::class);
 Route::apiResource('nivel', NivelApiController::class);
 Route::apiResource('respuesta', RespuestaApiController::class);
 Route::apiResource('rol', RolApiController::class);
+Route::apiResource('pregunta', PreguntaApiController::class);
 
 Route::post('/comodin/{id_comodin}', [ComodinApiController::class, 'ganarComodin']);
 
