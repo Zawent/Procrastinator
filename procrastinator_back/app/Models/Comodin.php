@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Comodin extends Model
 {
@@ -11,11 +12,11 @@ class Comodin extends Model
     protected $fillable = ["tiempo_generacion"];
     public $timestamps = false;
     protected $casts = [
-        'tiempo_generacion' => 'timestamp',
+        'tiempo_generacion' => 'datetime',
     ];
 
     public function bloqueos() {
-        return $this->hasMany(Bloqueo::class, 'bloqueo_id');
+        return $this->belongsTo(Bloqueo::class, 'id_bloqueo');
     }
 
     public function users(){

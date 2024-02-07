@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comodin;
+use App\Models\Bloqueo;
+use App\Models\App; 
 use Carbon\Carbon;
 
 class ComodinApiController extends Controller
@@ -28,27 +30,46 @@ class ComodinApiController extends Controller
      */
     public function show($id)
     {
-        $comodin = Comodin::find($id);
-        return response()->json($comodin, 200);
+        // Obtener un comodín específico con su bloqueo y su duración
+        $comodin = Comodin::with('bloqueo')->find($id);
+        
+        if ($comodin) {
+            $duracion = $comodin->bloqueo->duracion;
+            // Aquí puedes usar la duración como necesites
+            
+            return response()->json(['comodin' => $comodin, 'duracion' => $duracion], 200);
+        } else {
+            return response()->json(['mensaje' => 'Comodín no encontrado'], 404);
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-  
-        public function store(Request $request)
-        {
-            $comodin = new Comodin();
-            $comodin->tiempo_generacion = $request->tiempo_generacion;
-            $comodin->id_bloqueo = $request->id_bloqueo; // Asignar el valor de id_bloqueo proporcionado en la solicitud
-            $comodin->save();
-            
-            return response()->json($comodin, 201);
+    public function store(Request $request)
+    {
+        $app = App::find($request->id_app);
+
+        if (!$app) {
+            return response()->json(['mensaje' => 'La aplicación no existe'], 404);
         }
+
+        $sumaTiemposBloqueo = $app->bloqueos()->sum('duracion');
+
+        $tiempo_generacion = Carbon::now()->addHours($sumaTiemposBloqueo);
+        
+        $app->update(['tiempo_generacion' => $tiempo_generacion]);
+
+        $comodin = new Comodin();
+        $comodin->tiempo_generacion = $tiempo_generacion;
+        $comodin->id_bloqueo = $request->id_bloqueo; // Asignar el valor de id_bloqueo proporcionado en la solicitud
+        $comodin->save();
+        
+        return response()->json(['comodin' => $comodin, 'tiempo_generacion' => $tiempo_generacion], 201);
+    }
         
 
     /**

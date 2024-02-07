@@ -12,12 +12,16 @@ class Bloqueo extends Model
     protected $fillable = ["tipo", "duracion"];
     public $timestamps = false;
 
-    public function apps () {
-        return $this->hasMany(App::class, 'bloqueo_id','nombre');
+    public function app () {
+        return $this->hasMany(App::class, 'id_bloqueo','nombre');
     }
 
     public function informacion () { 
-        return $this->hasMany(Informacion::class, 'bloqueo_id','nombre');
+        return $this->hasMany(Informacion::class, 'id_bloqueo','nombre');
+    }
+    public function comodin()
+    {
+        return $this->hasMany(Comodin::class, 'id_bloqueo');
     }
     
 }
