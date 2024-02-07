@@ -49,6 +49,7 @@ class BloqueoApiController extends Controller
     return response()->json([
         'Duracion del bloqueo' => $bloqueo->duracion,
         'Tipo de bloqueo' => $bloqueo->tipo,
+        'Estado' => $bloqueo->estado
     ]);
 }
 
@@ -80,9 +81,7 @@ class BloqueoApiController extends Controller
 
     $bloqueo->save();
 
-    if ($bloqueo->estado=== 'activo'){
-        $tiempoBloqueoHoras = abs ($duracion);
-        if ($tiempoBloqueoHoras >= 50)
+    if ($bloqueo->estado=== 'activo'&& abs($duracion) >= 23){
         Comodin::create(['tiempo_generacion' => Carbon::now()]);
     }
     return response()->json(['message' => 'Estado del bloqueo actualizado']);

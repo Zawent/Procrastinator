@@ -16,8 +16,8 @@ class CreateBloqueoTable extends Migration
         Schema::create('bloqueos', function (Blueprint $table) {
             $table->id();
             $table->string('tipo');
-            $table->time('hora_inicio');
-            $table->time('duracion');
+            $table->datetime('hora_inicio');
+            $table->datetime('duracion');
             $table->string('estado');
             $table->foreignId('id_app');
             $table->foreign('id_app')->references('id')->on('apps');

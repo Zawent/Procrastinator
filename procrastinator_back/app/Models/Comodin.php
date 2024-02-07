@@ -9,17 +9,17 @@ use Carbon\Carbon;
 class Comodin extends Model
 {
     use HasFactory;
-    protected $fillable = ["tiempo_generacion"];
+    protected $fillable = ['tiempo_generacion','id_bloqueo'];
     public $timestamps = false;
     protected $casts = [
         'tiempo_generacion' => 'datetime',
     ];
 
-    public function bloqueos() {
+    public function bloqueo() {
         return $this->belongsTo(Bloqueo::class, 'id_bloqueo');
     }
 
-    public function users(){
-        return $this->hasMany(User::class, 'id_user');
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

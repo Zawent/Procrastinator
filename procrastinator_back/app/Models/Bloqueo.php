@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Bloqueo extends Model
 {
     use HasFactory;
-
     protected $fillable = ["tipo", "duracion"];
     public $timestamps = false;
 

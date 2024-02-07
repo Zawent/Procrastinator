@@ -1,8 +1,11 @@
 <?php
+
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use App\Models\Comodin;
 use App\Models\Bloqueo;
+use Carbon\Carbon;
 
 class ComodinSeeder extends Seeder
 {
@@ -19,8 +22,14 @@ class ComodinSeeder extends Seeder
         // Encuentra el último comodín ganado por el usuario (asumiendo que hay uno)
         $ultimo_comodin = Comodin::latest()->first();
 
-        // Si no hay comodines previos, establece el tiempo de generación en el tiempo actual
-        $tiempo_generacion = $ultimo_comodin ? $ultimo_comodin->tiempo_generacion->addHours(50) : now();
+        // Si no hay comodines previos o ya se tienen 3 comodines, no se genera uno nuevo
+        $numComodines = Comodin::where('id_bloqueo', $id_bloqueo)->count();
+        if (!$ultimo_comodin || $numComodines >= 3) {
+            return;
+        }
+
+        // Calcula el tiempo de generación del nuevo comodín
+        $tiempo_generacion = $ultimo_comodin->tiempo_generacion->addHours(23);
 
         // Crea un nuevo comodín con el ID del bloqueo y el tiempo de generación adecuado
         Comodin::create([
