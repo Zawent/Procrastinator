@@ -42,9 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'password', //asi la config para poder usar la api auth
             'provider' => 'users',
-            'hash' => false,
         ],
     ],
 

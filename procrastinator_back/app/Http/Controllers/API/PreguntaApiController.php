@@ -27,19 +27,7 @@ class PreguntaApiController extends Controller
      */
     public function store(Request $request)
     {
-        $limite_preguntas = 7;
-        $cantidad_preguntas = Pregunta::count();//contador para que al momento de crear preguntas solo sean 8
-                                                //inicia en 3 por las las semillas guardadas
-        if ($cantidad_preguntas >= $limite_preguntas) {
-            return response()->json(['error' => 'Limite de preguntas creadas (8).'], 400);
-        }else{
-            $pregunta = new Pregunta();
-            $pregunta->descripcion_pregunta = $request->descripcion_pregunta;
-            $pregunta->save();
-            return response()->json($pregunta,201);
-        }
-
-        
+        //no debe haber creacion de pregunta   
     }
 
     /**
@@ -78,8 +66,6 @@ class PreguntaApiController extends Controller
      */
     public function destroy($id)
     {
-        $pregunta = Pregunta::find($id);
-        $pregunta->delete();
-        return response()->json($pregunta,200);
+
     }
 }

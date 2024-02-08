@@ -1,0 +1,37 @@
+table {
+    border: solid black;
+    width: 80vw;
+    margin: 0% 10vw;
+    margin-top: 15vh;
+    text-align: center;
+}
+
+.titulo{
+    margin-left: 3vw;
+}
+
+td{
+    text-align: center;
+}
+
+.colorsito{
+    height: auto;
+    width: 100vw;
+}
+
+
+.menu{
+    width: max-content;
+    position: inherit;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.sesion{
+    text-align: center;
+}
+
+.niveles{
+    text-align: center;
+}
