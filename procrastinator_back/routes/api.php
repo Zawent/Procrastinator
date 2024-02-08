@@ -31,7 +31,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('user', UserApiController::class);
+
 Route::apiResource('informacion', InformacionApiController::class);
 Route::apiResource('app', AppApiController::class);
 Route::apiResource('bloqueo', BloqueoApiController::class);
@@ -41,6 +41,7 @@ Route::apiResource('nivel', NivelApiController::class);
 Route::apiResource('respuesta', RespuestaApiController::class);
 Route::apiResource('rol', RolApiController::class);
 Route::apiResource('pregunta', PreguntaApiController::class);
+Route::get('preguntas/cantidad',[PreguntaApiController::class, 'contar']);
 
 Route::post('/comodin/{id_comodin}', [ComodinApiController::class, 'ganarComodin']);
 
@@ -54,7 +55,8 @@ Route::group([
       'middleware' => 'auth:api'
     ], function() {
         Route::get('logout', [AuthController::class,'logout']);
-        Route::get('user', [AuthController::class,'user']);
+        //Route::get('user', [AuthController::class,'user']);
+        Route::apiResource('user', UserApiController::class);
     });
 });
 

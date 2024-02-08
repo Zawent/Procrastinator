@@ -42,6 +42,11 @@ class PreguntaApiController extends Controller
         
     }
 
+    public function contar(){
+        $preguntas=Pregunta::all();
+        return count($preguntas);
+    }
+
     /**
      * Display the specified resource.
      *
