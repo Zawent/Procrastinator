@@ -1,0 +1,4 @@
+#para ignorar node  
+node_modules
+
+.angular
