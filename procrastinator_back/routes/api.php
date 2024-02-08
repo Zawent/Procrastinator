@@ -27,22 +27,22 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::apiResource('user', UserApiController::class);
-Route::apiResource('informacion', InformacionApiController::class);
-Route::apiResource('app', AppApiController::class);
-Route::apiResource('bloqueo', BloqueoApiController::class);
-Route::apiResource('comodin', ComodinApiController::class);
-Route::apiResource('consejo', ConsejoApiController::class);
-Route::apiResource('nivel', NivelApiController::class);
-Route::apiResource('respuesta', RespuestaApiController::class);
-Route::apiResource('rol', RolApiController::class);
-Route::apiResource('pregunta', PreguntaApiController::class);
+
+
+
+Route::apiResource('informacion', InformacionApiController::class)->middleware("auth:api");
+Route::apiResource('app', AppApiController::class)->middleware("auth:api");
+Route::apiResource('bloqueo', BloqueoApiController::class)->middleware("auth:api");
+Route::apiResource('comodin', ComodinApiController::class)->middleware("auth:api");
+Route::apiResource('consejo', ConsejoApiController::class)->middleware("auth:api");
+Route::apiResource('nivel', NivelApiController::class)->middleware("auth:api");
+Route::apiResource('respuesta', RespuestaApiController::class)->middleware("auth:api");
+Route::apiResource('rol', RolApiController::class)->middleware("auth:api");
+Route::apiResource('pregunta', PreguntaApiController::class)->middleware("auth:api");
 
 Route::post('/comodin/{id_comodin}', [ComodinApiController::class, 'ganarComodin']);
+
 
 Route::group([
     'prefix' => 'auth'
