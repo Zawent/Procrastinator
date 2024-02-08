@@ -576,6 +576,7 @@ class ComposerStaticInita106a75bca5f22049b2dc471559cb8a3
         'App\\Http\\Controllers\\API\\BloqueoApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/BloqueoApiController.php',
         'App\\Http\\Controllers\\API\\ComodinApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ComodinApiController.php',
         'App\\Http\\Controllers\\API\\InformacionApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/InformacionApiController.php',
+        'App\\Http\\Controllers\\API\\PreguntaApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PreguntaApiController.php',
         'App\\Http\\Controllers\\API\\RespuestaApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/RespuestaApiController.php',
         'App\\Http\\Controllers\\API\\RolApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/RolApiController.php',
         'App\\Http\\Controllers\\API\\UserApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/UserApiController.php',

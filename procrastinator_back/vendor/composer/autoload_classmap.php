@@ -12,6 +12,7 @@ return array(
     'App\\Http\\Controllers\\API\\BloqueoApiController' => $baseDir . '/app/Http/Controllers/API/BloqueoApiController.php',
     'App\\Http\\Controllers\\API\\ComodinApiController' => $baseDir . '/app/Http/Controllers/API/ComodinApiController.php',
     'App\\Http\\Controllers\\API\\InformacionApiController' => $baseDir . '/app/Http/Controllers/API/InformacionApiController.php',
+    'App\\Http\\Controllers\\API\\PreguntaApiController' => $baseDir . '/app/Http/Controllers/API/PreguntaApiController.php',
     'App\\Http\\Controllers\\API\\RespuestaApiController' => $baseDir . '/app/Http/Controllers/API/RespuestaApiController.php',
     'App\\Http\\Controllers\\API\\RolApiController' => $baseDir . '/app/Http/Controllers/API/RolApiController.php',
     'App\\Http\\Controllers\\API\\UserApiController' => $baseDir . '/app/Http/Controllers/API/UserApiController.php',
