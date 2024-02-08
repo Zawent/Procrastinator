@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class MenuComponent {
 
   clave: string |null=null;
+  logueando: boolean = true;
 
   constructor(private router: Router){}
 
@@ -25,6 +26,7 @@ export class MenuComponent {
     localStorage.clear();
     location.reload();
     this.router.navigate(['']);
+    this.logueando = false
   }
 
 }
