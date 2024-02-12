@@ -55,7 +55,7 @@ Route::group([
       'middleware' => 'auth:api'
     ], function() {
         Route::get('logout', [AuthController::class,'logout']);
-        //Route::get('user', [AuthController::class,'user']);
+        Route::get('user', [AuthController::class,'user']);
         Route::apiResource('user', UserApiController::class);
     });
 });
