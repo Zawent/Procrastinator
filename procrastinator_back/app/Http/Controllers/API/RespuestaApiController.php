@@ -24,7 +24,7 @@ class RespuestaApiController extends Controller
     {
     $respuestas_usuario = Respuesta::where('id_user', $request->id_user)->count();//hacer contador para un usuario
 
-    $respuesta = new Respuesta();.
+    $respuesta = new Respuesta();
     $respuesta->id_user = $request->id_user;
     $respuesta->respuesta = $request->respuesta;
     $respuesta->id_pregunta = $request->id_pregunta;
