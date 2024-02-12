@@ -21,7 +21,7 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
-        User::create([
+        $user=User::create([
             'name' => $request->name,
             'fecha_nacimiento' => $request->fecha_nacimiento,
             'ocupacion' => $request->ocupacion,
@@ -30,9 +30,23 @@ class AuthController extends Controller
             'id_rol' => $request->id_rol
         ]);
 
+        $tokenResult = $user->createToken('Personal Access Token');
+
+        $token = $tokenResult->token;
+        if ($request->remember_me)
+            $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->save();
+
         return response()->json([
+            'user' => $user,
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse($token->expires_at)->toDateTimeString()
+        ],200);
+
+        /*return response()->json([
             'message' => 'Successfully created user!'
-        ], 201);
+        ], 201);*/
     }
   
     /**

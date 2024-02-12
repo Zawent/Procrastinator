@@ -30,6 +30,11 @@ class PreguntaApiController extends Controller
         //no debe haber creacion de pregunta   
     }
 
+    public function contar(){
+        $preguntas=Pregunta::all();
+        return count($preguntas);
+    }
+
     /**
      * Display the specified resource.
      *
