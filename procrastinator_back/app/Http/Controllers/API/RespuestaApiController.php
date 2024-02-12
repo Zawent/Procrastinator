@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Respuesta;
+use App\Models\User;
 
 class RespuestaApiController extends Controller
 {
@@ -23,7 +24,7 @@ class RespuestaApiController extends Controller
     {
     $respuestas_usuario = Respuesta::where('id_user', $request->id_user)->count();//hacer contador para un usuario
 
-    $respuesta = new Respuesta();
+    $respuesta = new Respuesta();.
     $respuesta->id_user = $request->id_user;
     $respuesta->respuesta = $request->respuesta;
     $respuesta->id_pregunta = $request->id_pregunta;
@@ -36,6 +37,9 @@ class RespuestaApiController extends Controller
 
         Respuesta::where('id_user', $request->id_user)
             ->update(['id_nivel' => $nivel_id]);
+
+        User::where('id', $request->id_user)
+        ->update(['nivel_id' => $nivel_id]);
 
         return response()->json(['respuesta' => $respuesta, 'nivel_id' => $nivel_id], 201);
     }
@@ -53,7 +57,11 @@ private function determinarNivel($suma_respuestas)//la validacion para que el ID
         return 3; //nivel 3 Moderado
     } elseif ($suma_respuestas >=15){
         return 4; //nivel 4 Alto
+    
     }
+
+
+
     }
 
     /**

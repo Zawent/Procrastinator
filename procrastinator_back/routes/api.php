@@ -37,7 +37,7 @@ Route::apiResource('bloqueo', BloqueoApiController::class)->middleware("auth:api
 Route::apiResource('comodin', ComodinApiController::class)->middleware("auth:api");
 Route::apiResource('consejo', ConsejoApiController::class)->middleware("auth:api");
 Route::apiResource('nivel', NivelApiController::class)->middleware("auth:api");
-Route::apiResource('respuesta', RespuestaApiController::class)->middleware("auth:api");
+Route::apiResource('respuesta', RespuestaApiController::class);
 Route::apiResource('rol', RolApiController::class)->middleware("auth:api");
 Route::apiResource('pregunta', PreguntaApiController::class)->middleware("auth:api");
 
