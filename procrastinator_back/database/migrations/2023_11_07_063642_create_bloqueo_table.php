@@ -17,7 +17,7 @@ class CreateBloqueoTable extends Migration
             $table->id();
             $table->string('tipo');
             $table->datetime('hora_inicio');
-            $table->datetime('duracion');
+            $table->time('duracion');
             $table->string('estado');
             $table->foreignId('id_app');
             $table->foreign('id_app')->references('id')->on('apps');

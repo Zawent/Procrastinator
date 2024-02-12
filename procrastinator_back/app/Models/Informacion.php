@@ -13,7 +13,7 @@ class Informacion extends Model
     public $timestamps = false;
 
     public function user (){
-        return $this->hasOne(User::class, 'id_usuario','nombre');
+        return $this->hasOne(User::class, 'id_user','nombre');
     }
     
     public function bloqueos (){

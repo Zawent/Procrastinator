@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->foreignId('id_rol');
             $table->foreign('id_rol')->references('id')->on('rols');
+            //$table->foreignId('id_user')->after('id_rol');
         });
     }
 
