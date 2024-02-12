@@ -38,7 +38,7 @@ class RespuestaApiController extends Controller
         Respuesta::where('id_user', $request->id_user)
             ->update(['id_nivel' => $nivel_id]);
 
-        User::where('id', $request->id_user)
+        User::where('id', $request->id_user)// para que se guarde en la tabla user
         ->update(['nivel_id' => $nivel_id]);
 
         return response()->json(['respuesta' => $respuesta, 'nivel_id' => $nivel_id], 201);
