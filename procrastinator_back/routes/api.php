@@ -27,10 +27,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-
-
-
-
 Route::apiResource('informacion', InformacionApiController::class)->middleware("auth:api");
 Route::apiResource('app', AppApiController::class)->middleware("auth:api");
 Route::apiResource('bloqueo', BloqueoApiController::class)->middleware("auth:api");
@@ -54,7 +50,7 @@ Route::group([
       'middleware' => 'auth:api'
     ], function() {
         Route::get('logout', [AuthController::class,'logout']);
-        Route::get('user', [AuthController::class,'user']);
+        Route::get('getuser', [AuthController::class,'user']);
         Route::apiResource('user', UserApiController::class);
     });
 });

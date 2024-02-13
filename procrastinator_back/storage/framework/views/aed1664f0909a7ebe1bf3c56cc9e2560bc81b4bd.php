@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 
 
 <?php $__env->startSection('content'); ?>
@@ -156,3 +158,4 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\handr\OneDrive\Escritorio\procrastinator\Procrastinator\procrastinator_back\resources\views/auth/register.blade.php ENDPATH**/ ?>
+>>>>>>> fcf26047e3c653d8af6bcf269e2b91805b3af548
