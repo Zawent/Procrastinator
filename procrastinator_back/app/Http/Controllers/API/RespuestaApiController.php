@@ -37,7 +37,6 @@ class RespuestaApiController extends Controller
 
         Respuesta::where('id_user', $request->id_user)
             ->update(['id_nivel' => $nivel_id]);
-<<<<<<< HEAD
 
         User::where('id', $request->id_user)// para que se guarde en la tabla user
         ->update(['nivel_id' => $nivel_id]);
@@ -63,28 +62,7 @@ private function determinarNivel($suma_respuestas)//la validacion para que el ID
 
 
 
-=======
-        User::where('id', $request->id_user)// para que se guarde en la tabla user
-        ->update(['nivel_id' => $nivel_id]);
-        return response()->json(['respuesta' => $respuesta, 'nivel_id' => $nivel_id], 201);
->>>>>>> f77092355fc32b4e69c399ad6d71742ae49128f0
     }
-
-    return response()->json(['respuesta' => $respuesta], 201);//si no ha respondido las 8 solo mostrara null en id_nivel
-}
-
-private function determinarNivel($suma_respuestas)//la validacion para que el ID de niveles se asigne
-{
-    if ($suma_respuestas <= 8) {
-        return 1; //nivel 1 Bajo
-    } elseif ($suma_respuestas >= 9 && $suma_respuestas <= 11) {
-        return 2; //nivel 2 Regular
-    } elseif ($suma_respuestas >= 12 && $suma_respuestas <= 14) {
-        return 3; //nivel 3 Moderado
-    } elseif ($suma_respuestas >=15){
-        return 4; //nivel 4 Alto
-    }
-}
 
     /**
      * Display the specified resource.
