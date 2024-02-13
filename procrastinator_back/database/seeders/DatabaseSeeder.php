@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // User::factory(10)->create();
+
         $this->call([
         RolsSeeder::class, 
         NivelSeeder::class, 
@@ -22,5 +23,6 @@ class DatabaseSeeder extends Seeder
         UserSeeder::class,
         ConsejoSeeder::class
     ]);
+        $this->call([RolsSeeder::class, NivelSeeder::class, PreguntaSeeder::class, ComodinSeeder::class]);
     }
 }

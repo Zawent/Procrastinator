@@ -23,5 +23,6 @@ class PreguntaSeeder extends Seeder
         Pregunta::create(['id'=>6,'descripcion_pregunta'=>'¿Sientes que tienes tiempo más que suficiente para hacer las cosas después?']);
         Pregunta::create(['id'=>7,'descripcion_pregunta'=>'¿A menudo te encuentras posponiendo metas a largo plazo?']);
         Pregunta::create(['id'=>8,'descripcion_pregunta'=>'¿Te sientes abrumado por la cantidad de cosas que debes hacer?']);
+
     }
 }

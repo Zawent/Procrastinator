@@ -14,6 +14,7 @@
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Nombre')); ?></label>
 
+
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -44,6 +45,7 @@ unset($__errorArgs, $__bag); ?>
 
                             <div class="col-md-6">
                                 <input id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="<?php echo e(old('fecha_nacimiento')); ?>" required autocomplete="fecha_nacimiento" autofocus>
+
                             </div>
                         </div>
 
@@ -113,6 +115,7 @@ unset($__errorArgs, $__bag); ?>
 
                         <div class="row mb-3">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Confirma Contraseña')); ?></label>
+
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
