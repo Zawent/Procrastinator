@@ -41,6 +41,10 @@ Route::apiResource('respuesta', RespuestaApiController::class);
 Route::apiResource('rol', RolApiController::class)->middleware("auth:api");
 Route::apiResource('pregunta', PreguntaApiController::class)->middleware("auth:api");
 Route::get('preguntas/cantidad',[PreguntaApiController::class, 'contar']);
+<<<<<<< HEAD
+=======
+
+>>>>>>> f77092355fc32b4e69c399ad6d71742ae49128f0
 
 Route::post('/comodin/{id_comodin}', [ComodinApiController::class, 'ganarComodin']);
 
