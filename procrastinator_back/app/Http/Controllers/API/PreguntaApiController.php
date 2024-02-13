@@ -27,10 +27,7 @@ class PreguntaApiController extends Controller
      */
     public function store(Request $request)
     {
-<<<<<<<<< Temporary merge branch 1
-=========
 
->>>>>>>>> Temporary merge branch 2
         //no debe haber creacion de pregunta   
     }
 
@@ -50,8 +47,6 @@ class PreguntaApiController extends Controller
             $pregunta->save();
             return response()->json($pregunta,201);
         }
-
->>>>>>>>> Temporary merge branch 2
     }
 
     /**
@@ -90,12 +85,8 @@ class PreguntaApiController extends Controller
      */
     public function destroy($id)
     {
-<<<<<<<<< Temporary merge branch 1
-
-=========
         $pregunta = Pregunta::find($id);
         $pregunta->delete();
         return response()->json($pregunta,200);
->>>>>>>>> Temporary merge branch 2
     }
 }

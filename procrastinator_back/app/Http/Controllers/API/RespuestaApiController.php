@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Respuesta;
 use App\Models\User;
-use App\Models\User;
 
 class RespuestaApiController extends Controller
 {
