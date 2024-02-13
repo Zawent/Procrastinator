@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Respuesta;
+use App\Models\User;
 
 class RespuestaApiController extends Controller
 {
@@ -36,7 +37,8 @@ class RespuestaApiController extends Controller
 
         Respuesta::where('id_user', $request->id_user)
             ->update(['id_nivel' => $nivel_id]);
-
+        User::where('id', $request->id_user)// para que se guarde en la tabla user
+        ->update(['nivel_id' => $nivel_id]);
         return response()->json(['respuesta' => $respuesta, 'nivel_id' => $nivel_id], 201);
     }
 
@@ -45,16 +47,16 @@ class RespuestaApiController extends Controller
 
 private function determinarNivel($suma_respuestas)//la validacion para que el ID de niveles se asigne
 {
-    if ($suma_respuestas <= 7) {
-        return 1; //nivel 1
-    } elseif ($suma_respuestas >= 8 && $suma_respuestas <= 15) {
-        return 2; //nivel 2
-    } elseif ($suma_respuestas >= 16 && $suma_respuestas <= 23) {
-        return 3; //nivel 3
-    } elseif ($suma_respuestas >=24){
-        return 4; //nivel 3
+    if ($suma_respuestas <= 8) {
+        return 1; //nivel 1 Bajo
+    } elseif ($suma_respuestas >= 9 && $suma_respuestas <= 11) {
+        return 2; //nivel 2 Regular
+    } elseif ($suma_respuestas >= 12 && $suma_respuestas <= 14) {
+        return 3; //nivel 3 Moderado
+    } elseif ($suma_respuestas >=15){
+        return 4; //nivel 4 Alto
     }
-    }
+}
 
     /**
      * Display the specified resource.
@@ -62,9 +64,10 @@ private function determinarNivel($suma_respuestas)//la validacion para que el ID
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_user)
     {
-        //
+        $respuesta = Respuesta::where('id_user',$id_user)->first();
+        return response()->json($respuesta,200);
     }
 
     /**
