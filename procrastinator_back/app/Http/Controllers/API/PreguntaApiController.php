@@ -34,8 +34,7 @@ class PreguntaApiController extends Controller
     public function contar(){
         $preguntas=Pregunta::all();
         return count($preguntas);
-<<<<<<<<< Temporary merge branch 1
-=========
+
         $limite_preguntas = 7;
         $cantidad_preguntas = Pregunta::count();//contador para que al momento de crear preguntas solo sean 8
                                                 //inicia en 3 por las las semillas guardadas
@@ -47,7 +46,7 @@ class PreguntaApiController extends Controller
             $pregunta->save();
             return response()->json($pregunta,201);
         }
-    }
+}
 
     /**
      * Display the specified resource.
