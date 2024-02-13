@@ -27,13 +27,18 @@ class PreguntaApiController extends Controller
      */
     public function store(Request $request)
     {
+<<<<<<<<< Temporary merge branch 1
+=========
 
+>>>>>>>>> Temporary merge branch 2
         //no debe haber creacion de pregunta   
     }
 
     public function contar(){
         $preguntas=Pregunta::all();
         return count($preguntas);
+<<<<<<<<< Temporary merge branch 1
+=========
         $limite_preguntas = 7;
         $cantidad_preguntas = Pregunta::count();//contador para que al momento de crear preguntas solo sean 8
                                                 //inicia en 3 por las las semillas guardadas
@@ -46,6 +51,7 @@ class PreguntaApiController extends Controller
             return response()->json($pregunta,201);
         }
 
+>>>>>>>>> Temporary merge branch 2
     }
 
     /**
@@ -84,8 +90,12 @@ class PreguntaApiController extends Controller
      */
     public function destroy($id)
     {
+<<<<<<<<< Temporary merge branch 1
+
+=========
         $pregunta = Pregunta::find($id);
         $pregunta->delete();
         return response()->json($pregunta,200);
+>>>>>>>>> Temporary merge branch 2
     }
 }
