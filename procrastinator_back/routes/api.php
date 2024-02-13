@@ -27,10 +27,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-
-
-
-
 Route::apiResource('informacion', InformacionApiController::class)->middleware("auth:api");
 Route::apiResource('app', AppApiController::class)->middleware("auth:api");
 Route::apiResource('bloqueo', BloqueoApiController::class)->middleware("auth:api");
@@ -41,7 +37,6 @@ Route::apiResource('respuesta', RespuestaApiController::class);
 Route::apiResource('rol', RolApiController::class)->middleware("auth:api");
 Route::apiResource('pregunta', PreguntaApiController::class)->middleware("auth:api");
 Route::get('preguntas/cantidad',[PreguntaApiController::class, 'contar']);
-
 Route::post('/comodin/{id_comodin}', [ComodinApiController::class, 'ganarComodin']);
 
 
@@ -55,12 +50,10 @@ Route::group([
       'middleware' => 'auth:api'
     ], function() {
         Route::get('logout', [AuthController::class,'logout']);
-        Route::get('user', [AuthController::class,'user']);
+        Route::get('getuser', [AuthController::class,'user']);
         Route::apiResource('user', UserApiController::class);
     });
 });
-
-
 
 
 

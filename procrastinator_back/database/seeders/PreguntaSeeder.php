@@ -25,3 +25,4 @@ class PreguntaSeeder extends Seeder
         Pregunta::create(['id'=>8,'descripcion_pregunta'=>'¿Te sientes abrumado por la cantidad de cosas que debes hacer?']);
     }
 }
+
