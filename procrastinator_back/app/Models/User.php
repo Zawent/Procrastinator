@@ -42,4 +42,8 @@ class User extends Authenticatable
     public function comodines(){
         return $this->hasMany(Comodin::class, 'id', 'name');
     }
+
+    public function nivel(){
+        return $this->belongsTo(Nivel::class);
+    }
 }
