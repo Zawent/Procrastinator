@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <?php
 
 namespace App\Http\Controllers\API;
@@ -89,3 +91,4 @@ class PreguntaApiController extends Controller
         return response()->json($pregunta,200);
     }
 }
+>>>>>>> 7e9ab4b603acc92d7075e448f16e5cf09cd86455
