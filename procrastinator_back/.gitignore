@@ -1,0 +1,7 @@
+
+
+#no seee
+/node_modules
+/storage/*.key
+/vendor
+.env

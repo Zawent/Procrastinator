@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('edad');
+            $table->date('fecha_nacimiento');
             $table->string('ocupacion');
             $table->string('email')->unique();
             $table->string('password');
@@ -24,7 +24,8 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->foreignId('id_rol');
             $table->foreign('id_rol')->references('id')->on('rols');
-            //$table->foreignId('id_user')->after('id_rol');
+            $table->foreignId('nivel_id')->nullable();
+            $table->foreign('nivel_id')->references('id')->on('nivels');
         });
     }
 

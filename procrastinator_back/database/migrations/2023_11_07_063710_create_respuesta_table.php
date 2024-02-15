@@ -17,12 +17,11 @@ class CreateRespuestaTable extends Migration
             $table->id();
             $table->foreignId('id_user');
             $table->foreign('id_user')->references('id')->on('users');
-            $table->integer('respuesta1')->nullable();
-            $table->integer('respuesta2')->nullable();
-            $table->integer('respuesta3')->nullable();
-            $table->integer('respuesta4')->nullable();
+            $table->integer('respuesta')->nullable();
             $table->foreignId('id_nivel')->nullable();
             $table->foreign('id_nivel')->references('id')->on('nivels');
+            $table->foreignId('id_pregunta')->nullable();
+            $table->foreign('id_pregunta')->references('id')->on('preguntas');
         });
     }
 

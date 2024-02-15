@@ -30,7 +30,7 @@ class UserApiController extends Controller
     {
         $user = new User();
         $user->name=$request->name;
-        $user->edad=$request->edad;
+        $user->fecha_nacimiento=$request->fecha_nacimiento;
         $user->ocupacion=$request->ocupacion;
         $user->email=$request->email;
         $hashedPassword = Hash::make($request->password);
@@ -63,7 +63,7 @@ class UserApiController extends Controller
     {
         $user = User::find($id);
         $user->name=$request->name;
-        $user->edad=$request->edad;
+        $user->fecha_nacimiento=$request->fecha_nacimiento;
         $user->ocupacion=$request->ocupacion;
         $user->email=$request->email;
         $hashedPassword = Hash::make($request->password);

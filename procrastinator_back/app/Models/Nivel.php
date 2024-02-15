@@ -28,6 +28,10 @@ class Nivel extends Model
         return $this->hasMany(Consejo::class, 'id_nivel', 'descripcion');
     }
 
+    public function users (){
+        return $this->hasMany(User::class, 'nivel_id');
+    }
+
 }
 
 
