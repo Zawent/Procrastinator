@@ -37,7 +37,7 @@ class ComodinApiController extends Controller
             $tiempo_generacion = date('H:i:s'); //formato que toca usar en vez de carbon
 
             // guarda el tiempo de generación en la aplicación
-            $app->tiempo_generacion = $tiempo_generacion;
+            --comodin->tiempo_generacion = $tiempo_generacion;
             $app->save();
 
             //  creacion del comodin
@@ -49,7 +49,7 @@ class ComodinApiController extends Controller
 
             return response()->json(['comodin' => $comodin, 'tiempo_generacion' => $tiempo_generacion], 201);
         } else {
-            return response()->json(['mensaje' => 'La suma de los tiempos de bloqueo debe ser igual o mayor a 23 horas para obtener un comodín.'], 400);
+            return response()->json(['mensaje' => 'La suma de los tiempos de bloqueo debe ser igual o mayor a 48 horas para obtener un comodín.'], 400);
         }
     }
 
@@ -78,5 +78,6 @@ class ComodinApiController extends Controller
         } else {
             return response()->json(['mensaje' => 'Aún no has cumplido con el tiempo para ganar un comodin'], 400);
         }
+
     }
 }

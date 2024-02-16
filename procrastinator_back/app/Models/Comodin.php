@@ -9,7 +9,7 @@ class Comodin extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tiempo_generacion', 'id_bloqueo'];
+    protected $fillable = ['tiempo_generacion', 'id_bloqueo', 'id_user'];
     public $timestamps = false;
 
     public function bloqueo()
