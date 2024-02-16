@@ -1,9 +1,33 @@
-<div class="log">
+<!---
+    
     <form [formGroup]="loginForm"  (ngSubmit)="login()">
     <h2>Email</h2>
     <input type="text" formControlName="username" placeholder="Username"><br><br><br><br>
     <h2>Contraseña</h2>
     <input type="password" formControlName="password" placeholder="Password"><br><br> 
     <button mat-raised-button color="primary">Login</button>
+</form>
+</div>
+-->
+
+<div class="log">
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+    <h2>Email</h2>
+      <mat-form-field class="email">
+        <mat-label>Ingrese su correo</mat-label>
+        <input formControlName="username" placeholder="Username" matInput>
+      </mat-form-field>
+
+
+    <h2>Contraseña</h2>
+    <mat-form-field>
+        <mat-label>Contraseña</mat-label>
+        <input formControlName="password" placeholder="Password" matInput [type]="hide ? 'password' : 'text'">
+        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+</mat-form-field> <br>
+<button mat-raised-button color="primary">Login</button>
+
 </form>
 </div>
