@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UserApiController extends Controller
 {
@@ -36,8 +37,19 @@ class UserApiController extends Controller
         $hashedPassword = Hash::make($request->password);
         $user->password = $hashedPassword; 
         $user->id_rol=$request->id_rol;
+
+
+        $edad = $this->calcularEdad($request->fecha_nacimiento);
+        $user->edad = $edad;
         $user->save();
         return response()->json($user, 201);
+    }
+
+    public function calcularEdad ($fecha_nacimiento){
+        $fecha_nacimiento = Carbon::parse($fecha_nacimiento);
+        $fecha_actual = Carbon::now();
+        $edad = $fecha_actual->diffInYears($fecha_nacimiento);
+        return $edad;
     }
 
     /**
@@ -72,6 +84,7 @@ class UserApiController extends Controller
         $user->update();
         return response()->json($user, 201);
     }
+
 
     /**
      * Remove the specified resource from storage.
