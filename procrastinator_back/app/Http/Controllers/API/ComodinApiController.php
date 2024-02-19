@@ -24,7 +24,17 @@ class ComodinApiController extends Controller
      
     public function store(Request $request)
     {
-    
+        $bloqueo = Bloqueo::find($request->id_bloqueo);
+
+        if (!$bloqueo) {
+            return response()->json(['mensaje' => 'El bloqueo especificado no existe'], 404);
+        }
+        $app = App::find($bloqueo->id_app);
+
+        if (!$app) {
+            return response()->json(['mensaje' => 'La aplicación asociada al bloqueo no existe'], 404);
+        }
+
         //  limite de 3 comodines
         $numComodines = Comodin::where('id_user', $request->id_user)->count();
         if ($numComodines >= 3) {
@@ -33,7 +43,7 @@ class ComodinApiController extends Controller
         }
         $sumaTiemposBloqueo = Bloqueo::where('id_app', $app->id)->sum('duracion');
         //suma de los tiempos de bloqueo es igual o mayor a 48 horas
-        if ($sumaTiemposBloqueo >= 48) {
+        if ($sumaTiemposBloqueo >= 48 * 3600) {
 
             //  creacion del comodin
             $comodin = new Comodin();
