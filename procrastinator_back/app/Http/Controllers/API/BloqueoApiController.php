@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bloqueo;
+use App\Models\Comodin;
+
 
 class BloqueoApiController extends Controller
 {
@@ -36,7 +38,7 @@ class BloqueoApiController extends Controller
 
         $sumaDuraciones = Bloqueo::where('id_app', $request->id_app)->sum('duracion');
         
-        if ($sumaDuraciones >= '48:00:00') {
+        if ($sumaDuraciones >= 48*3600) {
             Comodin::create(['tiempo_generacion' => date('H:i:s')]);
         }
 
