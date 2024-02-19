@@ -25,7 +25,7 @@ class Nivel extends Model
     }
 
     public function consejos () {
-        return $this->hasMany(Consejo::class, 'id_nivel', 'descripcion');
+        return $this->hasMany(Consejo::class, 'nivel_id', 'descripcion');
     }
 
     public function users (){
