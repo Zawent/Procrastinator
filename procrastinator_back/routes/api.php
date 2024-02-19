@@ -38,6 +38,7 @@ Route::apiResource('rol', RolApiController::class)->middleware("auth:api");
 Route::apiResource('pregunta', PreguntaApiController::class)->middleware("auth:api");
 Route::get('preguntas/cantidad',[PreguntaApiController::class, 'contar']);
 Route::post('/comodin/{id_comodin}', [ComodinApiController::class, 'ganarComodin']);
+Route::get('consejo/consejoDelDia', [ConsejoApiController::class, 'consejoDelDia']);
 
 
 Route::group([
