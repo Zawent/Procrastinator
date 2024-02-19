@@ -45,10 +45,10 @@ class ConsejoApiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id_nivel)
-    
     {
-        $consejos = Consejo::where('id_nivel', $id_nivel)->first(); // sirve para que segun el id_nivel salga el consejo de ese nivel
-        return response()->json($consejos,200);
+        $consejos = Consejo::where('id_nivel', $id_nivel)->inRandomOrder()->get(); // sirve para que segun el id_nivel salga el consejo de ese nivel
+        $consejoAleatorio = $consejos->random();
+        return response()->json($consejoAleatorio,200);
     }
     
 
