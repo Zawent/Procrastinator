@@ -33,6 +33,14 @@ class BloqueoApiController extends Controller
         $bloqueo->estado=$request->estado;
         $bloqueo->id_app=$request->id_app;
         $bloqueo->save();
+
+        $sumaDuraciones = Bloqueo::where('id_app', $request->id_app)->sum('duracion');
+        
+        if ($sumaDuraciones >= '48:00:00') {
+            Comodin::create(['tiempo_generacion' => date('H:i:s')]);
+        }
+
+
         return response()->json($bloqueo, 201);
     }
 
@@ -79,9 +87,10 @@ class BloqueoApiController extends Controller
     $bloqueo->save();
 
     if ($bloqueo->estado=== 'activo'&& abs($duracion) >= 48){
-       
+        Comodin::create(['tiempo_generacion' => abs($duracion)]);
     }
     return response()->json(['message' => 'Estado del bloqueo actualizado']);
 }
+
 
 }
