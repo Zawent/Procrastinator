@@ -1,8 +1,12 @@
 .log{
     text-align: center;    
     margin-top: 5vh;
+        display: flex;
+        flex-direction: column;
+
 }
 
 .email{
-    width: 18%;
+    width: 15rem;
+    height: 5.2rem;
 }

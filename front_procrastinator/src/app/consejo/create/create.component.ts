@@ -9,32 +9,49 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Consejo } from '../../modelos/consejo.model';
+import { Nivel } from '../../modelos/nivel.model';
 import { ConsejoService } from '../../servicios/consejo.service';
+import { NivelService } from '../../servicios/nivel.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import {MatSelectModule} from '@angular/material/select';
+import { User } from '../../modelos/user.model';
 
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [CommonModule, MatInputModule,FormsModule, MatFormFieldModule, MatButtonModule, MatDividerModule, MatIconModule, MatCardModule, ReactiveFormsModule],
-  providers: [ConsejoService],
+  imports: [CommonModule, MatInputModule,FormsModule, MatFormFieldModule, MatButtonModule, MatDividerModule, MatIconModule, MatCardModule, ReactiveFormsModule, MatSelectModule],
+  providers: [ConsejoService, NivelService],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss'
 })
 export class CreateComponent {
+  listaniveles: Nivel[] = [];
   consejoform = this.fb.group({
-    id_nivel: null,
+    nivel_id: null,
     consejo: '',
   })
 
   id: string | null;
 
-  constructor(private fb: FormBuilder, private _router: Router, private consejoservicio: ConsejoService, private aRoute: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private _router: Router, private consejoservicio: ConsejoService, private nivelservicio: NivelService, private aRoute: ActivatedRoute) {
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
     this.verEditar();
+    this.verNiveles();
+  }
+
+
+  verNiveles():void{
+    this.nivelservicio.getNiveles(this.id).subscribe(
+      data => {
+        this.listaniveles = data;
+      },
+      err => {
+        console.log(err);
+      });
   }
 
   verEditar(): void {
@@ -42,7 +59,7 @@ export class CreateComponent {
       this.consejoservicio.getConsejo(this.id).subscribe(
         data => {
           this.consejoform.setValue({
-            id_nivel: data.id_nivel,
+            nivel_id: data.nivel_id,
             consejo: data.consejo
           });
         },
@@ -55,7 +72,7 @@ export class CreateComponent {
 
   agregarConsejo(): void {
     const consejo: Consejo = {
-      id_nivel: this.consejoform.get('id_nivel')?.value!,
+      nivel_id: this.consejoform.get('nivel_id')?.value!,
       consejo: this.consejoform.get('consejo')?.value,
     }
     if (this.id != null) {
