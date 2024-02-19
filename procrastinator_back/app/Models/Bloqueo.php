@@ -15,9 +15,7 @@ class Bloqueo extends Model
         return $this->hasMany(App::class, 'id_bloqueo','nombre');
     }
 
-    public function informacion () { 
-        return $this->hasMany(Informacion::class, 'id_bloqueo','nombre');
-    }
+
     public function comodin()
     {
         return $this->hasMany(Comodin::class, 'id_bloqueo');

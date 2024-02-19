@@ -15,6 +15,13 @@ class ComodinApiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function index()
+    {
+        $comodin = Comodin::all();
+        return response()->json($comodin,200);
+    }
+
+     
     public function store(Request $request)
     {
         $app = App::find($request->id_app);
@@ -37,8 +44,8 @@ class ComodinApiController extends Controller
             $tiempo_generacion = date('H:i:s'); //formato que toca usar en vez de carbon
 
             // guarda el tiempo de generación en la aplicación
-            --comodin->tiempo_generacion = $tiempo_generacion;
-            $app->save();
+            $comodin->tiempo_generacion = $tiempo_generacion;
+            $comodin->save();
 
             //  creacion del comodin
             $comodin = new Comodin();
@@ -51,15 +58,9 @@ class ComodinApiController extends Controller
         } else {
             return response()->json(['mensaje' => 'La suma de los tiempos de bloqueo debe ser igual o mayor a 48 horas para obtener un comodín.'], 400);
         }
-    }
+         }
 
-    /**
-     * 
-     *
-     * @param  int  $id_comodin
-     * @return \Illuminate\Http\Response
-     */
-    public function ganarComodin($id_comodin)
+        public function ganarComodin($id_comodin)
     {
         $comodin = Comodin::find($id_comodin);
 
@@ -80,4 +81,4 @@ class ComodinApiController extends Controller
         }
 
     }
-}
+    }
