@@ -16,6 +16,13 @@ class BloqueoApiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function index()
+    {
+        $bloqueo = Bloqueo::all();
+        return response()->json($bloqueo, 200);
+    }
+
+
     public function store(Request $request)
     { 
         $user = User::find($request->id_user); // Encuentra al usuario por su ID
@@ -25,7 +32,7 @@ class BloqueoApiController extends Controller
         }
     
         // Calcula la suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
-        $sumaDuraciones = $user->bloqueos()->sum('duracion');
+        $sumaDuraciones = $user->bloqueo()->sum('duracion');
     
         if ($sumaDuraciones >= 48 * 3600) {
             // Verifica si ya hay un comodín generado
@@ -81,12 +88,9 @@ class BloqueoApiController extends Controller
         if ($duracion > 0) {
             $bloqueo->estado = 'activo';
             return response()->json(['message' => 'Estado del bloqueo "Activo"']);
-        } else {
-            $bloqueo->estado = 'desbloqueado';
-            return response()->json(['message' => 'Estado del bloqueo "desbloqueado"']);
-        }
-
+      
         $bloqueo->save();
         return response()->json(['message' => 'Estado del bloqueo actualizado']);
     }
+}
 }

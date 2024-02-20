@@ -48,7 +48,6 @@ class ComodinApiController extends Controller
             $comodin = new Comodin();
             $comodin->id_app = $request->id_app; 
             $comodin->id_user = $request->id_user;
-            $comodin->estado = 'activo';
             $comodin->save();
 
             return response()->json(['comodin' => $comodin], 201);

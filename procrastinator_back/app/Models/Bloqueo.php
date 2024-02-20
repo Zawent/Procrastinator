@@ -9,15 +9,14 @@ class Bloqueo extends Model
 {
     use HasFactory;
     
-    protected $fillable = ["tipo", "duracion", "id_user"]; // Agrega "user_id" a la lista de atributos fillable
+    protected $fillable = ["tipo", "duracion", "id_user"]; 
 
     public $timestamps = false;
 
     public function user()
     {
-        return $this->belongsTo(User::class); // Un bloqueo pertenece a un usuario
+        return $this->belongsTo(User::class, 'id_user');
     }
-
     public function app()
     {
         return $this->hasMany(App::class, 'id_bloqueo', 'nombre');

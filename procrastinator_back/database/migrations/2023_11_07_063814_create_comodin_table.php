@@ -16,9 +16,8 @@ class CreateComodinTable extends Migration
         Schema::create('comodins', function (Blueprint $table) {
             $table->id();
             $table->time('tiempo_generacion');
-            $table->string('estado');
-            $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('id_user');
+            $table->foreign('id_user')->references('id')->on('users');
         });
     }
 
