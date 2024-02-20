@@ -34,6 +34,7 @@ class ComodinApiController extends Controller
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
+        
 
         // Verificar si el usuario ya ha ganado 3 comodines
         $numComodines = $user->comodines()->count();
@@ -46,8 +47,9 @@ class ComodinApiController extends Controller
         if ($sumaTiemposBloqueo >= 48 * 3600) {
             // Crear un nuevo comodín
             $comodin = new Comodin();
-            $comodin->id_app = $request->id_app; 
             $comodin->id_user = $request->id_user;
+            $comodin->id_app = $request->id_app; 
+            $comodin->tiempo_generacion = now();
             $comodin->save();
 
             return response()->json(['comodin' => $comodin], 201);
