@@ -39,12 +39,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function comodin(){
-        return $this->hasMany(Comodin::class,'id');
-    }
 
     public function nivel(){
         
         return $this->belongsTo(Nivel::class);
     }
+    public function comodines()
+{
+    return $this->hasMany(Comodin::class);
+}
+
 }

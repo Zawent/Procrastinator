@@ -9,16 +9,12 @@ class Comodin extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tiempo_generacion', 'id_bloqueo', 'id_user'];
+    protected $fillable = ['tiempo_generacion', 'id_bloqueo', 'user_id'];
     public $timestamps = false;
 
-    public function bloqueo()
-    {
-        return $this->belongsTo(Bloqueo::class, 'id_bloqueo');
-    }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

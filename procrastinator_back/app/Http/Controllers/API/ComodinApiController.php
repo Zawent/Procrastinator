@@ -17,10 +17,7 @@ class ComodinApiController extends Controller
      */
     public function index()
     {
-        // Obtener todos los comodines de la base de datos
         $comodines = Comodin::all();
-
-        // Retornar los comodines como respuesta
         return response()->json(['comodines' => $comodines], 200);
     }
 
