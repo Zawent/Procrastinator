@@ -45,16 +45,25 @@ class ConsejoApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($nivel_id)
-    
+    public function show($id)
     {
-        $consejos = Consejo::where('nivel_id', $nivel_id)->get(); // sirve para que segun el nivel_id salga el consejo de ese nivel
-
-        $fecha_actual = Carbon::now()->format('Y-m-d');
-        $consejo_del_dia = Consejo::where('nivel_id', $nivel_id)->inRandomOrder()->first();
-        return response()->json($consejo_del_dia,200);
+        $consejos = Consejo::find($id); // sirve para que segun el id_nivel salga el consejo de ese nivel
+        return response()->json($consejos,200);
     }
     
+    public function consejosPorId($id_nivel)
+    {
+        $consejos = Consejo::where('id_nivel', $id_nivel)->get(); // sirve para que segun el id_nivel salga el consejo de ese nivel
+        return response()->json($consejos,200);
+    }
+
+
+    public function consejoDiario($id_nivel)
+    {
+        $consejos = Consejo::where('id_nivel', $id_nivel)->inRandomOrder()->get(); // sirve para que segun el id_nivel salga el consejo de ese nivel
+        $consejoAleatorio = $consejos->random();
+        return response()->json($consejoAleatorio,200);
+    }
 
     /**
      * Update the specified resource in storage.
