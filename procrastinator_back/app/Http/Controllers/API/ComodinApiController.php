@@ -42,20 +42,6 @@ class ComodinApiController extends Controller
             return response()->json(['mensaje' => 'No puedes ganar más de 3 comodines'], 400);
         }
 
-        // Verificar si la suma de los tiempos de bloqueo es igual o mayor a 48 horas
-        $sumaTiemposBloqueo = $user->bloqueos()->sum('duracion');
-        if ($sumaTiemposBloqueo >= 48 * 3600) {
-            // Crear un nuevo comodín
-            $comodin = new Comodin();
-            $comodin->id_user = $request->id_user;
-            $comodin->id_app = $request->id_app; 
-            $comodin->tiempo_generacion = now();
-            $comodin->save();
-
-            return response()->json(['comodin' => $comodin], 201);
-        } else {
-            return response()->json(['mensaje' => 'La suma de los tiempos de bloqueo debe ser igual o mayor a 48 horas para obtener un comodín.'], 400);
-        }
     }
 
     /**

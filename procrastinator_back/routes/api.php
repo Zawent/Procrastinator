@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::apiResource('informacion', InformacionApiController::class)->middleware("auth:api");
 Route::apiResource('app', AppApiController::class)->middleware("auth:api");
 Route::apiResource('bloqueo', BloqueoApiController::class)->middleware("auth:api");
 Route::apiResource('comodin', ComodinApiController::class)->middleware("auth:api");

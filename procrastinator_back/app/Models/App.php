@@ -18,18 +18,8 @@ class App extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function bloqueos(): HasMany
+    public function bloqueo(): HasMany
     {
         return $this->hasMany(Bloqueo::class, 'id_app');
-    }
-
-    /**
-     * Define la relación con la información.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function informacion(): HasMany
-    {
-        return $this->hasMany(Informacion::class, 'id_app');
     }
 }

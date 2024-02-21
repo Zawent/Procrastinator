@@ -40,7 +40,10 @@ class BloqueoApiController extends Controller
     
             // Si no hay comodín generado en las últimas 24 horas, crea uno nuevo
             if (!$comodinExistente) {
-                Comodin::create(['tiempo_generacion' => now()]);
+                $comodin = new Comodin();
+                $comodin->id_user = $request->id_user;
+                $comodin->tiempo_generacion = now();
+                $comodin->save();
             }
         }
     
@@ -50,8 +53,9 @@ class BloqueoApiController extends Controller
         $bloqueo->duracion = $request->duracion;
         $bloqueo->estado = $request->estado;
         $bloqueo->id_app = $request->id_app;
-        $bloqueo->id_user = $request->id_user; // Asigna el id del usuario al bloqueo
+        $bloqueo->id_user = $request->id_user;
         $bloqueo->save();
+        
     
         return response()->json($bloqueo, 201);
     }
