@@ -22,4 +22,8 @@ class App extends Model
     {
         return $this->hasMany(Bloqueo::class, 'id_app');
     }
+
+    public function users (){
+        return $this->belongsToMany(User::class, 'id_usuario');
+    }
 }

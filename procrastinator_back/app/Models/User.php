@@ -56,4 +56,8 @@ public function bloqueo()
         return $this->hasMany(Bloqueo::class, 'id_user');
     }
 
+    public function app(){
+        return $this->belongsToMany(App::class);
+    }
+
 }

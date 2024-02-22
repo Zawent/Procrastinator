@@ -28,9 +28,10 @@ class AppApiController extends Controller
     public function store(Request $request)
     {
         $app= new App();
-        $app->id();
-        $app->string('nombre');
+        $app->nombre = $request->nombre;
+        $app->id_user = $request->id_user;
         $app->save();
+        return response()->json($app, 201);
     }
 
     /**
