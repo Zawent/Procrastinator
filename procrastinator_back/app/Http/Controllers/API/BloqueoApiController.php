@@ -48,7 +48,6 @@ class BloqueoApiController extends Controller
         }
     
         $bloqueo = new Bloqueo();
-        $bloqueo->tipo = $request->tipo;
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
         $bloqueo->estado = $request->estado;
@@ -72,7 +71,6 @@ class BloqueoApiController extends Controller
 
         return response()->json([
             'Duracion del bloqueo' => $bloqueo->duracion,
-            'Tipo de bloqueo' => $bloqueo->tipo,
             'Estado' => $bloqueo->estado
         ]);
     }

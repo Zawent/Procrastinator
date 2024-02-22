@@ -18,6 +18,7 @@ class CreateComodinTable extends Migration
             $table->time('tiempo_generacion');
             $table->foreignId('id_user');
             $table->foreign('id_user')->references('id')->on('users');
+            $table->string('estado');
         });
     }
 
