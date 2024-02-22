@@ -25,20 +25,20 @@ class BloqueoApiController extends Controller
 
     public function store(Request $request)
     { 
-        $user = User::find($request->id_user); // Encuentra al usuario por su ID
+        $user = User::find($request->id_user); // busca al usuario por id
 
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
     
-        // Calcula la suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
+        // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
         $sumaDuraciones = $user->bloqueo()->sum('duracion');
+        
     
         if ($sumaDuraciones >= 48 * 3600) {
-            // Verifica si ya hay un comodín generado
-            $comodinExistente = Comodin::where('tiempo_generacion', '>=', now()->subHours(24))->exists();
+            // mira si ya hay un comodín generado
+            $comodinExistente = Comodin::where ('tiempo_generacion', '>=', now()->subHours(48))->exists();
     
-            // Si no hay comodín generado en las últimas 24 horas, crea uno nuevo
             if (!$comodinExistente) {
                 $comodin = new Comodin();
                 $comodin->id_user = $request->id_user;
