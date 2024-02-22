@@ -9,7 +9,7 @@ class Bloqueo extends Model
 {
     use HasFactory;
     
-    protected $fillable = ["tipo", "duracion", "id_user",]; 
+    protected $fillable = ["duracion", "id_user",]; 
 
     public $timestamps = false;
 
