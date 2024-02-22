@@ -15,8 +15,8 @@ class CreateConsejoTable extends Migration
     {
         Schema::create('consejos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('nivel_id');
-            $table->foreign('nivel_id')->references('id')->on('nivels');
+            $table->foreignId('id_nivel');
+            $table->foreign('id_nivel')->references('id')->on('nivels');
             $table->string('consejo');
         });
     }

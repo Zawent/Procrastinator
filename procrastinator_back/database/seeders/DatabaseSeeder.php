@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
         RolsSeeder::class, 
         NivelSeeder::class, 
         PreguntaSeeder::class, 
-        ComodinSeeder::class,
         UserSeeder::class,
         ConsejoSeeder::class
     ]);
