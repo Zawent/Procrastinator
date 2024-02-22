@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Models\Bloqueo;
+
 
 class User extends Authenticatable
 {
@@ -39,11 +41,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function comodines(){
-        return $this->hasMany(Comodin::class, 'id', 'name');
-    }
 
     public function nivel(){
+        
         return $this->belongsTo(Nivel::class);
     }
+    public function comodin()
+{
+    return $this->hasMany(Comodin::class);
+
+}
+public function bloqueo()
+    {
+        return $this->hasMany(Bloqueo::class, 'id_user');
+    }
+
 }

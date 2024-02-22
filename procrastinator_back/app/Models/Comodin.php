@@ -8,14 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Comodin extends Model
 {
     use HasFactory;
-    protected $fillable = ["tiempo_generacion"];
+
+    protected $fillable = ['tiempo_generacion','id_user'];
     public $timestamps = false;
 
-    public function bloqueos() {
-        return $this->hasMany(Bloqueo::class, 'duracion');
-    }
 
-    public function users(){
-        return $this->hasMany(User::class, 'id_user');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
     }
 }
