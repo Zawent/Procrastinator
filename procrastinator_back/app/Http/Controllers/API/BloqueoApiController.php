@@ -43,6 +43,7 @@ class BloqueoApiController extends Controller
                 $comodin = new Comodin();
                 $comodin->id_user = $request->id_user;
                 $comodin->tiempo_generacion = now();
+                $comodin->estado = $request->estado;
                 $comodin->save();
             }
         }
