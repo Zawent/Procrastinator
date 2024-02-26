@@ -37,7 +37,7 @@ class BloqueoApiController extends Controller
         }
     
         // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
-        $sumaDuraciones = $user->bloqueo()->sum('duracion');
+        $sumaDuraciones = $user->bloqueo()->sum('duracion')*3600;
         
     
         if ($sumaDuraciones >= 48 * 3600) {
