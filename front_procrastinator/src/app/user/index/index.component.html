@@ -6,8 +6,8 @@
 
     <nav class="menu">
         
-        <div class="niveles">
-            <h2>Preguntas</h2>
+        <div class="consejos">
+            <h2>Usuarios</h2>
             <a href="/home"><button>Volver al menu</button></a>
         </div>
     </nav>
@@ -17,18 +17,27 @@
 <table class="table table-striped-columns">
     <thead>
         <tr>
-            <td><h2>Id pregunta</h2></td>
-            <td><h2>Descripcion</h2></td>
-            <td><h2>Funciones</h2></td>
+            <td><h2>Id de usuario</h2></td>
+            <td><h2>Nombre</h2></td>
+            <td><h2>Fecha nacimiento</h2></td>
+            <td><h2>Ocupación</h2></td>
+            <td><h2>Email</h2></td>
+            <td><h2>Rol</h2></td>
+            <td><h2>Nivel</h2></td>
         </tr>
         
     </thead>
     <tbody>
-        <tr *ngFor="let pregunta of listaPreguntas">
-            <td>{{ pregunta.id}}</td>
-            <td>{{ pregunta.descripcion_pregunta}}</td>
+        <tr *ngFor="let usuario of listaUsuarios">
+            <td>{{ usuario.id}}</td>
+            <td>{{ usuario.name}}</td>
+            <td>{{ usuario.fecha_nacimiento}}</td>
+            <td>{{ usuario.ocupacion}}</td>
+            <td>{{ usuario.email}}</td>
+            <td>{{ usuario.id_rol}}</td>
+            <td>{{ usuario.nivel_id}}</td>
             <td>
-                <button type="button" (click)="editarPregunta(pregunta.id)">Editar</button>
+                <button type="button" (click)="eliminarUser(usuario.id)">Eliminar</button>
             </td>
         </tr>
     </tbody>

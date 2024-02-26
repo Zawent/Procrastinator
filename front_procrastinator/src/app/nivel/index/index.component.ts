@@ -49,7 +49,7 @@ export class IndexComponent {
     
     eliminarNivel(id:any): void{
       console.log(id);
-      this.nivelservicio.deleteNivel(id).subscribe(
+      this.nivelservicio.deleteNivel(id, this.clave).subscribe(
         data => {
           this.cargarNiveles();
       },

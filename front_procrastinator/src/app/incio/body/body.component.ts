@@ -6,17 +6,23 @@ import { GlobalComponent } from '../../global/global.component';
 import { User } from '../../modelos/user.model';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+//imports de angular material 
+import {FormControl, Validators, FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-body',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule],
   providers: [LoginService],
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss'
 })
 export class BodyComponent {
-
+  hide = true;
   loginForm = this.fb.group({
     username: '',
     password: ''
@@ -38,8 +44,7 @@ export class BodyComponent {
       this.router.navigate(['/ficha/index']);
     }
   }
-
-
+    
   login(): void {
     //console.log(this.loginForm.get('username')?.value);
     //console.log(this.loginForm.get('password')?.value);
@@ -60,4 +65,6 @@ export class BodyComponent {
         }
       )
   }
+
+
 }

@@ -29,7 +29,7 @@
         <tr *ngFor="let consejo of listaConsejos">
             <td>{{ consejo.id}}</td>
             <td>{{ consejo.consejo}}</td>
-            <td>{{ consejo.id_nivel}}</td>
+            <td>{{ consejo.nivel_id}}</td>
             <td>
                 <button type="button" (click)="eliminarConsejo(consejo.id)">Eliminar</button>
                 <button type="button" (click)="editarConsejo(consejo.id)" >Editar</button>

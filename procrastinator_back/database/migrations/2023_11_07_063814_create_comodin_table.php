@@ -17,7 +17,7 @@ class CreateComodinTable extends Migration
             $table->id();
             $table->time('tiempo_generacion');
             $table->foreignId('id_user');
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_user')->references('id')->on('users')  ->onDelete('cascade');
             $table->string('estado');
         });
     }

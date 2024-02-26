@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { Consejo } from '../modelos/consejo.model';
 import {Observable} from 'rxjs';
+//import { User } from '../modelos/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ConsejoService {
+export class UserService {
 
-  url = 'http://localhost:8000/api/consejo/';
+  url = 'http://localhost:8000/api/auth/user/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private CreacionHeaders (access_token:any): HttpHeaders{ //para la creacion de los header y que sea autortizado
     return new HttpHeaders ({
@@ -20,27 +20,17 @@ export class ConsejoService {
     })
   }
 
-  getConsejos(access_token:any): Observable<any> {
+  getUsuarios(access_token:any): Observable<any> {
     const options= { headers: this.CreacionHeaders(access_token) };
     return this.http.get(this.url, options);
   }
 
-  addConsejo(consejo: Consejo, access_token:any): Observable<any>{
-    const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.post(this.url, consejo, options);
-  }
-
-  getConsejo(id: string, access_token:any): Observable<any>{
+  getUsuario(id: string, access_token:any): Observable<any>{
     const options= { headers: this.CreacionHeaders(access_token) };
     return this.http.get(this.url+id, options);
   }
 
-  updateConsejo(id: string, consejo: Consejo, access_token:any): Observable <any>{
-    const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.put(this.url+id, consejo, options);
-  }
-
-  deleteConsejo(id: string, access_token:any): Observable <any>{
+  deleteUsuario(id: string,  access_token:any): Observable <any>{
     const options= { headers: this.CreacionHeaders(access_token) };
     return this.http.delete(this.url+id, options);
   }
