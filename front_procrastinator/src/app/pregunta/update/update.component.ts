@@ -11,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Pregunta } from '../../modelos/pregunta.model';
 import { PreguntaService} from '../../servicios/pregunta.service';
 import { Router } from '@angular/router';
+import { User } from '../../modelos/user.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -22,6 +23,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './update.component.scss'
 })
 export class UpdateComponent {
+  clave: string | null = null;
+  usuario: User | null = null;
   preguntaform = this.fb.group({
     descripcion_pregunta: '',
   })
@@ -33,12 +36,21 @@ export class UpdateComponent {
   }
 
   ngOnInit(): void {
+    this.validartoken();
     this.verEditar();
+  }
+
+  validartoken(): void {
+    if(this.clave==null){
+      this.clave=localStorage.getItem("clave");
+    }if(!this.clave){
+      this._router.navigate(['/home']);
+    }
   }
 
   verEditar(): void {
     if (this.id != null) {
-      this.preguntaservicio.getPregunta(this.id).subscribe(
+      this.preguntaservicio.getPregunta(this.id, this.clave).subscribe(
         data => {
           this.preguntaform.setValue({
             descripcion_pregunta: data.descripcion_pregunta
@@ -56,7 +68,7 @@ export class UpdateComponent {
       descripcion_pregunta: this.preguntaform.get('descripcion_pregunta')?.value,
     }
     if (this.id != null){
-      this.preguntaservicio.updatePregunta(this.id, pregunta).subscribe(
+      this.preguntaservicio.updatePregunta(this.id, pregunta, this.clave).subscribe(
         data =>{
           this._router.navigate(['/pregunta/index']);
         },

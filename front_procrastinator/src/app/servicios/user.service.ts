@@ -1,15 +1,15 @@
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs';
-import { Injectable } from '@angular/core';
-import { Pregunta } from '../modelos/pregunta.model';
+//import { User } from '../modelos/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PreguntaService {
+export class UserService {
 
-  url = 'http://localhost:8000/api/pregunta/';
+  url = 'http://localhost:8000/api/auth/user/';
 
   constructor(private http: HttpClient) {}
 
@@ -19,20 +19,19 @@ export class PreguntaService {
       'Authorization': 'Bearer ' + access_token
     })
   }
-  
-    getPreguntas(access_token:any): Observable<any> {
-      const options= { headers: this.CreacionHeaders(access_token) };
-      return this.http.get(this.url, options);
-   }
 
-  getPregunta(id: string, access_token:any): Observable<any>{
+  getUsuarios(access_token:any): Observable<any> {
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.get(this.url, options);
+  }
+
+  getUsuario(id: string, access_token:any): Observable<any>{
     const options= { headers: this.CreacionHeaders(access_token) };
     return this.http.get(this.url+id, options);
   }
 
-  updatePregunta(id: string, pregunta: Pregunta, access_token:any): Observable <any>{
+  deleteUsuario(id: string,  access_token:any): Observable <any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    console.log(pregunta);
-    return this.http.put(this.url+id, pregunta, options);
+    return this.http.delete(this.url+id, options);
   }
 }
