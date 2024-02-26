@@ -8,8 +8,8 @@
         
         <div class="consejos">
             <h2>Consejos</h2>
-            <a href="/home"><button>Volver al menu</button></a>
-            <a href="/consejo/create"><button>Crear Consejo</button></a>
+            <a href="/home"><button type="button" class="btn btn-primary btnvolver">Volver al menu</button></a>
+            <a href="/consejo/create"><button type="button" class="btn btn-success">Crear Consejo</button></a>
         </div>
     </nav>
 </div>  
@@ -23,16 +23,18 @@
             <td><h2>Nivel</h2></td>
             <td><h2>Funciones</h2></td>
         </tr>
-        
     </thead>
     <tbody>
         <tr *ngFor="let consejo of listaConsejos">
             <td>{{ consejo.id}}</td>
             <td>{{ consejo.consejo}}</td>
             <td>{{ consejo.nivel_id}}</td>
-            <td>
-                <button type="button" (click)="eliminarConsejo(consejo.id)">Eliminar</button>
-                <button type="button" (click)="editarConsejo(consejo.id)" >Editar</button>
+            <td >
+                <div class="botones">
+                <button type="button" class="btn btn-danger btneliminar" (click)="eliminarConsejo(consejo.id)">Eliminar</button>
+                <button type="button" class="btn btn-warning" (click)="editarConsejo(consejo.id)">Editar</button>
+                </div>
+                
             </td>
         </tr>
     </tbody>

@@ -8,7 +8,7 @@
         
         <div class="niveles">
             <h2>Preguntas</h2>
-            <a href="/home"><button>Volver al menu</button></a>
+            <a href="/home"><button type="button" class="btn btn-primary btnvolver">Volver al menu</button></a>
         </div>
     </nav>
 </div>  
@@ -27,8 +27,10 @@
         <tr *ngFor="let pregunta of listaPreguntas">
             <td>{{ pregunta.id}}</td>
             <td>{{ pregunta.descripcion_pregunta}}</td>
-            <td>
-                <button type="button" (click)="editarPregunta(pregunta.id)">Editar</button>
+                <td >
+                    <div class="botones">
+                    <button type="button" class="btn btn-warning" (click)="editarPregunta(pregunta.id)">Editar</button>
+                    </div>
             </td>
         </tr>
     </tbody>

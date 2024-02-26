@@ -8,7 +8,7 @@
         
         <div class="consejos">
             <h2>Usuarios</h2>
-            <a href="/home"><button>Volver al menu</button></a>
+            <a href="/home"><button type="button" class="btn btn-primary btnvolver">Volver al menu</button></a>
         </div>
     </nav>
 </div>  
@@ -24,6 +24,7 @@
             <td><h2>Email</h2></td>
             <td><h2>Rol</h2></td>
             <td><h2>Nivel</h2></td>
+            <td><h2>Funciones</h2></td>
         </tr>
         
     </thead>
@@ -37,7 +38,7 @@
             <td>{{ usuario.id_rol}}</td>
             <td>{{ usuario.nivel_id}}</td>
             <td>
-                <button type="button" (click)="eliminarUser(usuario.id)">Eliminar</button>
+                <button type="button" class="btn btn-danger btneliminar" (click)="eliminarUser(usuario.id)">Eliminar</button>
             </td>
         </tr>
     </tbody>

@@ -27,6 +27,7 @@ export class ConsejoService {
 
   addConsejo(consejo: Consejo, access_token:any): Observable<any>{
     const options= { headers: this.CreacionHeaders(access_token) };
+    console.log("consejo", consejo);
     return this.http.post(this.url, consejo, options);
   }
 

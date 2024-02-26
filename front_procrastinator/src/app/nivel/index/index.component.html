@@ -8,8 +8,8 @@
         
         <div class="niveles">
             <h2>Niveles</h2>
-            <a href="/home"><button>Volver al menu</button></a>
-            <a href="/nivel/create"><button>Crear Nivel</button></a>
+            <a href="/home"><button type="button" class="btn btn-primary btnvolver">Volver al menu</button></a>
+            <a href="/nivel/create"><button type="button" class="btn btn-success">Crear Nivel</button></a>
         </div>
     </nav>
 </div>  
@@ -29,9 +29,12 @@
             <td>{{ nivel.id}}</td>
             <td>{{ nivel.descripcion}}</td>
             <td>
-                <button type="button" (click)="eliminarNivel(nivel.id)">Eliminar</button>
-                <button type="button" (click)="editarNivel(nivel.id)">Editar</button>
+                <div class="botones">
+                    <button type="button" class="btn btn-danger btneliminar" (click)="eliminarNivel(nivel.id)">Eliminar</button>
+                    <button type="button" class="btn btn-warning" (click)="editarNivel(nivel.id)">Editar</button>
+                    </div>
             </td>
+            
         </tr>
     </tbody>
 </table>
