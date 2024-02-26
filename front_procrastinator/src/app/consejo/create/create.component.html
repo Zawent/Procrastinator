@@ -16,7 +16,7 @@
             <form [formGroup]="consejoform" (ngSubmit)="agregarConsejo()" class="example-form">
                 <mat-form-field>
                   <mat-label>Nivel</mat-label>
-                  <mat-select formControlName="nivel_id">
+                  <mat-select formControlName="id_nivel">
                     <mat-option *ngFor="let nivel of listaniveles" [value]="nivel.id">
                       {{ nivel.id }}
                       {{ nivel.descripcion }}

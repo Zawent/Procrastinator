@@ -30,7 +30,7 @@ export class CreateComponent {
   clave: string | null = null;
   usuario: User | null = null;
   consejoform = this.fb.group({
-    nivel_id: null,
+    id_nivel: null,
     consejo: '',
   })
 
@@ -69,7 +69,7 @@ export class CreateComponent {
       this.consejoservicio.getConsejo(this.id, this.clave).subscribe(
         data => {
           this.consejoform.setValue({
-            nivel_id: data.nivel_id,
+            id_nivel: data.id_nivel,
             consejo: data.consejo
           });
         },
@@ -82,7 +82,7 @@ export class CreateComponent {
 
   agregarConsejo(): void {
     const consejo: Consejo = {
-      nivel_id: this.consejoform.get('nivel_id')?.value!,
+      id_nivel: this.consejoform.get('id_nivel')?.value!,
       consejo: this.consejoform.get('consejo')?.value,
     }
     if (this.id != null) {
