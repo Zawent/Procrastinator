@@ -23,9 +23,10 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->foreignId('id_rol');
-            $table->foreign('id_rol')->references('id')->on('rols');
+            $table->foreign('id_rol')->references('id')->on('rols') ->onDelete('cascade');
             $table->foreignId('nivel_id')->nullable();
-            $table->foreign('nivel_id')->references('id')->on('nivels');
+            $table->foreign('nivel_id')->references('id')->on('nivels') ->onDelete('cascade');
+            ;    
         });
     }
 

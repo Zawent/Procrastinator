@@ -16,7 +16,7 @@ class CreateConsejoTable extends Migration
         Schema::create('consejos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_nivel');
-            $table->foreign('id_nivel')->references('id')->on('nivels');
+            $table->foreign('id_nivel')->references('id')->on('nivels') ->onDelete('cascade');
             $table->string('consejo');
         });
     }

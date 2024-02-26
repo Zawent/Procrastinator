@@ -12,28 +12,36 @@ export class ConsejoService {
   url = 'http://localhost:8000/api/consejo/';
 
   constructor(private http: HttpClient) { }
-  getConsejos(access_token:any): Observable<any> {
-    const headers = new HttpHeaders({
+
+  private CreacionHeaders (access_token:any): HttpHeaders{ //para la creacion de los header y que sea autortizado
+    return new HttpHeaders ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + access_token
-    });
-    const options= { headers: headers };
+    })
+  }
+
+  getConsejos(access_token:any): Observable<any> {
+    const options= { headers: this.CreacionHeaders(access_token) };
     return this.http.get(this.url, options);
   }
 
-  addConsejo(consejo: Consejo): Observable<any>{
-    return this.http.post(this.url, consejo);
+  addConsejo(consejo: Consejo, access_token:any): Observable<any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.post(this.url, consejo, options);
   }
 
-  getConsejo(id: string): Observable<any>{
-    return this.http.get(this.url+id);
+  getConsejo(id: string, access_token:any): Observable<any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.get(this.url+id, options);
   }
 
-  updateConsejo(id: string, consejo: Consejo): Observable <any>{
-    return this.http.put(this.url+id, consejo);
+  updateConsejo(id: string, consejo: Consejo, access_token:any): Observable <any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.put(this.url+id, consejo, options);
   }
 
-  deleteConsejo(id: string): Observable <any>{
-    return this.http.delete(this.url+id);
+  deleteConsejo(id: string, access_token:any): Observable <any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.delete(this.url+id, options);
   }
 }
