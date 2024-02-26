@@ -30,6 +30,11 @@ class BloqueoApiController extends Controller
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
+
+        $cantidadComodines = Comodin::where('id_user', $request->id_user)->count();
+        if ($cantidadComodines >= 3) {
+            return response()->json(['mensaje' => 'El usuario ya tiene el máximo número de comodines'], 400);
+        }
     
         // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
         $sumaDuraciones = $user->bloqueo()->sum('duracion');

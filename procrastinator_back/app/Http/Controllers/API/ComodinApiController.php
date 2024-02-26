@@ -82,10 +82,7 @@ class ComodinApiController extends Controller
     
     public function cantidadComodines($id_user)
     {
-        // Buscar la cantidad de comodines para el usuario especificado
         $cantidadComodines = Comodin::where('id_user', $id_user)->count();
-
-        // Retornar la cantidad de comodines como respuesta en formato JSON
         return response()->json(['cantidad_comodines' => $cantidadComodines], 200);
     }
 }
