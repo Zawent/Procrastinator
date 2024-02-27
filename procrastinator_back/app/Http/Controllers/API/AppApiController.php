@@ -25,13 +25,56 @@ class AppApiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     public function listarPorUser($id_user)
+    {
+        $app = App::where('id_user', $id_user)->get();
+     
+        return response()->json([
+            'Nombre de la app' => $app->pluck('nombre'),
+        ]);
+    }
+
     public function store(Request $request)
     {
-        $app= new App();
-        $app->nombre = $request->nombre;
-        $app->id_user = $request->id_user;
-        $app->save();
-        return response()->json($app, 201);
+
+        $apps = explode(";", $request->nombre);
+
+        if (count($apps)==1) {
+            $app = App::where('nombre', $request->nombre)
+                      ->where('id_user', $request->id_user)
+                      ->first();
+
+            if (!$app) {
+                $app = new App();
+            }
+                $app->nombre = $request->nombre;
+                $app->id_user = $request->id_user;
+                $app->save();
+                return response()->json($app, 201);
+        } else {
+            $total = count($apps);
+            foreach($apps as $nombre) {
+                $app = App::where('nombre', $nombre)
+                      ->where('id_user', $request->id_user)
+                      ->first();
+
+                if (!$app) {
+                    $app = new App();
+                }
+                    $app->nombre = $nombre;
+                    $app->id_user = $request->id_user;
+                    $app->save();
+            }
+            $respuesta=array();
+            $respuesta["result"]="Add ".$total." Apps";
+            return response()->json($respuesta, 201);
+        }
+
+    
+        
+    
+    
     }
 
     /**
@@ -43,7 +86,6 @@ class AppApiController extends Controller
     public function show($id)
     {
         $app = App::find($id);
-
     return response()->json([
         'Nombre de la app' => $app->nombre,
     ]);

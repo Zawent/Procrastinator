@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Bloqueo;
 use App\Models\Comodin;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class BloqueoApiController extends Controller
 {
@@ -25,7 +26,8 @@ class BloqueoApiController extends Controller
 
     public function store(Request $request)
     { 
-        $user = User::find($request->id_user); // busca al usuario por id
+        //$user = User::find($request->id_user); // busca al usuario por id
+        $user = Auth::user();
 
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
@@ -41,7 +43,7 @@ class BloqueoApiController extends Controller
     
             if (!$comodinExistente) {
                 $comodin = new Comodin();
-                $comodin->id_user = $request->id_user;
+                $comodin->id_user = $user->id;
                 $comodin->tiempo_generacion = now();
                 $comodin->save();
             }
@@ -52,7 +54,7 @@ class BloqueoApiController extends Controller
         $bloqueo->duracion = $request->duracion;
         $bloqueo->estado = $request->estado;
         $bloqueo->id_app = $request->id_app;
-        $bloqueo->id_user = $request->id_user;
+        $bloqueo->id_user = $user->id;
         $bloqueo->save();
         
     
