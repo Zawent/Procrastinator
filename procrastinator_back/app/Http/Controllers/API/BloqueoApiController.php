@@ -35,6 +35,9 @@ class BloqueoApiController extends Controller
         if ($cantidadComodines >= 3) {
             return response()->json(['mensaje' => 'El usuario ya tiene el máximo número de comodines'], 400);
         }
+
+        $duracionMaxima = 10 * 3600; // 10 horas en segundos
+        $duracion = min($request->duracion, $duracionMaxima);
     
         // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
         $sumaDuraciones = $user->bloqueo()->sum('duracion')*3600;
@@ -52,7 +55,7 @@ class BloqueoApiController extends Controller
                 $comodin->save();
             }
         }
-    
+    +
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
@@ -95,10 +98,27 @@ class BloqueoApiController extends Controller
 
         if ($duracion > 0) {
             $bloqueo->estado = 'activo';
-            return response()->json(['message' => 'Estado del bloqueo "Activo"']);
+            $bloqueo->save();
+            return response()->json(['message' => 'Estado del bloqueo activo']);
+        }else{
+            $comodin = Comodin::where('id_user', $request->id_user)->where('estado', 'disponible')->first();
+            
+            if ($comodin) {
+                $comodin->estado ='usado';
+                $comodin->save();
+
+                $bloqueo->estado ='desbloqueado';
+                $bloqueo->save();
+                
+                return response()->json(['message'=> 'Haz desactivado tu bloqueo con un comodin']);
+            }else{
+                return response()->json(['message' => 'No tienes comodines disponibles para desbloquear']);
+            
+            }
+            
+        }
       
-        $bloqueo->save();
-        return response()->json(['message' => 'Estado del bloqueo actualizado']);
     }
 }
-}
+
+
