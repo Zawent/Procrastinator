@@ -23,9 +23,8 @@ Route::get('/login-google', function () {
     return Socialite::driver('google')->redirect();
 });
  
-Route::get('/google-callback', function () {
+Route::get('/google-callback-url', function () {
     $user = Socialite::driver('google')->user();
-
     $userExists = User::where('external_id', $user->id)->where('external_auth','google')->first();
     if($userExists){
         Auth::login($userExists);
@@ -42,9 +41,9 @@ Route::get('/google-callback', function () {
 
     return redirect ('/dashboard');
     
-    
     // $user->token
 });
+
 
 Auth::routes();
 
