@@ -33,7 +33,7 @@ class BloqueoApiController extends Controller
 
         $cantidadComodines = Comodin::where('id_user', $request->id_user)->count();
         if ($cantidadComodines >= 3) {
-            return response()->json(['mensaje' => 'El usuario ya tiene el máximo número de comodines'], 400);
+            return response()->json(['mensaje' => 'No puedes tener mas comodines'], 400);
         }
 
         $duracionMaxima = 10 * 3600; // 10 horas en segundos
@@ -55,7 +55,7 @@ class BloqueoApiController extends Controller
                 $comodin->save();
             }
         }
-    +
+    
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
