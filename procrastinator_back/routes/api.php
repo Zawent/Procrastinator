@@ -64,7 +64,7 @@ Route::get('/google-callback-url', function () {
     
     // $user->token
 });
-
+Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
 
 Route::group([
     'prefix' => 'auth'
