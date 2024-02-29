@@ -39,6 +39,7 @@ Route::get('preguntas/cantidad',[PreguntaApiController::class, 'contar']);
 Route::get('comodines/cantidad/{id_user}', [ComodinApiController::class, 'cantidadComodines']);
 Route::get('consejo/diario/{id}',[ConsejoApiController::class, 'consejoDiario']);
 Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
+Route::patch('/desactivar-bloqueo/{id}', [BloqueoApiController::class, 'update']);
 
 
 Route::group([
