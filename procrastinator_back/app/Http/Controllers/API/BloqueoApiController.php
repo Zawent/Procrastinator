@@ -36,25 +36,32 @@ class BloqueoApiController extends Controller
             return response()->json(['mensaje' => 'No puedes tener mas comodines'], 400);
         }
 
-        $duracionMaxima = 10 * 3600; // 10 horas en segundos
-        $duracion = min($request->duracion, $duracionMaxima);
-    
         // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
-        $sumaDuraciones = $user->bloqueo()->sum('duracion')*3600;
+        $sumaDuraciones = $user->bloqueo()->sum('duracion')/3600;
         
-    
-        if ($sumaDuraciones >= 48 * 3600) {
-            // mira si ya hay un comodín generado
-            $comodinExistente = Comodin::where ('tiempo_generacion', '>=', now()->subHours(48))->exists();
-    
-            if (!$comodinExistente) {
+
+            if ($sumaDuraciones >= 48) {
                 $comodin = new Comodin();
                 $comodin->id_user = $request->id_user;
                 $comodin->tiempo_generacion = now();
                 $comodin->estado = $request->estado;
                 $comodin->save();
-            }
-        }
+
+            $bloqueosActualizar = $user->bloqueo()->where('bloqueo_comodin', 'si')->get();
+                foreach ($bloqueosActualizar as $bloqueo) {
+                    $bloqueo->bloqueo_comodin = 'no';
+                    $bloqueo->save();
+
+                  }
+
+       }
+    
+        if ($request->has('bloqueo_comodin')) {
+            $bloqueo_comodin = $request->bloqueo_comodin;
+        } else {
+            $bloqueo_comodin = 'si'; // Asignar un valor predeterminado
+        } 
+        
     
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
@@ -62,6 +69,7 @@ class BloqueoApiController extends Controller
         $bloqueo->estado = $request->estado;
         $bloqueo->id_app = $request->id_app;
         $bloqueo->id_user = $request->id_user;
+        $bloqueo->bloqueo_comodin = $bloqueo_comodin;
         $bloqueo->save();
         
     
