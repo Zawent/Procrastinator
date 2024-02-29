@@ -21,7 +21,9 @@ class CreateBloqueoTable extends Migration
             $table->foreignId('id_app');
             $table->foreign('id_app')->references('id')->on('apps');
             $table->foreignId('id_user');
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_user')->references('id')->on('users') ->onDelete('cascade');
+            $table->string('bloqueo_comodin')->default('si');
+
         });
     }
 

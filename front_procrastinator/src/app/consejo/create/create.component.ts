@@ -27,6 +27,8 @@ import { User } from '../../modelos/user.model';
 })
 export class CreateComponent {
   listaniveles: Nivel[] = [];
+  clave: string | null = null;
+  usuario: User | null = null;
   consejoform = this.fb.group({
     nivel_id: null,
     consejo: '',
@@ -39,13 +41,21 @@ export class CreateComponent {
   }
 
   ngOnInit(): void {
+    this.validartoken();
     this.verEditar();
     this.verNiveles();
   }
 
+  validartoken(): void {
+    if(this.clave==null){
+      this.clave=localStorage.getItem("clave");
+    }if(!this.clave){
+      this._router.navigate(['/inicio/body']);
+    }
+  }
 
   verNiveles():void{
-    this.nivelservicio.getNiveles(this.id).subscribe(
+    this.nivelservicio.getNiveles(this.clave).subscribe(
       data => {
         this.listaniveles = data;
       },
@@ -56,7 +66,7 @@ export class CreateComponent {
 
   verEditar(): void {
     if (this.id != null) {
-      this.consejoservicio.getConsejo(this.id).subscribe(
+      this.consejoservicio.getConsejo(this.id, this.clave).subscribe(
         data => {
           this.consejoform.setValue({
             nivel_id: data.nivel_id,
@@ -76,7 +86,7 @@ export class CreateComponent {
       consejo: this.consejoform.get('consejo')?.value,
     }
     if (this.id != null) {
-      this.consejoservicio.updateConsejo(this.id, consejo).subscribe(
+      this.consejoservicio.updateConsejo(this.id, consejo, this.clave).subscribe(
         data =>{
           this._router.navigate(['/consejo/index']);
         },
@@ -86,7 +96,7 @@ export class CreateComponent {
         }
       )
     } else {
-      this.consejoservicio.addConsejo(consejo).subscribe(
+      this.consejoservicio.addConsejo(consejo, this.clave).subscribe(
         data => {
         console.log(data);
         this._router.navigate(['/consejo/index']);

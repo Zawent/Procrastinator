@@ -49,7 +49,7 @@ usuario: User | null = null;
   
   eliminarConsejo(id:any): void{
     console.log(id);
-    this.consejoService.deleteConsejo(id).subscribe(
+    this.consejoService.deleteConsejo(id, this.clave).subscribe(
       data => {
         this.cargarConsejos();
     },

@@ -51,10 +51,10 @@ usuario: User | null = null;
     this.userService.deleteUsuario(id, this.clave).subscribe(
       data => {
         this.cargarUsuarios();
-        this.cargarUsuarios = data;
     },
     err => {
       console.log(err);
       });
     }
+
 }

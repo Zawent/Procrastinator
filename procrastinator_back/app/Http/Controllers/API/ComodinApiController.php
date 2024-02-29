@@ -58,6 +58,13 @@ class ComodinApiController extends Controller
 
         // muestra los comodines ganados en la respuesta
         return response()->json(['comodines' => $comodines], 200);
+
+        $comodin = Comodin::find($id);
+
+        if($comodin && $comodin->estado === 'activo') {
+            $comodin->estado ='usado';
+            $comodin->save();
+        }
     }
     
     /**
@@ -77,15 +84,14 @@ class ComodinApiController extends Controller
         }
 
         // retornar los comodines encontrados para el usuario
-        return response()->json(['comodines' => $comodines], 200);
+        return response()->json($comodines, 200);
     }
     
-    public function cantiComodin($id_user)
+    public function cantidadComodines($id_user)
     {
-        // buscar la cantidad de comodines para el usuario 
         $cantidadComodines = Comodin::where('id_user', $id_user)->count();
-
-        // retornar la cantidad de comodines 
         return response()->json(['cantidad_comodines' => $cantidadComodines], 200);
     }
 }
+
+
