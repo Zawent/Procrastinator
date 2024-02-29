@@ -39,31 +39,6 @@ Route::get('preguntas/cantidad',[PreguntaApiController::class, 'contar']);
 Route::get('comodines/cantidad/{id_user}', [ComodinApiController::class, 'cantiComodin']);
 Route::get('consejo/diario/{id}',[ConsejoApiController::class, 'consejoDiario']);
 Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
-
-Route::get('/login-google', function () {
-    return Socialite::driver('google')->redirect();
-});
- 
-Route::get('/google-callback-url', function () {
-    $user = Socialite::driver('google')->user();
-    $userExists = User::where('external_id', $user->id)->where('external_auth','google')->first();
-    if($userExists){
-        Auth::login($userExists);
-    }else{
-        $usernuevo = User::create([
-            'name'=>$user->name,
-            'email'=>$user->email,
-            'external_id'=>$user->id,
-            'external_auth'=>'google',
-        ]);
-
-        Auth::login($usernuevo);
-    }
-
-    return redirect ('/dashboard');
-    
-    // $user->token
-});
 Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
 
 Route::group([
