@@ -12,7 +12,7 @@ class Consejo extends Model
     public $timestamps = false;
 
     public function nivel () {
-        return $this->belongsTo(Nivel::class, 'nivel_id', 'descripcion');
+        return $this->belongsTo(Nivel::class, 'id_nivel', 'descripcion');
     }
 }
 

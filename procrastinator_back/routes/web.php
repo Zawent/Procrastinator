@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,32 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+ 
+Route::get('/login-google', function () {
+    return Socialite::driver('google')->redirect();
+});
+ 
+Route::get('/google-callback-url', function () {
+    $user = Socialite::driver('google')->user();
+    $userExists = User::where('external_id', $user->id)->where('external_auth','google')->first();
+    if($userExists){
+        Auth::login($userExists);
+    }else{
+        $usernuevo = User::create([
+            'name'=>$user->name,
+            'email'=>$user->email,
+            'external_id'=>$user->id,
+            'external_auth'=>'google',
+        ]);
+
+        Auth::login($usernuevo);
+    }
+
+    return redirect ('/dashboard');
+    
+    // $user->token
+});
+
 
 Auth::routes();
 
