@@ -33,7 +33,7 @@ class BloqueoApiController extends Controller
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
 
-        $numComodinesActivos = Comodin::where('id_user', $request->id_user)->where('estado', 'activo')->count();
+        $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
             // Continuar con la creación de un nuevo bloqueo
             $bloqueo_comodin = 'no';
@@ -46,7 +46,7 @@ class BloqueoApiController extends Controller
                 $comodin = new Comodin();
                 $comodin->id_user = $user->id;
                 $comodin->tiempo_generacion = now();
-                $comodin->estado = $request->estado;
+                $comodin->estado = "activo";
                 $comodin->save();
 
                 $user->bloqueo()->where('bloqueo_comodin', 'si')->update(['bloqueo_comodin' => 'no']);
@@ -58,9 +58,9 @@ class BloqueoApiController extends Controller
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
-        $bloqueo->estado = $request->estado;
+        $bloqueo->estado = "activo";
         $bloqueo->id_app = $request->id_app;
-        $bloqueo->id_user = $request->id_user;
+        $bloqueo->id_user =  $user->id;
         $bloqueo->bloqueo_comodin = $bloqueo_comodin;
         $bloqueo->save();
 
@@ -92,6 +92,8 @@ class BloqueoApiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $idUser = $request->id_user;
+        $user = User::find($idUser);
         $bloqueo = Bloqueo::find($id);
         $duracion = $request->input('duracion');
 
@@ -100,7 +102,7 @@ class BloqueoApiController extends Controller
             $bloqueo->save();
             return response()->json(['message' => 'Estado del bloqueo activo']);
         } else {
-            $comodin = Comodin::where('id_user', $request->id_user)->where('estado', 'activo')->first();
+            $comodin = Comodin::where('id_user', $user->id)->where('estado', 'activo')->first();
             
             if ($comodin) {
                 $comodin->estado ='usado';
