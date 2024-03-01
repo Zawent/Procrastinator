@@ -32,32 +32,38 @@ class BloqueoApiController extends Controller
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
-    
-        // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
-        $sumaDuraciones = $user->bloqueo()->sum('duracion');
-        
-    
-        if ($sumaDuraciones >= 48 * 3600) {
-            // mira si ya hay un comodín generado
-            $comodinExistente = Comodin::where ('tiempo_generacion', '>=', now()->subHours(48))->exists();
-    
-            if (!$comodinExistente) {
+
+        $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
+        if ($numComodinesActivos >= 3) {
+            // Continuar con la creación de un nuevo bloqueo
+            $bloqueo_comodin = 'no';
+        } else {
+
+            // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
+            $sumaDuraciones = $user->bloqueo()->where('bloqueo_comodin', 'si')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
+            
+            if ($sumaDuraciones >= 48) {
                 $comodin = new Comodin();
                 $comodin->id_user = $user->id;
                 $comodin->tiempo_generacion = now();
+                $comodin->estado = "activo";
                 $comodin->save();
+
+                $user->bloqueo()->where('bloqueo_comodin', 'si')->update(['bloqueo_comodin' => 'no']);
             }
+            
+            $bloqueo_comodin = $sumaDuraciones >= 48 ? 'no' : 'si';
         }
-    
+
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
-        $bloqueo->estado = $request->estado;
+        $bloqueo->estado = "activo";
         $bloqueo->id_app = $request->id_app;
-        $bloqueo->id_user = $user->id;
+        $bloqueo->id_user =  $user->id;
+        $bloqueo->bloqueo_comodin = $bloqueo_comodin;
         $bloqueo->save();
-        
-    
+
         return response()->json($bloqueo, 201);
     }
 
@@ -86,15 +92,29 @@ class BloqueoApiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $idUser = $request->id_user;
+        $user = User::find($idUser);
         $bloqueo = Bloqueo::find($id);
         $duracion = $request->input('duracion');
 
         if ($duracion > 0) {
             $bloqueo->estado = 'activo';
-            return response()->json(['message' => 'Estado del bloqueo "Activo"']);
-      
-        $bloqueo->save();
-        return response()->json(['message' => 'Estado del bloqueo actualizado']);
+            $bloqueo->save();
+            return response()->json(['message' => 'Estado del bloqueo activo']);
+        } else {
+            $comodin = Comodin::where('id_user', $user->id)->where('estado', 'activo')->first();
+            
+            if ($comodin) {
+                $comodin->estado ='usado';
+                $comodin->save();
+
+                $bloqueo->estado ='desbloqueado';
+                $bloqueo->save();
+                
+                return response()->json(['message'=> 'Haz desactivado tu bloqueo con un comodin']);
+            } else {
+                return response()->json(['message' => 'No tienes comodines disponibles para desbloquear']);
+            }
+        }
     }
-}
 }
