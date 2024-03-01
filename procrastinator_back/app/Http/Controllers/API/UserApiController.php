@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UserApiController extends Controller
 {
@@ -40,6 +41,7 @@ class UserApiController extends Controller
         return response()->json($user, 201);
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -66,12 +68,15 @@ class UserApiController extends Controller
         $user->fecha_nacimiento=$request->fecha_nacimiento;
         $user->ocupacion=$request->ocupacion;
         $user->email=$request->email;
-        $hashedPassword = Hash::make($request->password);
-        $user->password = $hashedPassword;
+        if (isset($request->password) && strlen($request->password)>=8) {
+            $hashedPassword = Hash::make($request->password);
+            $user->password = $hashedPassword;
+        }
         $user->id_rol=$request->id_rol;
         $user->update();
         return response()->json($user, 201);
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -13,15 +13,15 @@ class Nivel extends Model
     public $timestamps = false;
 
     public function user () {
-        return $this->hasMany(User::class, 'usuario_id' ,'nombre');
+        return $this->hasMany(User::class, 'id_user' ,'nombre');
     }
 
     public function respuesta () {
-        return $this->hasMany(Respuesta::class, 'nivel_id','id');
+        return $this->hasMany(Respuesta::class, 'id_nivel','id');
     }
 
     public function informacion () {
-        return $this->hasMany(Informacion::class, 'nivel_id','id');
+        return $this->hasMany(Informacion::class, 'id_nivel','id');
     }
 
     public function consejos () {

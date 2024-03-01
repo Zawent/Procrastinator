@@ -12,21 +12,27 @@ export class PreguntaService {
   url = 'http://localhost:8000/api/pregunta/';
 
   constructor(private http: HttpClient) {}
+
+  private CreacionHeaders (access_token:any): HttpHeaders{ //para la creacion de los header y que sea autortizado
+    return new HttpHeaders ({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + access_token
+    })
+  }
+  
     getPreguntas(access_token:any): Observable<any> {
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + access_token
-      });
-      const options= { headers: headers };
+      const options= { headers: this.CreacionHeaders(access_token) };
       return this.http.get(this.url, options);
    }
 
-  getPregunta(id: string): Observable<any>{
-    return this.http.get(this.url+id);
+  getPregunta(id: string, access_token:any): Observable<any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.get(this.url+id, options);
   }
 
-  updatePregunta(id: string, pregunta: Pregunta): Observable <any>{
+  updatePregunta(id: string, pregunta: Pregunta, access_token:any): Observable <any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
     console.log(pregunta);
-    return this.http.put(this.url+id, pregunta);
+    return this.http.put(this.url+id, pregunta, options);
   }
 }

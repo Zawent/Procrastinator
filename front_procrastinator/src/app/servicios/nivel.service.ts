@@ -12,29 +12,37 @@ export class NivelService {
   url = 'http://localhost:8000/api/nivel/';
 
   constructor(private http: HttpClient) { }
-  getNiveles(access_token:any): Observable<any> {
-    const headers = new HttpHeaders({
+
+  private CreacionHeaders (access_token:any): HttpHeaders{ //para la creacion de los header y que sea autortizado
+    return new HttpHeaders ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + access_token
-    });
-    const options= { headers: headers };
+    })
+  }
+
+  getNiveles(access_token:any): Observable<any> {
+    const options= { headers: this.CreacionHeaders(access_token) };
     return this.http.get(this.url, options);
   }
 
-  addNivel(nivel: Nivel): Observable<any>{
-    return this.http.post(this.url, nivel);
+  addNivel(nivel: Nivel, access_token:any): Observable<any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.post(this.url, nivel, options);
   }
 
-  getNivel(id: string): Observable<any>{
-    return this.http.get(this.url+id);
+  getNivel(id: string, access_token:any): Observable<any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.get(this.url+id, options);
   }
 
-  updateNivel(id: string, nivel: Nivel): Observable <any>{
+  updateNivel(id: string, nivel: Nivel, access_token:any): Observable <any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
     console.log(nivel);
-    return this.http.put(this.url+id, nivel);
+    return this.http.put(this.url+id, nivel, options);
   }
 
-  deleteNivel(id: string): Observable <any>{
-    return this.http.delete(this.url+id);
+  deleteNivel(id: string, access_token:any): Observable <any>{
+    const options= { headers: this.CreacionHeaders(access_token) };
+    return this.http.delete(this.url+id, options);
   }
 }

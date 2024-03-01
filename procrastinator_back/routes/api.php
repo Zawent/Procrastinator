@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::apiResource('informacion', InformacionApiController::class)->middleware("auth:api");
 Route::apiResource('app', AppApiController::class)->middleware("auth:api");
 Route::apiResource('bloqueo', BloqueoApiController::class)->middleware("auth:api");
 Route::apiResource('comodin', ComodinApiController::class)->middleware("auth:api");
@@ -37,8 +36,10 @@ Route::apiResource('respuesta', RespuestaApiController::class);
 Route::apiResource('rol', RolApiController::class)->middleware("auth:api");
 Route::apiResource('pregunta', PreguntaApiController::class)->middleware("auth:api");
 Route::get('preguntas/cantidad',[PreguntaApiController::class, 'contar']);
-Route::post('/comodin/{id_comodin}', [ComodinApiController::class, 'ganarComodin']);
-
+Route::get('comodines/cantidad/{id_user}', [ComodinApiController::class, 'cantiComodin']);
+Route::get('consejo/diario/{id}',[ConsejoApiController::class, 'consejoDiario']);
+Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
+Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
 
 Route::group([
     'prefix' => 'auth'
@@ -54,6 +55,8 @@ Route::group([
         Route::apiResource('user', UserApiController::class);
     });
 });
+
+
 
 
 

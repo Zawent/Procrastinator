@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comodin;
+use App\Models\Bloqueo;
+use App\Models\User; 
 
 class ComodinApiController extends Controller
 {
@@ -16,7 +18,7 @@ class ComodinApiController extends Controller
     public function index()
     {
         $comodines = Comodin::all();
-        return response()->json($comodines,200);
+        return response()->json(['comodines' => $comodines], 200);
     }
 
     /**
@@ -27,19 +29,19 @@ class ComodinApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        //si el usuario existe
+        $user = User::find($request->id_user);
+        if (!$user) {
+            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
+        }
+        
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $comodin = Comodin::find();
-        return response()->json($comodin,200);
+        //  si el usuario ya ha ganado 3 comodines
+        $numComodines = $user->comodines()->count();
+        if ($numComodines >= 3) {
+            return response()->json(['mensaje' => 'No puedes ganar más de 3 comodines'], 400);
+        }
+
     }
 
     /**
@@ -51,33 +53,39 @@ class ComodinApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        // comodines ganados por el usuario
+        $comodines = Comodin::where('id_user', $request->id_user)->get();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $comodin = Comodin::find($id);
-        $comodin->delete();
-        return response()->json(null,204);
+        // muestra los comodines ganados en la respuesta
+        return response()->json(['comodines' => $comodines], 200);
     }
     
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id_user
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id_user)
+    {
+        // buscar los comodines asociados al ID de usuario
+        $comodines = Comodin::where('id_user', $id_user)->get();
 
-    public function ganarComodin($id_comodin) {
-        $comodin = Comodin::find($id_comodin);
-        
-        if ($comodin) {
-            return response()->json(['mensaje' => 'No tienes comodines disponibles'], 404);
-        } 
-            
+        //si se encontraron comodines para el usuario
+        if ($comodines->isEmpty()) {
+            return response()->json(['mensaje' => 'No se encontraron comodines para el usuario especificado'], 404);
         }
 
+        // retornar los comodines encontrados para el usuario
+        return response()->json(['comodines' => $comodines], 200);
     }
+    
+    public function cantiComodin($id_user)
+    {
+        // buscar la cantidad de comodines para el usuario 
+        $cantidadComodines = Comodin::where('id_user', $id_user)->count();
 
-  
-
+        // retornar la cantidad de comodines 
+        return response()->json(['cantidad_comodines' => $cantidadComodines], 200);
+    }
+}

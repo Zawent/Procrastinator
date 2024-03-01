@@ -4,11 +4,14 @@ import { ConsejoService } from '../../servicios/consejo.service';
 import { Consejo } from '../../modelos/consejo.model';
 import { Router } from '@angular/router';
 import { User } from '../../modelos/user.model';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-index',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule, MatDividerModule, MatIconModule],
   providers: [ConsejoService],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
@@ -49,7 +52,7 @@ usuario: User | null = null;
   
   eliminarConsejo(id:any): void{
     console.log(id);
-    this.consejoService.deleteConsejo(id).subscribe(
+    this.consejoService.deleteConsejo(id, this.clave).subscribe(
       data => {
         this.cargarConsejos();
     },

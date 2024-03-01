@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConsejoTable extends Migration
+class UserGoogle extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateConsejoTable extends Migration
      */
     public function up()
     {
-        Schema::create('consejos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_nivel');
-            $table->foreign('id_nivel')->references('id')->on('nivels') ->onDelete('cascade');
-            $table->string('consejo');
+        Schema::table('users', function(Blueprint $table){
+            $table->string('password')->nullable()->change();
+            $table->string('external_id')->nullable();
+            $table->string('external_auth')->nullable();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateConsejoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('consejos');
+        //
     }
 }

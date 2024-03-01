@@ -12,6 +12,7 @@ import { Nivel } from '../../modelos/nivel.model';
 import { NivelService} from '../../servicios/nivel.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { User } from '../../modelos/user.model';
 
 @Component({
   selector: 'app-create',
@@ -22,6 +23,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './create.component.scss'
 })
 export class CreateComponent {
+  clave: string | null = null;
+  usuario: User | null = null;
   nivelform = this.fb.group({
     descripcion: '',
   })
@@ -33,12 +36,21 @@ export class CreateComponent {
   }
 
   ngOnInit(): void {
+    this.validartoken();
     this.verEditar();
+  }
+
+  validartoken(): void {
+    if(this.clave==null){
+      this.clave=localStorage.getItem("clave");
+    }if(!this.clave){
+      this._router.navigate(['/home']);
+    }
   }
 
   verEditar(): void {
     if (this.id != null) {
-      this.nivelservicio.getNivel(this.id).subscribe(
+      this.nivelservicio.getNivel(this.id, this.clave).subscribe(
         data => {
           this.nivelform.setValue({
             descripcion: data.descripcion
@@ -56,7 +68,7 @@ export class CreateComponent {
       descripcion: this.nivelform.get('descripcion')?.value,
     }
     if (this.id != null) {
-      this.nivelservicio.updateNivel(this.id, nivel).subscribe(
+      this.nivelservicio.updateNivel(this.id, nivel, this.clave).subscribe(
         data =>{
           this._router.navigate(['/nivel/index']);
         },
@@ -66,7 +78,7 @@ export class CreateComponent {
         }
       )
     } else {
-      this.nivelservicio.addNivel(nivel).subscribe(
+      this.nivelservicio.addNivel(nivel, this.clave).subscribe(
         data => {
         console.log(data);
         this._router.navigate(['/nivel/index']);
