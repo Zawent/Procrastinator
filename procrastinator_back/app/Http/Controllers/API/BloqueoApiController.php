@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Bloqueo;
 use App\Models\Comodin;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class BloqueoApiController extends Controller
 {
@@ -25,13 +26,14 @@ class BloqueoApiController extends Controller
 
     public function store(Request $request)
     { 
-        $user = User::find($request->id_user); // busca al usuario por id
+        //$user = User::find($request->id_user); // busca al usuario por id
+        $user = Auth::user();
 
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
 
-        $numComodinesActivos = Comodin::where('id_user', $request->id_user)->where('estado', 'activo')->count();
+        $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
             // Continuar con la creación de un nuevo bloqueo
             $bloqueo_comodin = 'no';
@@ -42,9 +44,9 @@ class BloqueoApiController extends Controller
             
             if ($sumaDuraciones >= 48) {
                 $comodin = new Comodin();
-                $comodin->id_user = $request->id_user;
+                $comodin->id_user = $user->id;
                 $comodin->tiempo_generacion = now();
-                $comodin->estado = $request->estado;
+                $comodin->estado = "activo";
                 $comodin->save();
 
                 $user->bloqueo()->where('bloqueo_comodin', 'si')->update(['bloqueo_comodin' => 'no']);
@@ -56,9 +58,9 @@ class BloqueoApiController extends Controller
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
-        $bloqueo->estado = $request->estado;
+        $bloqueo->estado = "activo";
         $bloqueo->id_app = $request->id_app;
-        $bloqueo->id_user = $request->id_user;
+        $bloqueo->id_user =  $user->id;
         $bloqueo->bloqueo_comodin = $bloqueo_comodin;
         $bloqueo->save();
 
@@ -90,6 +92,8 @@ class BloqueoApiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $idUser = $request->id_user;
+        $user = User::find($idUser);
         $bloqueo = Bloqueo::find($id);
         $duracion = $request->input('duracion');
 
@@ -98,7 +102,7 @@ class BloqueoApiController extends Controller
             $bloqueo->save();
             return response()->json(['message' => 'Estado del bloqueo activo']);
         } else {
-            $comodin = Comodin::where('id_user', $request->id_user)->where('estado', 'activo')->first();
+            $comodin = Comodin::where('id_user', $user->id)->where('estado', 'activo')->first();
             
             if ($comodin) {
                 $comodin->estado ='usado';

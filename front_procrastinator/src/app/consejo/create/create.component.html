@@ -7,22 +7,21 @@
 
 
 
-
 <div class="formulario">
   <h1>Crear o editar un consejo</h1>
-  <a href="/home"><button class="botonMenu">Volver al menu</button></a>
-    <mat-card>
+  <a href="/consejo/index"><button type="button" class="btn btn-primary btnvolver">Volver</button></a>
+    <mat-card  class="consejotarjeta">
         <mat-card-content>
             <form [formGroup]="consejoform" (ngSubmit)="agregarConsejo()" class="example-form">
                 <mat-form-field>
                   <mat-label>Nivel</mat-label>
-                  <mat-select formControlName="nivel_id">
+                  <mat-select formControlName="id_nivel">
                     <mat-option *ngFor="let nivel of listaniveles" [value]="nivel.id">
                       {{ nivel.id }}
                       {{ nivel.descripcion }}
                     </mat-option>
                   </mat-select>
-                </mat-form-field>
+                </mat-form-field><br>
 
                 
                 <mat-form-field class="example-full-width">

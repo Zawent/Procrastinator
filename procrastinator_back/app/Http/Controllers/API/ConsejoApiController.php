@@ -29,10 +29,10 @@ class ConsejoApiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nivel_id' => 'required|integer|between:1,4',
+            'id_nivel' => 'required|integer|between:1,4',
         ]);
         $consejo =new Consejo();
-        $consejo->nivel_id = $request->nivel_id ;
+        $consejo->id_nivel = $request->id_nivel ;
         $consejo->consejo = $request->consejo ;
         $consejo->save();
         //Consejo::create($request->all());
@@ -75,7 +75,7 @@ class ConsejoApiController extends Controller
     public function update(Request $request, $id)
     {
         $consejo = Consejo::find($id);
-        $consejo->nivel_id = $request->nivel_id;
+        $consejo->id_nivel = $request->id_nivel;
         $consejo->consejo = $request->consejo;
         $consejo->update();
         
@@ -93,17 +93,5 @@ class ConsejoApiController extends Controller
         $consejos = Consejo::find($id);
         $consejos->delete();
         return response()->json($consejos,200);
-    }
-
-    public function ConsejoDelDia($nivel_id){
-        $consejos = Consejo::all();
-        
-        $fecha_actual = Carbon::now()->format('Y-m-d');
-        $consejo = Consejo::where('nivel_id', $nivel_id)->get();
-
-        $unicoConsejo = abs(crc32($fecha_actual)) % $consejo->count();
-
-        $consejoDelDia = $consejo[$unicoConsejo];
-        return response()-> json($consejoDelDia, 200);
     }
 }

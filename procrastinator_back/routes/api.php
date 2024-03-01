@@ -40,7 +40,7 @@ Route::get('comodines/cantidad/{id_user}', [ComodinApiController::class, 'cantid
 Route::get('consejo/diario/{id}',[ConsejoApiController::class, 'consejoDiario']);
 Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
 Route::patch('/desactivar-bloqueo/{id}', [BloqueoApiController::class, 'update']);
-
+Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
 
 Route::group([
     'prefix' => 'auth'
@@ -56,6 +56,8 @@ Route::group([
         Route::apiResource('user', UserApiController::class);
     });
 });
+
+
 
 
 
