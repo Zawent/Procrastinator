@@ -116,5 +116,21 @@ class BloqueoApiController extends Controller
                 return response()->json(['message' => 'No tienes comodines disponibles para desbloquear']);
             }
         }
+        
+    }
+    public function tiempoRestante($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
+        }
+
+        $sumaDuraciones = $user->bloqueo()->where('estado', 'activo')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
+
+        $horasRestantes = $sumaDuraciones >= 48 ? 0 : 48 - $sumaDuraciones;
+
+        return response()->json(['Horas que te faltan para ganar un comodin' => $horasRestantes], 200);
     }
 }
+

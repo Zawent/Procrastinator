@@ -41,6 +41,7 @@ Route::get('consejo/diario/{id}',[ConsejoApiController::class, 'consejoDiario'])
 Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
 Route::patch('/desactivar-bloqueo/{id}', [BloqueoApiController::class, 'update']);
 Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
+Route::get('bloqueoTiempo-restante/{id}', [BloqueoApiController::class, 'tiempoRestante']);
 
 Route::group([
     'prefix' => 'auth'
