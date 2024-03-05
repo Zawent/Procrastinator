@@ -29,10 +29,17 @@ class BloqueoApiController extends Controller
         //$user = User::find($request->id_user); // busca al usuario por id
         $user = Auth::user();
 
+
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
-
+        //--------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------------
+        $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'activo')->count();//acuerdese de pasar el estado inactivo para probar
+        $summaDuracion_nivel = $user->bloqueo()->sum(\DB::raw('TIME_TO_SEC(duracion)'))/3600;
+        //--------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------------
+        
         $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
             // Continuar con la creación de un nuevo bloqueo
@@ -64,7 +71,26 @@ class BloqueoApiController extends Controller
         $bloqueo->bloqueo_comodin = $bloqueo_comodin;
         $bloqueo->save();
 
-        return response()->json($bloqueo, 201);
+        if ($summaDuracion_nivel >= 48){
+            $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
+            $user->nivel_id = $nivel_id;
+            $user->save();
+        }
+
+    return response()->json([$bloqueo, /*$summaDuracion_nivel*/], 201);
+    }
+
+    public function subirNivel($sumaBloqueos, $nivel_id){
+
+        if ($sumaBloqueos>=40 && $nivel_id == 4){
+            return 3;
+        }elseif ($sumaBloqueos>=80 && $nivel_id == 3) {
+            return 2;
+        }elseif ($sumaBloqueos>=120 && $nivel_id == 2){
+            return 1;
+        } else {
+            return $nivel_id;
+        }
     }
 
     /**
