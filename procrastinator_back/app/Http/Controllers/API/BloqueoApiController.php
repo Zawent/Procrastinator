@@ -113,7 +113,7 @@ class BloqueoApiController extends Controller
                 
                 return response()->json(['message'=> 'Haz desactivado tu bloqueo con un comodin']);
             } else {
-                return response()->json(['message' => 'No tienes comodines disponibles para desbloquear']);
+                return null;
             }
         }
     }
