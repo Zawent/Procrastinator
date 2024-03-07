@@ -170,4 +170,5 @@ class BloqueoApiController extends Controller
         return response()->json([$resultados], 200);
         }
     }
+    //nose
 }
