@@ -33,13 +33,13 @@ class BloqueoApiController extends Controller
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
-        //--------------------------------------------------------------------------------------------------------------------
+       /* //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
         $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'activo')->count();//acuerdese de pasar el estado inactivo para probar
         $summaDuracion_nivel = $user->bloqueo()->sum(\DB::raw('TIME_TO_SEC(duracion)'))/3600;
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
-        
+        */
         $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
             $bloqueo_comodin = 'no';
@@ -67,16 +67,16 @@ class BloqueoApiController extends Controller
         $bloqueo->id_user =  $user->id;
         $bloqueo->bloqueo_comodin = $bloqueo_comodin;
         $bloqueo->save();
-
+/*
         if ($summaDuracion_nivel >= 48){
             $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
             $user->nivel_id = $nivel_id;
             $user->save();
         }
-
+*/
     return response()->json([$bloqueo, /*$summaDuracion_nivel*/], 201);
     }
-
+/*
     public function subirNivel($sumaBloqueos, $nivel_id){
 
         if ($sumaBloqueos>=40 && $nivel_id == 4){
@@ -89,7 +89,7 @@ class BloqueoApiController extends Controller
             return $nivel_id;
         }
     }
-
+*/
     /**
      * Display the specified resource.
      *
@@ -178,12 +178,12 @@ class BloqueoApiController extends Controller
                 return $contador;
             });
 
-            $top4Contadores = $topContadores->take(4);
+            $top3Contadores = $topContadores->take(3);
     
-            foreach ($top4Contadores as $id_app => $contador){
+            foreach ($top3Contadores as $id_app => $contador){
                 $app = App::find($id_app);
                 $nombre = $app->nombre;
-                $resultados[] = "Aplicación: $app->nombre - Bloqueos: $contador";
+                $resultados[] = [$app->nombre, $contador] ;
             }
         return response()->json([$resultados], 200);
         }
