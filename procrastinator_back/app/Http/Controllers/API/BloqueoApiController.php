@@ -27,7 +27,6 @@ class BloqueoApiController extends Controller
 
     public function store(Request $request)
     { 
-        //$user = User::find($request->id_user); // busca al usuario por id
         $user = Auth::user();
 
 
@@ -43,11 +42,8 @@ class BloqueoApiController extends Controller
         
         $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
-            // Continuar con la creación de un nuevo bloqueo
             $bloqueo_comodin = 'no';
         } else {
-
-            // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
             $sumaDuraciones = $user->bloqueo()->where('bloqueo_comodin', 'si')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
             
             if ($sumaDuraciones >= 48) {
@@ -140,9 +136,31 @@ class BloqueoApiController extends Controller
                 
                 return response()->json(['message'=> 'Haz desactivado tu bloqueo con un comodin']);
             } else {
-                return response()->json(['message' => 'No tienes comodines disponibles para desbloquear']);
+                return null;
             }
         }
+    }
+
+    
+    public function marcarDesbloqueado(Request $request)
+    {
+        $user = User::find($request->id_user);
+        $bloqueo = Bloqueo::where('estado', 'activo')->where('id_user', $user->id)->first();
+        
+        if ($bloqueo) {
+            $bloqueo->estado = 'desbloqueado';
+            $bloqueo->save();
+            return response()->json(['message' => 'Bloqueo marcado como desbloqueado'], 200);
+        } else {
+            return response()->json(['message' => 'No se encontró un bloqueo activo para el usuario'], 404);
+        }
+    }
+
+    public function getBloqueo ()
+    {
+        $user = Auth::user();
+        $bloqueo = Bloqueo::where('estado', 'activo')->where('id_user', $user->id)->first();
+        return response()->json($bloqueo, 200);
     }
 
     public function listarTopApps(){

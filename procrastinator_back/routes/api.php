@@ -40,8 +40,10 @@ Route::get('comodines/cantidad/{id_user}', [ComodinApiController::class, 'cantid
 Route::get('consejo/diario/{id}',[ConsejoApiController::class, 'consejoDiario']);
 Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
 Route::patch('/desactivar-bloqueo/{id}', [BloqueoApiController::class, 'update']);
+Route::get('tener-bloqueo', [BloqueoApiController::class, 'getBloqueo'])->middleware("auth:api");
 Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
-Route::get('bloqueados/topApps/{id_user}',[BloqueoApiController::class, 'listarTopApps'])->middleware("auth:api");
+Route::patch('desactivado', [BloqueoApiController::class, 'marcarDesbloqueado']);
+Route::get('bloqueados/topApps',[BloqueoApiController::class, 'listarTopApps'])->middleware("auth:api");
 
 Route::group([
     'prefix' => 'auth'
