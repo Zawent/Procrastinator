@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Bloqueo;
 use App\Models\Comodin;
 use App\Models\User;
+use App\Models\App;
 use Illuminate\Support\Facades\Auth;
 
 class BloqueoApiController extends Controller
@@ -141,6 +142,32 @@ class BloqueoApiController extends Controller
             } else {
                 return response()->json(['message' => 'No tienes comodines disponibles para desbloquear']);
             }
+        }
+    }
+
+    public function listarTopApps(){
+        
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
+        }else{
+            $resultados= [];
+            $bloqueosUser = Bloqueo::where('id_user', $user->id)->get();
+            $contadorApps = $bloqueosUser->groupBy('id_app')->map->count();
+
+            $topContadores = $contadorApps->sortByDesc(function ($contador) {
+                return $contador;
+            });
+
+            $top4Contadores = $topContadores->take(4);
+    
+            foreach ($top4Contadores as $id_app => $contador){
+                $app = App::find($id_app);
+                $nombre = $app->nombre;
+                $resultados[] = "Aplicación: $app->nombre - Bloqueos: $contador";
+            }
+        return response()->json([$resultados], 200);
         }
     }
 }
