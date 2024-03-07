@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Bloqueo;
 use App\Models\Comodin;
 use App\Models\User;
+use App\Models\App;
 use Illuminate\Support\Facades\Auth;
 
 class BloqueoApiController extends Controller
@@ -26,7 +27,6 @@ class BloqueoApiController extends Controller
 
     public function store(Request $request)
     { 
-        //$user = User::find($request->id_user); // busca al usuario por id
         $user = Auth::user();
 
         if (!$user) {
@@ -35,11 +35,8 @@ class BloqueoApiController extends Controller
 
         $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
-            // Continuar con la creación de un nuevo bloqueo
             $bloqueo_comodin = 'no';
         } else {
-
-            // suma total de duraciones para todas las aplicaciones bloqueadas por el usuario
             $sumaDuraciones = $user->bloqueo()->where('bloqueo_comodin', 'si')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
             
             if ($sumaDuraciones >= 48) {
@@ -138,5 +135,31 @@ class BloqueoApiController extends Controller
         $user = Auth::user();
         $bloqueo = Bloqueo::where('estado', 'activo')->where('id_user', $user->id)->first();
         return response()->json($bloqueo, 200);
+    }
+
+    public function listarTopApps(){
+        
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
+        }else{
+            $resultados= [];
+            $bloqueosUser = Bloqueo::where('id_user', $user->id)->get();
+            $contadorApps = $bloqueosUser->groupBy('id_app')->map->count();
+
+            $topContadores = $contadorApps->sortByDesc(function ($contador) {
+                return $contador;
+            });
+
+            $top4Contadores = $topContadores->take(3);
+    
+            foreach ($top4Contadores as $id_app => $contador){
+                $app = App::find($id_app);
+                $nombre = $app->nombre;
+                $resultados[] = $app->nombre;
+            }
+        return response()->json([$app], 200);
+        }
     }
 }

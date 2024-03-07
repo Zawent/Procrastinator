@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 
+
 @Component({
   selector: 'app-menu',
   standalone: true,
@@ -18,7 +19,12 @@ export class MenuComponent {
   constructor(private router: Router){}
 
   ngOninit(): void {
-    if(this.clave==null){
+    this.token()
+  }
+
+  token(){
+
+    if(this.clave==localStorage.getItem('clave')!=null){
       this.clave=localStorage.getItem('clave');
     }
   }
