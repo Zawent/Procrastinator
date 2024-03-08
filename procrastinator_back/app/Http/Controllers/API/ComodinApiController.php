@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Comodin;
 use App\Models\Bloqueo;
 use App\Models\User; 
+use Illuminate\Support\Facades\Auth;
 
 class ComodinApiController extends Controller
 {
@@ -87,9 +88,11 @@ class ComodinApiController extends Controller
         return response()->json($comodines, 200);
     }
     
-    public function cantidadComodines($id_user)
+    public function cantidadComodines()
     {
-        $cantidadComodines = Comodin::where('id_user', $id_user)->count();
+        $user = Auth::user();
+
+        $cantidadComodines = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         return response()->json(['cantidad_comodines' => $cantidadComodines], 200);
     }
 }
