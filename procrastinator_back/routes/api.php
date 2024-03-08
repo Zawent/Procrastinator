@@ -36,7 +36,7 @@ Route::apiResource('respuesta', RespuestaApiController::class);
 Route::apiResource('rol', RolApiController::class)->middleware("auth:api");
 Route::apiResource('pregunta', PreguntaApiController::class)->middleware("auth:api");
 Route::get('preguntas/cantidad',[PreguntaApiController::class, 'contar']);
-Route::get('comodines/cantidad/{id_user}', [ComodinApiController::class, 'cantidadComodines']);
+Route::get('comodines/cantidad', [ComodinApiController::class, 'cantidadComodines'])->middleware("auth:api");
 Route::get('consejo/diario/{id}',[ConsejoApiController::class, 'consejoDiario']);
 Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
 Route::patch('/desactivar-bloqueo/{id}', [BloqueoApiController::class, 'update']);

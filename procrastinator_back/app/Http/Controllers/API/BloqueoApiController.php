@@ -138,7 +138,6 @@ class BloqueoApiController extends Controller
     }
 
     public function listarTopApps(){
-        
         $user = Auth::user();
 
         if (!$user) {
@@ -157,9 +156,9 @@ class BloqueoApiController extends Controller
             foreach ($top4Contadores as $id_app => $contador){
                 $app = App::find($id_app);
                 $nombre = $app->nombre;
-                $resultados[] = $app->nombre;
+                $resultados[] = [$app->nombre, $contador];
             }
-        return response()->json([$app], 200);
+        return response()->json([$resultados], 200);
         }
     }
 }
