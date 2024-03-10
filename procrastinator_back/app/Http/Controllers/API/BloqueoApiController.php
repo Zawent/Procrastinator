@@ -164,7 +164,6 @@ class BloqueoApiController extends Controller
     }
 
     public function listarTopApps(){
-        
         $user = Auth::user();
 
         if (!$user) {
