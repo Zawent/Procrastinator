@@ -113,7 +113,7 @@ class BloqueoApiController extends Controller
                 
                 return response()->json(['message'=> 'Haz desactivado tu bloqueo con un comodin']);
             } else {
-                return response()->json(['message' => 'No tienes comodines disponibles para desbloquear']);
+                return null;
             }
         }
         
@@ -131,6 +131,28 @@ class BloqueoApiController extends Controller
         $horasRestantes = $sumaDuraciones >= 48 ? 0 : 48 - $sumaDuraciones;
 
         return response()->json(['Horas que te faltan para ganar un comodin' => $horasRestantes], 200);
+    }
+
+
+    public function marcarDesbloqueado(Request $request)
+    {
+        $user = User::find($request->id_user);
+        $bloqueo = Bloqueo::where('estado', 'activo')->where('id_user', $user->id)->first();
+        
+        if ($bloqueo) {
+            $bloqueo->estado = 'desbloqueado';
+            $bloqueo->save();
+            return response()->json(['message' => 'Bloqueo marcado como desbloqueado'], 200);
+        } else {
+            return response()->json(['message' => 'No se encontró un bloqueo activo para el usuario'], 404);
+        }
+    }
+
+    public function getBloqueo ()
+    {
+        $user = Auth::user();
+        $bloqueo = Bloqueo::where('estado', 'activo')->where('id_user', $user->id)->first();
+        return response()->json($bloqueo, 200);
     }
 }
 
