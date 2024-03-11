@@ -57,4 +57,7 @@ usuario: User | null = null;
       });
     }
 
+    verApps(id:any): void{
+      this._router.navigateByUrl("/app/index/"+id);
+  }
 }

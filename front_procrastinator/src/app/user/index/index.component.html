@@ -14,7 +14,7 @@
 </div>  
 
 
-<table class="table table-striped-columns">
+<table class="table table-striped-columns tablaUser">
     <thead>
         <tr>
             <td><h2>Id de usuario</h2></td>
@@ -39,6 +39,7 @@
             <td>{{ usuario.nivel_id}}</td>
             <td>
                 <button type="button" class="btn btn-danger btneliminar" (click)="eliminarUser(usuario.id)">Eliminar</button>
+                <button type="button" class="btn btn-primary" (click)="verApps(usuario.id)">Ver apps</button>
             </td>
         </tr>
     </tbody>

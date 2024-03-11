@@ -83,12 +83,10 @@ class AppApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_user)
     {
-        $app = App::find($id);
-    return response()->json([
-        'Nombre de la app' => $app->nombre,
-    ]);
+        $app = App::where('id_user', $id_user)->get();
+    return response()->json($app, 200);
     }
 
 }
