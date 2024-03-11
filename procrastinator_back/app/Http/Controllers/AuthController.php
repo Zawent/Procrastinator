@@ -15,12 +15,16 @@ class AuthController extends Controller
      */
     public function signUp(Request $request)
     {
+        
         $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string'
+            'name' => 'required|string||regex:/^[a-zA-Z\s]+$/', //para que solo reciba letras con espacios incluidos
+            'email' => 'required|string|email|unique:users', //sea un correo valido con @
+            'password' => 'required|string|min:8',// sea una contraseña con minimo 8 caracteres
+            'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->subYears(12)->format('Y-m-d'),// la edad minima de creer cuenta es de 12 años
+            'ocupacion' => 'required|string||regex:/^[a-zA-Z\s]+$/'// recibe solo letras con espacios incluidos
+       
         ]);
-
+        
         $user=User::create([
             'name' => $request->name,
             'fecha_nacimiento' => $request->fecha_nacimiento,
@@ -28,7 +32,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'id_rol' => $request->id_rol
-        ]);
+        ]); 
 
         $tokenResult = $user->createToken('Personal Access Token');
 
