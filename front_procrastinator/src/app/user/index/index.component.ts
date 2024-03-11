@@ -48,13 +48,18 @@ usuario: User | null = null;
   
   eliminarUser(id:any): void{
     console.log(id);
-    this.userService.deleteUsuario(id, this.clave).subscribe(
-      data => {
-        this.cargarUsuarios();
-    },
-    err => {
-      console.log(err);
-      });
+    if (id >= 2){
+      this.userService.deleteUsuario(id, this.clave).subscribe(
+        data => {
+          this.cargarUsuarios();
+      },
+      err => {
+        console.log(err);
+        });
+    }else{
+      console.log("no puede eliminar el usuario administrador")
+    }
+    
     }
 
     verApps(id:any): void{
