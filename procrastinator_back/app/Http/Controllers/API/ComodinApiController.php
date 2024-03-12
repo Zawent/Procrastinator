@@ -8,7 +8,6 @@ use App\Models\Comodin;
 use App\Models\Bloqueo;
 use App\Models\User; 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Auth;
 
 class ComodinApiController extends Controller
 {

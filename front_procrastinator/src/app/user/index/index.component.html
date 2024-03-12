@@ -38,8 +38,8 @@
             <td>{{ usuario.id_rol}}</td>
             <td>{{ usuario.nivel_id}}</td>
             <td>
+                <button type="button" class="btn btn-primary btneliminar" (click)="verApps(usuario.id)">Ver apps</button>
                 <button type="button" class="btn btn-danger btneliminar" (click)="eliminarUser(usuario.id)">Eliminar</button>
-                <button type="button" class="btn btn-primary" (click)="verApps(usuario.id)">Ver apps</button>
             </td>
         </tr>
     </tbody>
