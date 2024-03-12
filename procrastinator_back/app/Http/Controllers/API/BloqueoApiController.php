@@ -156,9 +156,12 @@ class BloqueoApiController extends Controller
             foreach ($top4Contadores as $id_app => $contador){
                 $app = App::find($id_app);
                 $nombre = $app->nombre;
-                $resultados[] = [$app->nombre, $contador];
+                $datos = array();
+                $datos['nombre']=$app->nombre;
+                $datos['contador']=$contador;
+                $resultados[] = $datos;
             }
-        return response()->json([$resultados], 200);
+            return response()->json(["resultados" => $resultados], 200, [], JSON_NUMERIC_CHECK);
         }
     }
 }
