@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Comodin;
 use App\Models\Bloqueo;
 use App\Models\User; 
+use Illuminate\Support\Facades\Auth;
 
 class ComodinApiController extends Controller
 {
@@ -65,6 +66,13 @@ class ComodinApiController extends Controller
             $comodin->estado ='usado';
             $comodin->save();
         }
+
+        $comodin = Comodin::find($id);
+
+        if($comodin && $comodin->estado === 'activo') {
+            $comodin->estado ='usado';
+            $comodin->save();
+        }
     }
     
     /**
@@ -87,11 +95,14 @@ class ComodinApiController extends Controller
         return response()->json($comodines, 200);
     }
     
-    public function cantidadComodines($id_user)
+    public function cantidadComodines()
     {
-        $cantidadComodines = Comodin::where('id_user', $id_user)->count();
-        return response()->json(['cantidad_comodines' => $cantidadComodines], 200);
+        $user = Auth::user();
+        $cantidadComodines = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
+        return response()->json($cantidadComodines, 200);
     }
 }
+
+
 
 
