@@ -14,26 +14,34 @@ import {MatButtonModule} from '@angular/material/button';
 export class MenuComponent {
 
   clave: string |null=null;
-  logueando: boolean = true;
+  logueando: boolean = false;
+  flag: boolean = false;
 
   constructor(private router: Router){}
 
-  ngOninit(): void {
-    this.token()
+  ngOnInit(): void {
+    this.getClave();
   }
 
-  token(){
-
-    if(this.clave==localStorage.getItem('clave')!=null){
+  getClave(): void{
+    //if(this.clave==localStorage.getItem('clave')!=null){
       this.clave=localStorage.getItem('clave');
-    }
+      //console.log(this.clave);
+      if (this.clave!=null) {
+        this.logueando=true;
+        this.flag=true;
+        //console.log("paso");
+      }
+    //}
   }
 
   logout():void{
     localStorage.clear();
     location.reload();
-    this.router.navigate(['']);
+    //this.router.navigate(['']);
     this.logueando = false
+    this.flag=true;
+    window.location.reload();
   }
 
 }

@@ -37,7 +37,12 @@ export class BodyComponent {
     private loginService: LoginService,
     private router: Router) { }
 
-  ngOnInit():void {}
+  ngOnInit():void {
+    this.clave = localStorage.getItem('clave');
+    if (this.clave) {
+      this.router.navigate(['/home/']);
+    }
+  }
 
   ngOnChanges(): void {
     this.clave = localStorage.getItem('clave');
@@ -59,7 +64,8 @@ export class BodyComponent {
             if (this.respuesta.user.id_rol != 2){
             GlobalComponent.respuesta = this.respuesta;
             localStorage.setItem("clave",this.respuesta.access_token);
-            this.router.navigate(['/home/']);
+            //this.router.navigate(['/home/']);
+            window.location.reload();
           } else {
             console.log('No estas autorizado');
           }
