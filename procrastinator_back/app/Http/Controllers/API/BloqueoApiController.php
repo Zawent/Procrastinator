@@ -67,14 +67,12 @@ class BloqueoApiController extends Controller
         $bloqueo->id_user =  $user->id;
         $bloqueo->save();
 
-<<<<<<< HEAD
         if ($summaDuracion_nivel >= 48){
             $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
             $user->nivel_id = $nivel_id;
             $user->save();
         }
-=========
->>>>>>>>> Temporary merge branch 2
+
 
         return response()->json($bloqueo, 201);
     }
