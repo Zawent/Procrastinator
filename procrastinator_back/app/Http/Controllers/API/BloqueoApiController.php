@@ -115,7 +115,7 @@ class BloqueoApiController extends Controller
     }
     public function tiempoRestante($id)
     {
-        $user = User::find($id);
+        $user = Auth::user();
 
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
