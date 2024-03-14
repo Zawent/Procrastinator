@@ -52,27 +52,29 @@ class BloqueoApiController extends Controller
                 $comodin->tiempo_generacion = now();
                 $comodin->estado = "activo";
                 $comodin->save();
-
                 $user->bloqueo()->where('bloqueo_comodin', 'si')->update(['bloqueo_comodin' => 'no']);
             }
-            
             $bloqueo_comodin = $sumaDuraciones >= 48 ? 'no' : 'si';
         }
+
 
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
         $bloqueo->estado = "activo";
         $bloqueo->id_app = $request->id_app;
-        $bloqueo->id_user =  $user->id;
         $bloqueo->bloqueo_comodin = $bloqueo_comodin;
+        $bloqueo->id_user =  $user->id;
         $bloqueo->save();
 
+<<<<<<< HEAD
         if ($summaDuracion_nivel >= 48){
             $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
             $user->nivel_id = $nivel_id;
             $user->save();
         }
+=======
+>>>>>>> 9ef1b2fd09e338ed762f6d1bfdc855ba254936ea
 
         return response()->json($bloqueo, 201);
     }
@@ -138,6 +140,72 @@ class BloqueoApiController extends Controller
             } else {
                 return null;
             }
+        }
+
+        
+    }
+    public function tiempoRestante($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
+        }
+
+        $sumaDuraciones = $user->bloqueo()->where('estado', 'activo')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
+
+        $horasRestantes = $sumaDuraciones >= 48 ? 0 : 48 - $sumaDuraciones;
+
+        return response()->json(['Horas que te faltan para ganar un comodin' => $horasRestantes], 200);
+    }
+
+
+    public function marcarDesbloqueado(Request $request)
+    {
+        $user = User::find($request->id_user);
+        $bloqueo = Bloqueo::where('estado', 'activo')->where('id_user', $user->id)->first();
+        
+        if ($bloqueo) {
+            $bloqueo->estado = 'desbloqueado';
+            $bloqueo->save();
+            return response()->json(['message' => 'Bloqueo marcado como desbloqueado'], 200);
+        } else {
+            return response()->json(['message' => 'No se encontró un bloqueo activo para el usuario'], 404);
+        }
+    }
+
+    public function getBloqueo ()
+    {
+        $user = Auth::user();
+        $bloqueo = Bloqueo::where('estado', 'activo')->where('id_user', $user->id)->first();
+        return response()->json($bloqueo, 200);
+    }
+
+    public function listarTopApps(){
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
+        }else{
+            $resultados= [];
+            $bloqueosUser = Bloqueo::where('id_user', $user->id)->get();
+            $contadorApps = $bloqueosUser->groupBy('id_app')->map->count();
+
+            $topContadores = $contadorApps->sortByDesc(function ($contador) {
+                return $contador;
+            });
+
+            $top4Contadores = $topContadores->take(3);
+    
+            foreach ($top4Contadores as $id_app => $contador){
+                $app = App::find($id_app);
+                $nombre = $app->nombre;
+                $datos = array();
+                $datos['nombre']=$app->nombre;
+                $datos['contador']=$contador;
+                $resultados[] = $datos;
+            }
+            return response()->json(["resultados" => $resultados], 200, [], JSON_NUMERIC_CHECK);
         }
     }
 
