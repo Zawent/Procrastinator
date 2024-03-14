@@ -1,27 +1,34 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../servicios/user.service';
+import { RolService } from '../../servicios/rol.service';
 import { Router } from '@angular/router';
 import { User } from '../../modelos/user.model';
+import { Rol } from '../../modelos/rol.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-index',
   standalone: true,
   imports: [CommonModule],
-  providers: [UserService],
+  providers: [UserService, RolService],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
 })
 export class IndexComponent {
+listaRol: Rol[] = [];
 listaUsuarios: User[] = [];
 clave: string | null = null;
 usuario: User | null = null;
+id: string | null;
 
-  constructor (private userService: UserService, private _router: Router){}
+  constructor (private userService: UserService, private rolService: RolService ,private _router: Router, private aRoute: ActivatedRoute){
+    this.id = this.aRoute.snapshot.paramMap.get('id')}
 
   ngOnInit(): void{
     this.validartoken();
     this.cargarUsuarios();
+    this.cargarRol();
     }
 
     ngOnchanges(): void{
@@ -40,6 +47,16 @@ usuario: User | null = null;
     this.userService.getUsuarios(this.clave).subscribe(
       data =>{
         this.listaUsuarios = data;
+      },
+      err => {
+        console.log(err);
+      });
+  }
+
+  cargarRol():void{
+    this.rolService.getRol(this.clave).subscribe(
+      data1 =>{
+        this.listaRol = data1;
       },
       err => {
         console.log(err);
