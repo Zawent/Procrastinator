@@ -11,16 +11,50 @@ use Carbon\Carbon;
 class AuthController extends Controller
 {
     /**
-     * Registro de usuario
+     * Registro de usuario y validaciones
      */
     public function signUp(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string'
+    {       
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'name' => 'required|string||regex:/^[a-zA-Z\s]+$/', //para que solo reciba letras con espacios incluidos
+            'email' => 'required|string|email|unique:users', //sea un correo valido con @
+            'password' => 'required|string|min:8',// sea una contraseña con minimo 8 caracteres
+            'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->subYears(12)->format('Y-m-d'),// la edad minima de creer cuenta es de 12 años
+            'ocupacion' => 'required|string||regex:/^[a-zA-Z\s]+$/'// recibe solo letras con espacios incluidos
+        ], [
+            'name.required' => 'El nombre es obligatorio.',
+            'name.regex' => 'El nombre debe ser válido',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El formato del correo electrónico no es válido.',
+            'email.unique' => 'Este correo electrónico ya está registrado.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos :min caracteres.',
+            'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+            'fecha_nacimiento.date' => 'La fecha de nacimiento debe ser una fecha válida.',
+            'fecha_nacimiento.before_or_equal' => 'Debes tener al menos 12 años para registrarte.',
+            'ocupacion.required' => 'La ocupación es obligatoria.',
+            'ocupacion.regex' => 'La ocupación debe ser válida'
+       
         ]);
-
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            if ($errors->has('name')) {
+                return response()->json(['error' => $errors->first('name')], 400);
+            }
+            if ($errors->has('email')) {
+                return response()->json(['error' => $errors->first('email')], 400);
+            }
+            if ($errors->has('password')) {
+                return response()->json(['error' => $errors->first('password')], 400);
+            }
+            if ($errors->has('fecha_nacimiento')) {
+                return response()->json(['error' => $errors->first('fecha_nacimiento')], 400);
+            }
+            if ($errors->has('ocupacion')) {
+                return response()->json(['error' => $errors->first('ocupacion')], 400);
+            }
+        }
+        
         $user=User::create([
             'name' => $request->name,
             'fecha_nacimiento' => $request->fecha_nacimiento,
@@ -28,7 +62,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'id_rol' => $request->id_rol
-        ]);
+        ]); 
 
         $tokenResult = $user->createToken('Personal Access Token');
 

@@ -66,6 +66,13 @@ class ComodinApiController extends Controller
             $comodin->estado ='usado';
             $comodin->save();
         }
+
+        $comodin = Comodin::find($id);
+
+        if($comodin && $comodin->estado === 'activo') {
+            $comodin->estado ='usado';
+            $comodin->save();
+        }
     }
     
     /**
@@ -95,5 +102,7 @@ class ComodinApiController extends Controller
         return response()->json($cantidadComodines, 200);
     }
 }
+
+
 
 
