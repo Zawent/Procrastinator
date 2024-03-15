@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Support\Facades\Auth;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -70,8 +71,9 @@ Route::get('/home', function () {
     return view('/home');
 })->middleware('auth', 'verified')->name('/home');
 
-Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
-
+Route::get('email/verify/{id}', function () {
+    return view('/home');
+})->middleware('auth', 'verified')->name('/home');
 
 
 

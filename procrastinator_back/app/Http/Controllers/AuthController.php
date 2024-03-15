@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use Illuminate\Mail\Mailable;
-use Illuminate\Foundation\Auth\VerifiesEmails;
+use App\Http\Controllers\API\EmailVerificationController;
 use App\Mail\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -93,10 +93,10 @@ class AuthController extends Controller
     {
 
         $user->sendEmailVerificationNotification();
-
+/*
     return response()->json([
         'message' => 'Verification email sent successfully'
-    ]);
+    ]);*/
     }
 
     /**
