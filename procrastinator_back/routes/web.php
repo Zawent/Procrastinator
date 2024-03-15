@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-
+use App\Http\Controllers\Auth\VerificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +45,12 @@ Route::get('/google-callback-url', function () {
 });
 
 
-Auth::routes();
+Auth::routes([
+    'verify'=> true
+]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', function () {
+    return view('/home');
+})->middleware('auth', 'verified')->name('/home');
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
