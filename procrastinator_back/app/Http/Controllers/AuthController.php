@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Mail\Mailable;
 use App\Http\Controllers\API\EmailVerificationController;
 use App\Mail\VerifyEmail;
+use App\Jobs\QueuedVerifyEmailJob;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -67,9 +68,16 @@ class AuthController extends Controller
             'email_verified_at' => null
         ]); 
 
+        $now = date_create('now')->format('Y-m-d H:i:s');
+        $timeIni = $now;
+
         $this->sendVerificationEmail($user);
+        //QueuedVerifyEmailJob::dispatch($user);
 
         $tokenResult = $user->createToken('Personal Access Token');
+
+        $now = date_create('now')->format('Y-m-d H:i:s');
+        $timeFin = $now;
 
         $token = $tokenResult->token;
         if ($request->remember_me)
@@ -80,7 +88,9 @@ class AuthController extends Controller
             'user' => $user,
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse($token->expires_at)->toDateTimeString()
+            'expires_at' => Carbon::parse($token->expires_at)->toDateTimeString(),
+            'Inicio' => Carbon::parse($timeIni)->toDateTimeString(),
+            'Fin' => Carbon::parse($timeFin)->toDateTimeString()
         ],200);
 
         /*return response()->json([
@@ -93,8 +103,8 @@ class AuthController extends Controller
     {
 
         $user->sendEmailVerificationNotification();
-/*
-    return response()->json([
+
+   /* return response()->json([
         'message' => 'Verification email sent successfully'
     ]);*/
     }
@@ -118,6 +128,13 @@ class AuthController extends Controller
             ], 401);
 
         $user = $request->user();
+
+        if (!$user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email not verified'
+            ], 401);
+        }
+
         $tokenResult = $user->createToken('Personal Access Token');
 
         $token = $tokenResult->token;

@@ -13,7 +13,7 @@ use App\Http\Controllers\API\RespuestaApiController;
 use App\Http\Controllers\API\RolApiController;
 use App\Http\Controllers\API\PreguntaApiController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\API\EmailVerificationController;
 use Illuminate\Support\Facades\Auth;
 
 
