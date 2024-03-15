@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
+use Illuminate\Mail\Mailable;
+use Illuminate\Foundation\Auth\VerifiesEmails;
+use App\Mail\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class AuthController extends Controller
+class AuthController extends Controller 
 {
+
     /**
      * Registro de usuario y validaciones
      */
@@ -57,8 +63,11 @@ class AuthController extends Controller
             'ocupacion' => $request->ocupacion,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'id_rol' => $request->id_rol
+            'id_rol' => $request->id_rol,
+            'email_verified_at' => null
         ]); 
+
+        $this->sendVerificationEmail($user);
 
         $tokenResult = $user->createToken('Personal Access Token');
 
@@ -77,8 +86,19 @@ class AuthController extends Controller
         /*return response()->json([
             'message' => 'Successfully created user!'
         ], 201);*/
+
     }
-  
+
+    protected function sendVerificationEmail(User $user)
+    {
+
+        $user->sendEmailVerificationNotification();
+
+    return response()->json([
+        'message' => 'Verification email sent successfully'
+    ]);
+    }
+
     /**
      * Inicio de sesión y creación de token
      */
