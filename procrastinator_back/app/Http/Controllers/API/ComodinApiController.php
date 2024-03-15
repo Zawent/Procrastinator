@@ -94,6 +94,9 @@ class ComodinApiController extends Controller
         $cantidadComodines = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         return response()->json($cantidadComodines, 200);
     }
-}
+
+   
+    }
+    
 
 
