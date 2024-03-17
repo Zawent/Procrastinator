@@ -46,6 +46,7 @@ Route::get('tener-bloqueo', [BloqueoApiController::class, 'getBloqueo'])->middle
 Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
 Route::patch('desactivado', [BloqueoApiController::class, 'marcarDesbloqueado']);
 Route::get('bloqueados/topApps',[BloqueoApiController::class, 'listarTopApps'])->middleware("auth:api");
+Route::get('ver-nivel/{id}', [UserApiController::class, 'verificarNivel']);
 
 Route::group([
     'prefix' => 'auth'

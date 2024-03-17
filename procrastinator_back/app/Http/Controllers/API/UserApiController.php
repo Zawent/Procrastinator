@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserApiController extends Controller
 {
@@ -90,4 +91,17 @@ class UserApiController extends Controller
         $user->delete();
         return response()->json(null, 204);
     }
+
+    public function verificarNivel($id){
+        $user = User::find($id);
+        $nivel_id = $user->nivel_id;
+
+        if ($nivel_id == null){
+            $nivel_id = 0;
+            return response()->json($nivel_id, 200);
+        }else{
+            return $nivel_id;
+        }
+
+}
 }
