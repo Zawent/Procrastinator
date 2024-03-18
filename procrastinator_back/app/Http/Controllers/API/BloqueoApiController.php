@@ -40,6 +40,7 @@ class BloqueoApiController extends Controller
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
 
+
         $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
             $bloqueo_comodin = 'no';
@@ -73,7 +74,6 @@ class BloqueoApiController extends Controller
             $user->save();
         }
 
-
         return response()->json($bloqueo, 201);
     }
 
@@ -89,6 +89,7 @@ class BloqueoApiController extends Controller
             return $nivel_id;
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -139,6 +140,22 @@ class BloqueoApiController extends Controller
                 return null;
             }
         }
+
+        
+    }
+    public function tiempoRestante($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
+        }
+
+        $sumaDuraciones = $user->bloqueo()->where('estado', 'activo')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
+
+        $horasRestantes = $sumaDuraciones >= 48 ? 0 : 48 - $sumaDuraciones;
+
+        return response()->json(['Horas que te faltan para ganar un comodin' => $horasRestantes], 200);
     }
 
 
@@ -182,9 +199,12 @@ class BloqueoApiController extends Controller
             foreach ($top4Contadores as $id_app => $contador){
                 $app = App::find($id_app);
                 $nombre = $app->nombre;
-                $resultados[] = [$app->nombre, $contador];
+                $datos = array();
+                $datos['nombre']=$app->nombre;
+                $datos['contador']=$contador;
+                $resultados[] = $datos;
             }
-        return response()->json([$resultados], 200);
+            return response()->json(["resultados" => $resultados], 200, [], JSON_NUMERIC_CHECK);
         }
     }
 }

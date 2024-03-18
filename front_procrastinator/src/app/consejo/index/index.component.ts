@@ -7,6 +7,7 @@ import { User } from '../../modelos/user.model';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-index',
@@ -49,6 +50,26 @@ usuario: User | null = null;
         console.log(err);
       });
   }
+  mensajeSiono = () => {
+    Swal.fire({
+      title: "¿Estás seguro de eliminar el usuario?",
+      text: "¡No podrás revertir este cambio!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Borrado",
+          text: "El usuario ha sido borrado",
+          icon: "success"
+        });
+      }
+    });
+  }
+
   
   eliminarConsejo(id:any): void{
     console.log(id);

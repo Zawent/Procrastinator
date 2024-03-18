@@ -44,9 +44,10 @@ Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
 Route::patch('/desactivar-bloqueo/{id}', [BloqueoApiController::class, 'update']);
 Route::get('tener-bloqueo', [BloqueoApiController::class, 'getBloqueo'])->middleware("auth:api");
 Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
+Route::get('bloqueoTiempo-restante/{id}', [BloqueoApiController::class, 'tiempoRestante']);
+
 Route::patch('desactivado', [BloqueoApiController::class, 'marcarDesbloqueado']);
-Route::get('bloqueados/topApps',[BloqueoApiController::class, 'listarTopApps'])->middleware("auth:api");
-Route::get('ver-nivel/{id}', [UserApiController::class, 'verificarNivel']);
+Route::get('bloqueados/top',[BloqueoApiController::class, 'listarTopApps'])->middleware("auth:api");
 
 Route::group([
     'prefix' => 'auth'
@@ -62,7 +63,6 @@ Route::group([
         Route::apiResource('user', UserApiController::class);
     });
 });
-
 
 Auth::routes([
     'verify'=> true
