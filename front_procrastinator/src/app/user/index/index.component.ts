@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { User } from '../../modelos/user.model';
 import { Rol } from '../../modelos/rol.model';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-index',
@@ -61,6 +62,27 @@ id: string | null;
       err => {
         console.log(err);
       });
+  }
+
+  mensajeSiono(text: string, deleteText: string, id: any, confirmButtonText?: string, timer?: number) {
+    Swal.fire({
+      title: "¿Estás seguro de eliminar el usuario?",
+      text: "¡No podrás revertir este cambio!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Borrado",
+          text: "El usuario ha sido borrado",
+          icon: "success"
+        });
+          this.eliminarUser(id);
+      }
+    });
   }
   
   eliminarUser(id:any): void{

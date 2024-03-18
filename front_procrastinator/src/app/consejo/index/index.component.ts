@@ -7,6 +7,7 @@ import { User } from '../../modelos/user.model';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -22,7 +23,11 @@ listaConsejos: Consejo[] = [];
 clave: string | null = null;
 usuario: User | null = null;
 
-  constructor (private consejoService: ConsejoService, private _router: Router){}
+id: string | null;
+
+  constructor (private consejoService: ConsejoService, private _router: Router, private aRoute: ActivatedRoute){
+    this.id = this.aRoute.snapshot.paramMap.get('id');
+  }
   
   ngOnInit(): void{
     this.validartoken();
@@ -50,9 +55,9 @@ usuario: User | null = null;
         console.log(err);
       });
   }
-  mensajeSiono = () => {
+  mensajeSiono(text: string, deleteText: string, id: any, confirmButtonText?: string, timer?: number) {
     Swal.fire({
-      title: "¿Estás seguro de eliminar el usuario?",
+      title: "¿Estás seguro de eliminar el consejo?",
       text: "¡No podrás revertir este cambio!",
       icon: "warning",
       showCancelButton: true,
@@ -63,9 +68,10 @@ usuario: User | null = null;
       if (result.isConfirmed) {
         Swal.fire({
           title: "Borrado",
-          text: "El usuario ha sido borrado",
+          text: "El consejo ha sido borrado",
           icon: "success"
         });
+          this.eliminarConsejo(id);
       }
     });
   }

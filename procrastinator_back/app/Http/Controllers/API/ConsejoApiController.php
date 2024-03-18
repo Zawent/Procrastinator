@@ -91,7 +91,18 @@ class ConsejoApiController extends Controller
     public function destroy($id)
     {
         $consejos = Consejo::find($id);
+        $suma = Consejo::where('id_nivel', $consejos->id_nivel)->count();
+    
+        if ($suma == 1) {
+            return response()->json(['message' => 'No se puede eliminar todos los consejos con el mismo nivel'], 400);
+        }
         $consejos->delete();
         return response()->json($consejos,200);
     }
+
+    public function contarConsejo($id_nivel){
+        $suma = Consejo::where('id_nivel', $id_nivel)->count();
+        return response()->json($suma);
+    }
+
 }
