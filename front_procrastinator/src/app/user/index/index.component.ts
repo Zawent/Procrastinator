@@ -84,6 +84,14 @@ id: string | null;
       }
     });
   }
+
+  mensajeError(){
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No puedes eliminar el usuario administrador",
+    });
+  }
   
   eliminarUser(id:any): void{
     console.log(id);
@@ -96,6 +104,7 @@ id: string | null;
         console.log(err);
         });
     }else{
+      this.mensajeError();
       console.log("no puede eliminar el usuario administrador")
     }
     

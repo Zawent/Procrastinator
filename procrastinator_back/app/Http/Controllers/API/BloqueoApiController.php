@@ -35,7 +35,7 @@ class BloqueoApiController extends Controller
 
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
-        $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'activo')->count();//acuerdese de pasar el estado inactivo para probar
+        $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'desbloqueado')->count();
         $summaDuracion_nivel = $user->bloqueo()->sum(\DB::raw('TIME_TO_SEC(duracion)'))/3600;
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
