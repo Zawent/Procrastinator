@@ -7,6 +7,8 @@ import { User } from '../../modelos/user.model';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-index',
@@ -21,7 +23,11 @@ listaConsejos: Consejo[] = [];
 clave: string | null = null;
 usuario: User | null = null;
 
-  constructor (private consejoService: ConsejoService, private _router: Router){}
+id: string | null;
+
+  constructor (private consejoService: ConsejoService, private _router: Router, private aRoute: ActivatedRoute){
+    this.id = this.aRoute.snapshot.paramMap.get('id');
+  }
   
   ngOnInit(): void{
     this.validartoken();
@@ -49,6 +55,27 @@ usuario: User | null = null;
         console.log(err);
       });
   }
+  mensajeSiono(text: string, deleteText: string, id: any, confirmButtonText?: string, timer?: number) {
+    Swal.fire({
+      title: "¿Estás seguro de eliminar el consejo?",
+      text: "¡No podrás revertir este cambio!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Borrado",
+          text: "El consejo ha sido borrado",
+          icon: "success"
+        });
+          this.eliminarConsejo(id);
+      }
+    });
+  }
+
   
   eliminarConsejo(id:any): void{
     console.log(id);

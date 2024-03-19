@@ -13,7 +13,9 @@ use App\Http\Controllers\API\RespuestaApiController;
 use App\Http\Controllers\API\RolApiController;
 use App\Http\Controllers\API\PreguntaApiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\API\EmailVerificationController;
 use Illuminate\Support\Facades\Auth;
+
 
 
 /*
@@ -62,7 +64,17 @@ Route::group([
     });
 });
 
+Auth::routes([
+    'verify'=> true
+]);
 
+Route::get('/home', function () {
+    return view('/home');
+})->middleware('auth', 'verified')->name('/home');
+
+Route::get('email/verify/{id}', function () {
+    return view('/home');
+})->middleware('auth', 'verified')->name('/home');
 
 
 

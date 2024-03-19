@@ -33,6 +33,14 @@ class BloqueoApiController extends Controller
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
 
+        //--------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------------
+        $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'activo')->count();//acuerdese de pasar el estado inactivo para probar
+        $summaDuracion_nivel = $user->bloqueo()->sum(\DB::raw('TIME_TO_SEC(duracion)'))/3600;
+        //--------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------------
+
+
         $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
             $bloqueo_comodin = 'no';
@@ -60,9 +68,28 @@ class BloqueoApiController extends Controller
         $bloqueo->id_user =  $user->id;
         $bloqueo->save();
 
+        if ($summaDuracion_nivel >= 48){
+            $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
+            $user->nivel_id = $nivel_id;
+            $user->save();
+        }
 
         return response()->json($bloqueo, 201);
     }
+
+    public function subirNivel($sumaBloqueos, $nivel_id){
+
+        if ($sumaBloqueos>=40 && $nivel_id == 4){
+            return 3;
+        }elseif ($sumaBloqueos>=80 && $nivel_id == 3) {
+            return 2;
+        }elseif ($sumaBloqueos>=120 && $nivel_id == 2){
+            return 1;
+        } else {
+            return $nivel_id;
+        }
+    }
+
 
     /**
      * Display the specified resource.

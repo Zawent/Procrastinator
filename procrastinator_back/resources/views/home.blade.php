@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('Verificación del correo electronico exitosa, ya puede cerrar esta pestaña e ingrese de nuevo a la aplicacion') }}
                 </div>
             </div>
         </div>

@@ -11,8 +11,10 @@
 -->
 
 
-<div class="log">
-<form [formGroup]="loginForm" (ngSubmit)="login()">
+<div class="formulario">
+<mat-card  class="consejotarjeta">
+<mat-card-content>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
     <h2>Email</h2>
       <mat-form-field class="email">
         <mat-label  class="email">Ingrese su correo</mat-label>
@@ -27,7 +29,8 @@
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
 </mat-form-field> <br>
-<button mat-raised-button color="primary">Login</button>
-
+<button mat-raised-button color="primary">Ingresar</button>
 </form>
+</mat-card-content>
+</mat-card>
 </div>

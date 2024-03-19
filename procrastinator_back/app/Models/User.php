@@ -10,7 +10,7 @@ use Laravel\Passport\HasApiTokens;
 use App\Models\Bloqueo;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 

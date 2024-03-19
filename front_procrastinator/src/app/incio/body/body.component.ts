@@ -4,6 +4,7 @@ import { LoginService } from '../../servicios/login.service';
 import { Login } from '../../modelos/login.model';
 import { GlobalComponent } from '../../global/global.component';
 import { User } from '../../modelos/user.model';
+import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 //imports de angular material 
@@ -16,7 +17,7 @@ import {MatButtonModule} from '@angular/material/button';
 @Component({
   selector: 'app-body',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule],
   providers: [LoginService],
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss'
@@ -36,7 +37,12 @@ export class BodyComponent {
     private loginService: LoginService,
     private router: Router) { }
 
-  ngOnInit():void {}
+  ngOnInit():void {
+    this.clave = localStorage.getItem('clave');
+    if (this.clave) {
+      this.router.navigate(['/home/']);
+    }
+  }
 
   ngOnChanges(): void {
     this.clave = localStorage.getItem('clave');
@@ -55,10 +61,15 @@ export class BodyComponent {
           //console.log(this.respuesta?.user);
           //this.router.navigate(['ficha/index']);
           if (this.respuesta != null) {
+            if (this.respuesta.user.id_rol != 2){
             GlobalComponent.respuesta = this.respuesta;
             localStorage.setItem("clave",this.respuesta.access_token);
-            this.router.navigate(['/home/']);
+            //this.router.navigate(['/home/']);
+            window.location.reload();
+          } else {
+            console.log('No estas autorizado');
           }
+        }
         },
         err => {
           console.log(err);

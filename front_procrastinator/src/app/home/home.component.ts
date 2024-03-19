@@ -32,7 +32,7 @@ export class HomeComponent {
       if(this.clave==null){
         this.clave=localStorage.getItem("clave");
       }if(!this.clave){
-        this._router.navigate(['']);
+        this._router.navigate(['inicio/body']);
       }
     }
 }
