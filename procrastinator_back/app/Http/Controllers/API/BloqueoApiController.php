@@ -58,7 +58,6 @@ class BloqueoApiController extends Controller
             $bloqueo_comodin = $sumaDuraciones >= 48 ? 'no' : 'si';
         }
 
-
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
@@ -67,7 +66,6 @@ class BloqueoApiController extends Controller
         $bloqueo->bloqueo_comodin = $bloqueo_comodin;
         $bloqueo->id_user =  $user->id;
         $bloqueo->save();
-
         if ($summaDuracion_nivel >= 48){
             $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
             $user->nivel_id = $nivel_id;
@@ -143,21 +141,34 @@ class BloqueoApiController extends Controller
 
         
     }
-    public function tiempoRestante($id)
-    {
-        $user = User::find($id);
 
-        if (!$user) {
-            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
-        }
+    public function tiempoRestante()
+{
+    
+    $user = Auth::user();
 
-        $sumaDuraciones = $user->bloqueo()->where('estado', 'activo')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
+    if (!$user) {
+        return response()->json(['mensaje' => 'El usuario no está autenticado'], 401);
+    }
+    $sumaDuraciones = $user->bloqueo()
+        ->where('estado', 'activo')
+        ->where('bloqueo_comodin', 'si')
+        ->selectRaw("SUM(TIME_TO_SEC(duracion) / 3600) as suma_horas")
+        ->first()
+        ->suma_horas;
+    if ($sumaDuraciones >= 48) {
 
-        $horasRestantes = $sumaDuraciones >= 48 ? 0 : 48 - $sumaDuraciones;
-
-        return response()->json(['Horas que te faltan para ganar un comodin' => $horasRestantes], 200);
+        $horasRestantes = 0;
+    } else {
+        
+        $horasRestantes = 48 - $sumaDuraciones;
     }
 
+    return response()->json($horasRestantes, 200);
+}
+
+    
+    
 
     public function marcarDesbloqueado(Request $request)
     {
