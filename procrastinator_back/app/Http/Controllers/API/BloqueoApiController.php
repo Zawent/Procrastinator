@@ -116,26 +116,31 @@ class BloqueoApiController extends Controller
 
     public function tiempoRestante()
 {
-    // Obtener el usuario autenticado
+    
     $user = Auth::user();
 
-    // Verificar si el usuario existe
     if (!$user) {
         return response()->json(['mensaje' => 'El usuario no está autenticado'], 401);
     }
-
-    // Obtener la suma de las duraciones de los bloqueos activos del usuario en horas
     $sumaDuraciones = $user->bloqueo()
-    ->where('estado', 'activo')
-    ->selectRaw("SUM(TIME_TO_SEC(duracion) / 3600) as suma_horas")
-    ->first()
-    ->suma_horas;
-    // Calcular las horas restantes para ganar un comodín
-    $horasRestantes = $sumaDuraciones >= 48 ? 0 : 48 - $sumaDuraciones;
+        ->where('estado', 'activo')
+        ->where('bloqueo_comodin', 'si')
+        ->selectRaw("SUM(TIME_TO_SEC(duracion) / 3600) as suma_horas")
+        ->first()
+        ->suma_horas;
+    if ($sumaDuraciones >= 48) {
 
-    // Devolver la respuesta con las horas restantes
+        $horasRestantes = 0;
+    } else {
+        
+        $horasRestantes = 48 - $sumaDuraciones;
+    }
+
     return response()->json($horasRestantes, 200);
 }
+
+    
+    
 
     public function marcarDesbloqueado(Request $request)
     {
