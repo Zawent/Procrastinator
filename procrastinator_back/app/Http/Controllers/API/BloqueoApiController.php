@@ -35,7 +35,7 @@ class BloqueoApiController extends Controller
 
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
-        $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'desbloqueado')->count();
+        $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'bloqueado')->count();//acuerdese de pasar el estado inactivo para probar
         $summaDuracion_nivel = $user->bloqueo()->sum(\DB::raw('TIME_TO_SEC(duracion)'))/3600;
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
@@ -58,6 +58,7 @@ class BloqueoApiController extends Controller
             $bloqueo_comodin = $sumaDuraciones >= 48 ? 'no' : 'si';
         }
 
+
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
@@ -66,6 +67,7 @@ class BloqueoApiController extends Controller
         $bloqueo->bloqueo_comodin = $bloqueo_comodin;
         $bloqueo->id_user =  $user->id;
         $bloqueo->save();
+
         if ($summaDuracion_nivel >= 48){
             $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
             $user->nivel_id = $nivel_id;
@@ -140,7 +142,6 @@ class BloqueoApiController extends Controller
         }
 
         
-
     }
 
     public function marcarDesbloqueado(Request $request)
