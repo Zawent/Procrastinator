@@ -76,6 +76,13 @@ id: string | null;
     });
   }
 
+  mensajeError(){
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No puedes eliminar todos los consejos del mismo nivel",
+    });
+  }
   
   eliminarConsejo(id:any): void{
     console.log(id);
@@ -84,6 +91,7 @@ id: string | null;
         this.cargarConsejos();
     },
     err => {
+      this.mensajeError();  
       console.log(err);
       });
     }

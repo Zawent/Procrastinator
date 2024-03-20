@@ -35,7 +35,7 @@ class BloqueoApiController extends Controller
 
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
-        $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'activo')->count();//acuerdese de pasar el estado inactivo para probar
+        $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'bloqueado')->count();//acuerdese de pasar el estado inactivo para probar
         $summaDuracion_nivel = $user->bloqueo()->sum(\DB::raw('TIME_TO_SEC(duracion)'))/3600;
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
@@ -143,21 +143,6 @@ class BloqueoApiController extends Controller
 
         
     }
-    public function tiempoRestante($id)
-    {
-        $user = User::find($id);
-
-        if (!$user) {
-            return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
-        }
-
-        $sumaDuraciones = $user->bloqueo()->where('estado', 'activo')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
-
-        $horasRestantes = $sumaDuraciones >= 48 ? 0 : 48 - $sumaDuraciones;
-
-        return response()->json(['Horas que te faltan para ganar un comodin' => $horasRestantes], 200);
-    }
-
 
     public function marcarDesbloqueado(Request $request)
     {

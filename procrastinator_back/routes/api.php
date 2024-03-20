@@ -79,11 +79,3 @@ Route::get('email/verify/{id}', function () {
 
 
 
-
-
-
-
-
-
-
-
