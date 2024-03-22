@@ -9,7 +9,7 @@ import { Pregunta } from '../modelos/pregunta.model';
 })
 export class PreguntaService {
 
-  url = 'http://localhost:8000/api/pregunta/';
+  url = 'https://procras.api.adsocidm.com/api/pregunta';
 
   constructor(private http: HttpClient) {}
 
@@ -27,12 +27,12 @@ export class PreguntaService {
 
   getPregunta(id: string, access_token:any): Observable<any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.get(this.url+id, options);
+    return this.http.get(this.url+"/"+id, options);
   }
 
   updatePregunta(id: string, pregunta: Pregunta, access_token:any): Observable <any>{
     const options= { headers: this.CreacionHeaders(access_token) };
     console.log(pregunta);
-    return this.http.put(this.url+id, pregunta, options);
+    return this.http.put(this.url+"/"+id, pregunta, options);
   }
 }

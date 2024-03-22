@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class ConsejoService {
 
-  url = 'http://localhost:8000/api/consejo/';
+  url = 'https://procras.api.adsocidm.com/api/consejo';
 
   constructor(private http: HttpClient) { }
 
@@ -33,16 +33,16 @@ export class ConsejoService {
 
   getConsejo(id: string, access_token:any): Observable<any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.get(this.url+id, options);
+    return this.http.get(this.url+"/"+id, options);
   }
 
   updateConsejo(id: string, consejo: Consejo, access_token:any): Observable <any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.put(this.url+id, consejo, options);
+    return this.http.put(this.url+"/"+id, consejo, options);
   }
 
   deleteConsejo(id: string, access_token:any): Observable <any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.delete(this.url+id, options);
+    return this.http.delete(this.url+"/"+id, options);
   }
 }

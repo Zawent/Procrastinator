@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class UserService {
 
-  url = 'http://localhost:8000/api/auth/user/';
+  url = 'https://procras.api.adsocidm.com/api/auth/user';
 
   constructor(private http: HttpClient) {}
 
@@ -27,11 +27,11 @@ export class UserService {
 
   getUsuario(id: string, access_token:any): Observable<any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.get(this.url+id, options);
+    return this.http.get(this.url+"/"+id, options);
   }
 
   deleteUsuario(id: string,  access_token:any): Observable <any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.delete(this.url+id, options);
+    return this.http.delete(this.url+"/"+id, options);
   }
 }

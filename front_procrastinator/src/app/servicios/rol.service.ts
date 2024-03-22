@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 })
 export class RolService {
 
-  url = 'http://localhost:8000/api/app/';
+  url = 'https://procras.api.adsocidm.com/api/rol';
 
   constructor(private http: HttpClient) { }
 
