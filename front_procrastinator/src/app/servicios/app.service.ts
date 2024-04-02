@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class AppService {
   
-  url = 'http://localhost:8000/api/app/';
+  url = 'https://procras.api.adsocidm.com/api/app';
 
   constructor(private http: HttpClient) { }
 

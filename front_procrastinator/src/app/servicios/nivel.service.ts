@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 })
 export class NivelService {
 
-  url = 'http://localhost:8000/api/nivel/';
+  url = 'https://procras.api.adsocidm.com/api/nivel';
 
   constructor(private http: HttpClient) { }
 
@@ -32,17 +32,17 @@ export class NivelService {
 
   getNivel(id: string, access_token:any): Observable<any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.get(this.url+id, options);
+    return this.http.get(this.url+"/"+id, options);
   }
 
   updateNivel(id: string, nivel: Nivel, access_token:any): Observable <any>{
     const options= { headers: this.CreacionHeaders(access_token) };
     console.log(nivel);
-    return this.http.put(this.url+id, nivel, options);
+    return this.http.put(this.url+"/"+id, nivel, options);
   }
 
   deleteNivel(id: string, access_token:any): Observable <any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.delete(this.url+id, options);
+    return this.http.delete(this.url+"/"+id, options);
   }
 }

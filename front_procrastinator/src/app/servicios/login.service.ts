@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-    url = 'http://localhost:8000/api/auth/';
+    url = 'https://procras.api.adsocidm.com/api/auth/';
 
   constructor(private http:HttpClient) { }
 
