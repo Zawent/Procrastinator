@@ -44,7 +44,7 @@ Route::get('consejos/{id}',[ConsejoApiController::class, 'consejosPorId']);
 Route::patch('/desactivar-bloqueo/{id}', [BloqueoApiController::class, 'update']);
 Route::get('tener-bloqueo', [BloqueoApiController::class, 'getBloqueo'])->middleware("auth:api");
 Route::post('apps/{id_user}',[AppApiController::class, 'listarPorUser']);
-Route::get('app/{id_user}',[AppApiController::class, 'show'])->middleware("auth:api");
+Route::get('app/user/{id_user}',[AppApiController::class, 'show'])->middleware("auth:api");
 
 Route::get('bloqueoTiempo-restante/{id}', [BloqueoApiController::class, 'tiempoRestante']);
 

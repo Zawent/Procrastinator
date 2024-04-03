@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class AppService {
   
-  url = 'https://procras.api.adsocidm.com/api/app';
+  url = 'https://procras.api.adsocidm.com/api/app/user';
 
   constructor(private http: HttpClient) { }
 
