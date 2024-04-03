@@ -48,13 +48,13 @@ class ConsejoApiController extends Controller
     public function show($id)
     {
         $consejos = Consejo::find($id); // sirve para que segun el id_nivel salga el consejo de ese nivel
-        return response()->json($consejos,200);
+        return response()->json($consejos,200,[],JSON_NUMERIC_CHECK);
     }
     
     public function consejosPorId($id_nivel)
     {
         $consejos = Consejo::where('id_nivel', $id_nivel)->get(); // sirve para que segun el id_nivel salga el consejo de ese nivel
-        return response()->json($consejos,200);
+        return response()->json($consejos,200,[],JSON_NUMERIC_CHECK);
     }
 
 
@@ -62,7 +62,7 @@ class ConsejoApiController extends Controller
     {
         $consejos = Consejo::where('id_nivel', $id_nivel)->inRandomOrder()->get(); // sirve para que segun el id_nivel salga el consejo de ese nivel
         $consejoAleatorio = $consejos->random();
-        return response()->json($consejoAleatorio,200);
+        return response()->json($consejoAleatorio,200,[],JSON_NUMERIC_CHECK);
     }
 
     /**
@@ -79,7 +79,7 @@ class ConsejoApiController extends Controller
         $consejo->consejo = $request->consejo;
         $consejo->update();
         
-        return response()->json($consejo,200);
+        return response()->json($consejo,200,[],JSON_NUMERIC_CHECK);
     }
 
     /**

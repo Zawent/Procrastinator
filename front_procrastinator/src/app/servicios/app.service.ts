@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class AppService {
   
-  url = 'https://procras.api.adsocidm.com/api/app';
+  url = 'https://procras.api.adsocidm.com/api/app/user';
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +22,7 @@ export class AppService {
 
   getApp(id_user: string, access_token:any): Observable<any>{
     const options= { headers: this.CreacionHeaders(access_token) };
-    return this.http.get(this.url+id_user, options);
+    return this.http.get(this.url+"/"+id_user, options);
   }
 
 }
