@@ -79,7 +79,7 @@ class ConsejoApiController extends Controller
         $consejo->consejo = $request->consejo;
         $consejo->update();
         
-        return response()->json($consejo,200);
+        return response()->json($consejo,200,[],JSON_NUMERIC_CHECK);
     }
 
     /**
