@@ -88,6 +88,7 @@ class ComodinApiController extends Controller
         return response()->json($comodines, 200);
     }
     
+    //saber la cantidad de comodines
     public function cantidadComodines()
     {
         $user = Auth::user();
