@@ -24,22 +24,19 @@ export class MenuComponent {
     this.getClave();
   }
 
+  //para verificar si esta logueado y salga el boton de cerrar sesion
   getClave(): void{
-    //if(this.clave==localStorage.getItem('clave')!=null){
       this.clave=localStorage.getItem('clave');
-      //console.log(this.clave);
       if (this.clave!=null) {
         this.logueando=true;
         this.flag=true;
-        //console.log("paso");
       }
-    //}
   }
 
+  //para poder cerrar sesion
   logout():void{
     localStorage.clear();
     location.reload();
-    //this.router.navigate(['']);
     this.logueando = false
     this.flag=true;
     window.location.reload();

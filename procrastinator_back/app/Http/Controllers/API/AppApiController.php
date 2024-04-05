@@ -26,6 +26,7 @@ class AppApiController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     //para listar por usuario las aplicaciones
      public function listarPorUser($id_user)
     {
         $app = App::where('id_user', $id_user)->get();
@@ -35,6 +36,9 @@ class AppApiController extends Controller
         ]);
     }
 
+
+
+// 
     public function store(Request $request)
     {
 

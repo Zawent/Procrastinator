@@ -52,19 +52,15 @@ export class BodyComponent {
   }
     
   login(): void {
-    //console.log(this.loginForm.get('username')?.value);
-    //console.log(this.loginForm.get('password')?.value);
+    //para poderse loguear
     this.loginService.login(this.loginForm.get('username')?.value,
       this.loginForm.get('password')?.value).subscribe(
         rs => {
           this.respuesta = rs;
-          //console.log(this.respuesta?.user);
-          //this.router.navigate(['ficha/index']);
           if (this.respuesta != null) {
             if (this.respuesta.user.id_rol != 2){
             GlobalComponent.respuesta = this.respuesta;
             localStorage.setItem("clave",this.respuesta.access_token);
-            //this.router.navigate(['/home/']);
             window.location.reload();
           } else {
             console.log('No estas autorizado');

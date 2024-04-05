@@ -26,10 +26,10 @@ import { User } from '../../modelos/user.model';
   styleUrl: './create.component.scss'
 })
 export class CreateComponent {
-  listaniveles: Nivel[] = [];
+  listaniveles: Nivel[] = []; //para poder listar los niveles
   clave: string | null = null;
   usuario: User | null = null;
-  consejoform = this.fb.group({
+  consejoform = this.fb.group({//formulario para los datos del consejo
     id_nivel: null,
     consejo: '',
   })
@@ -40,12 +40,14 @@ export class CreateComponent {
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
 
+    // Método que se ejecuta al iniciar el componente
   ngOnInit(): void {
     this.validartoken();
     this.verEditar();
     this.verNiveles();
   }
 
+  //para validar el token de autenticación del usuario
   validartoken(): void {
     if(this.clave==null){
       this.clave=localStorage.getItem("clave");
@@ -54,6 +56,7 @@ export class CreateComponent {
     }
   }
 
+  //para poder mostrar los niveles en una lista escogible
   verNiveles():void{
     this.nivelservicio.getNiveles(this.clave).subscribe(
       data => {
@@ -64,6 +67,7 @@ export class CreateComponent {
       });
   }
 
+  //donde al momento de actualizar un consejo y aparezca los datos que esten para editar
   verEditar(): void {
     if (this.id != null) {
       this.consejoservicio.getConsejo(this.id, this.clave).subscribe(
@@ -80,11 +84,13 @@ export class CreateComponent {
     }
   }
 
+  // para poder crear o actualizar un consejo
   agregarConsejo(): void {
     const consejo: Consejo = {
       id_nivel: this.consejoform.get('id_nivel')?.value!,
       consejo: this.consejoform.get('consejo')?.value,
     }
+    //aqui es donde el id es diferente a null actualice el consejo y se guarde esos cambios
     if (this.id != null) {
       this.consejoservicio.updateConsejo(this.id, consejo, this.clave).subscribe(
         data =>{
@@ -96,6 +102,7 @@ export class CreateComponent {
         }
       )
     } else {
+      //aqui es para crear un consejo nuevo porque el id es null
       this.consejoservicio.addConsejo(consejo, this.clave).subscribe(
         data => {
         console.log(data);

@@ -19,7 +19,7 @@ export class HomeComponent {
   clave: string | null = null;
   usuario: User | null = null;
 
-  
+  // Método que se ejecuta al iniciar el componente
   ngOnInit(): void{
     this.validartoken();
     }
@@ -28,6 +28,7 @@ export class HomeComponent {
       console.log("paso changes");
     }
 
+    //para validar el token de autenticación del usuario
     validartoken(): void {
       if(this.clave==null){
         this.clave=localStorage.getItem("clave");

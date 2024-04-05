@@ -48,6 +48,7 @@ export class CreateComponent {
     }
   }
 
+  //donde al momento de actualizar un nivel y aparezca los datos que esten para editar
   verEditar(): void {
     if (this.id != null) {
       this.nivelservicio.getNivel(this.id, this.clave).subscribe(
@@ -63,6 +64,7 @@ export class CreateComponent {
     }
   }
 
+  //se podra crear y actualizar nivel, aunque la funcion de crear nivel esta desabilitada recordar no habilitarla
   agregarNivel(): void {
     const nivel: Nivel = {
       descripcion: this.nivelform.get('descripcion')?.value,

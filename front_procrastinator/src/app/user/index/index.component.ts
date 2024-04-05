@@ -29,7 +29,6 @@ id: string | null;
   ngOnInit(): void{
     this.validartoken();
     this.cargarUsuarios();
-    this.cargarRol();
     }
 
     ngOnchanges(): void{
@@ -44,6 +43,7 @@ id: string | null;
       }
     }
 
+    //para listar los usuarios 
   cargarUsuarios():void{
     this.userService.getUsuarios(this.clave).subscribe(
       data =>{
@@ -54,16 +54,7 @@ id: string | null;
       });
   }
 
-  cargarRol():void{
-    this.rolService.getRol(this.clave).subscribe(
-      data1 =>{
-        this.listaRol = data1;
-      },
-      err => {
-        console.log(err);
-      });
-  }
-
+  //mensaje para estar seguro de eliminar el usuario
   mensajeSiono(text: string, deleteText: string, id: any, confirmButtonText?: string, timer?: number) {
     Swal.fire({
       title: "¿Estás seguro de eliminar el usuario?",
@@ -93,6 +84,7 @@ id: string | null;
     });
   }
   
+  // para eliminar usuario pero siempre y cuando el id de ese usuario no sea 2
   eliminarUser(id:any): void{
     console.log(id);
     if (id >= 2){
@@ -110,6 +102,7 @@ id: string | null;
     
     }
 
+    //para mandar a la otra pestaña y ver las aplicaciones de los usuarios
     verApps(id:any): void{
       this._router.navigateByUrl("/app/index/"+id);
   }

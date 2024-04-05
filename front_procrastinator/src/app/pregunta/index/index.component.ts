@@ -37,6 +37,7 @@ export class IndexComponent {
         }
       }
   
+      //lista para mostrar las preguntas
       cargarPreguntas():void{
       this.preguntaservicio.getPreguntas(this.clave).subscribe(
         data =>{
@@ -47,6 +48,7 @@ export class IndexComponent {
         });
     }
 
+    //para editar las preguntas
     editarPregunta(id:any): void{
       console.log(id);
       this._router.navigateByUrl("/pregunta/editar/"+id);
