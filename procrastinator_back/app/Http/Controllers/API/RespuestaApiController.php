@@ -23,7 +23,7 @@ class RespuestaApiController extends Controller
     public function store(Request $request)
     {
     $respuestas_usuario = Respuesta::where('id_user', $request->id_user)->count();//hacer contador para un usuario
-
+    //crear una respuesta con los datos proporc
     $respuesta = new Respuesta();
     $respuesta->id_user = $request->id_user;
     $respuesta->respuesta = $request->respuesta;

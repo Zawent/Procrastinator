@@ -18,6 +18,8 @@ class BloqueoApiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     //muestra todos los registros de bloqueo
     public function index()
     {
         $bloqueo = Bloqueo::all();
@@ -27,12 +29,14 @@ class BloqueoApiController extends Controller
 
     public function store(Request $request)
     { 
+        //verifica que el usuario esta autenticado
         $user = Auth::user();
 
         if (!$user) {
             return response()->json(['mensaje' => 'El usuario especificado no existe'], 404);
         }
 
+        //calcula la suma de bloqueos y duracion 
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
         $sumaBloqueos = Bloqueo::where('id_user', $user->id)->where('estado', 'bloqueado')->count();//acuerdese de pasar el estado inactivo para probar
@@ -40,13 +44,13 @@ class BloqueoApiController extends Controller
         //--------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------
 
-
+        //verifica si hay 3 comodines activos
         $numComodinesActivos = Comodin::where('id_user', $user->id)->where('estado', 'activo')->count();
         if ($numComodinesActivos >= 3) {
             $bloqueo_comodin = 'no';
         } else {
             $sumaDuraciones = $user->bloqueo()->where('bloqueo_comodin', 'si')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
-            
+            //crea un comodin
             if ($sumaDuraciones >= 48) {
                 $comodin = new Comodin();
                 $comodin->id_user = $user->id;
@@ -58,7 +62,7 @@ class BloqueoApiController extends Controller
             $bloqueo_comodin = $sumaDuraciones >= 48 ? 'no' : 'si';
         }
 
-
+        //crea un bloqueo
         $bloqueo = new Bloqueo();
         $bloqueo->hora_inicio = $request->hora_inicio;
         $bloqueo->duracion = $request->duracion;
@@ -68,6 +72,7 @@ class BloqueoApiController extends Controller
         $bloqueo->id_user =  $user->id;
         $bloqueo->save();
 
+        //subir nivel de usuario
         if ($summaDuracion_nivel >= 48){
             $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
             $user->nivel_id = $nivel_id;
@@ -76,7 +81,7 @@ class BloqueoApiController extends Controller
 
         return response()->json($bloqueo, 201);
     }
-
+    //metodo para subir el nivel del usuario segun la cantidad de bloqueos
     public function subirNivel($sumaBloqueos, $nivel_id){
 
         if ($sumaBloqueos>=40 && $nivel_id == 4){
@@ -114,6 +119,8 @@ class BloqueoApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     //marca cuando el bloqueo esta activo
     public function update(Request $request, $id)
     {
         $idUser = $request->id_user;
@@ -127,7 +134,7 @@ class BloqueoApiController extends Controller
             return response()->json(['message' => 'Estado del bloqueo activo']);
         } else {
             $comodin = Comodin::where('id_user', $user->id)->where('estado', 'activo')->first();
-            
+            //si hay un comodin activo, usarlo para desbloquear un bloqueo
             if ($comodin) {
                 $comodin->estado ='usado';
                 $comodin->save();
@@ -143,6 +150,7 @@ class BloqueoApiController extends Controller
 
         
     }
+    //marcar el bloqueo como desbloqueado
 
     public function marcarDesbloqueado(Request $request)
     {
@@ -157,14 +165,14 @@ class BloqueoApiController extends Controller
             return response()->json(['message' => 'No se encontró un bloqueo activo para el usuario'], 404);
         }
     }
-
+    //metodo para obtener el bloqueo acivo de un usuario
     public function getBloqueo ()
     {
         $user = Auth::user();
         $bloqueo = Bloqueo::where('estado', 'activo')->where('id_user', $user->id)->first();
         return response()->json($bloqueo, 200);
     }
-
+    //metodo para listar las aplicaciones mas usadas
     public function listarTopApps(){
         $user = Auth::user();
 
