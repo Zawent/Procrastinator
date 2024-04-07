@@ -72,6 +72,15 @@ class BloqueoApiController extends Controller
         $bloqueo->id_user =  $user->id;
         $bloqueo->save();
 
+        if ($bloqueo_comodin == 'si') {
+            $sumaDuraciones = $user->bloqueo()->where('bloqueo_comodin', 'si')->sum(\DB::raw('TIME_TO_SEC(duracion)')) / 3600;
+            if ($sumaDuraciones < 48) {
+                $bloqueo->bloqueo_comodin = 'no';
+                $bloqueo->save();
+            }
+        }
+
+
         //subir nivel de usuario
         if ($summaDuracion_nivel >= 48){
             $nivel_id = $this->subirNivel($sumaBloqueos, $user->nivel_id);//aqui nombre a user para la tabla nivel_id porque decia que no estaba llamado
@@ -127,12 +136,14 @@ class BloqueoApiController extends Controller
         $user = User::find($idUser);
         $bloqueo = Bloqueo::find($id);
         $duracion = $request->input('duracion');
+        $duracionActual = $bloqueo->duracion;
 
         if ($duracion > 0) {
             $bloqueo->estado = 'activo';
             $bloqueo->save();
             return response()->json(['message' => 'Estado del bloqueo activo']);
         } else {
+            if ($duracionActual <= 0 && $bloqueo->estado == 'activo') {
             $comodin = Comodin::where('id_user', $user->id)->where('estado', 'activo')->first();
             //si hay un comodin activo, usarlo para desbloquear un bloqueo
             if ($comodin) {
@@ -147,7 +158,7 @@ class BloqueoApiController extends Controller
                 return null;
             }
         }
-
+ }
         
     }
     //marcar el bloqueo como desbloqueado
