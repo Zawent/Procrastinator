@@ -65,7 +65,7 @@ class UserApiController extends Controller
     public function update(Request $request, $id)
     {
 
-        /32we/actualizar la informaciond de usuario
+        //actualizar la informaciond de usuario
         $user = User::find($id);
         $user->name=$request->name;
         $user->fecha_nacimiento=$request->fecha_nacimiento;
