@@ -27,6 +27,7 @@ class UserApiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //crear usuario
     public function store(Request $request)
     {
         $user = new User();
@@ -63,6 +64,8 @@ class UserApiController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        /32we/actualizar la informaciond de usuario
         $user = User::find($id);
         $user->name=$request->name;
         $user->fecha_nacimiento=$request->fecha_nacimiento;
@@ -78,6 +81,7 @@ class UserApiController extends Controller
     }
 
 
+    //eliminar usuario
     /**
      * Remove the specified resource from storage.
      *
