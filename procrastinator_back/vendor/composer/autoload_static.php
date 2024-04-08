@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita106a75bca5f22049b2dc471559cb8a3
+class ComposerStaticInit6fa0791b9afb441a919b611cce554d46
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -357,8 +357,8 @@ class ComposerStaticInita106a75bca5f22049b2dc471559cb8a3
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -414,8 +414,8 @@ class ComposerStaticInita106a75bca5f22049b2dc471559cb8a3
         ),
         'League\\Uri\\' => 
         array (
-            0 => __DIR__ . '/..' . '/league/uri/src',
-            1 => __DIR__ . '/..' . '/league/uri-interfaces/src',
+            0 => __DIR__ . '/..' . '/league/uri-interfaces/src',
+            1 => __DIR__ . '/..' . '/league/uri/src',
         ),
         'League\\OAuth2\\Server\\' => 
         array (
@@ -610,6 +610,9 @@ class ComposerStaticInita106a75bca5f22049b2dc471559cb8a3
         'App\\Http\\Controllers\\API\\AppApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/AppApiController.php',
         'App\\Http\\Controllers\\API\\BloqueoApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/BloqueoApiController.php',
         'App\\Http\\Controllers\\API\\ComodinApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ComodinApiController.php',
+        'App\\Http\\Controllers\\API\\ConsejoApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ConsejoApiController.php',
+        'App\\Http\\Controllers\\API\\EmailVerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/EmailVerificationController.php',
+        'App\\Http\\Controllers\\API\\NivelApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/NivelApiController.php',
         'App\\Http\\Controllers\\API\\PreguntaApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PreguntaApiController.php',
         'App\\Http\\Controllers\\API\\RespuestaApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/RespuestaApiController.php',
         'App\\Http\\Controllers\\API\\RolApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/RolApiController.php',
@@ -632,6 +635,8 @@ class ComposerStaticInita106a75bca5f22049b2dc471559cb8a3
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Jobs\\QueuedVerifyEmailJob' => __DIR__ . '/../..' . '/app/Jobs/QueuedVerifyEmailJob.php',
+        'App\\Mail\\VerifyEmail' => __DIR__ . '/../..' . '/app/Mail/VerifyEmail.php',
         'App\\Models\\App' => __DIR__ . '/../..' . '/app/Models/App.php',
         'App\\Models\\Bloqueo' => __DIR__ . '/../..' . '/app/Models/Bloqueo.php',
         'App\\Models\\Comodin' => __DIR__ . '/../..' . '/app/Models/Comodin.php',
@@ -6354,9 +6359,9 @@ class ComposerStaticInita106a75bca5f22049b2dc471559cb8a3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita106a75bca5f22049b2dc471559cb8a3::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita106a75bca5f22049b2dc471559cb8a3::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita106a75bca5f22049b2dc471559cb8a3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6fa0791b9afb441a919b611cce554d46::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6fa0791b9afb441a919b611cce554d46::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6fa0791b9afb441a919b611cce554d46::$classMap;
 
         }, null, ClassLoader::class);
     }

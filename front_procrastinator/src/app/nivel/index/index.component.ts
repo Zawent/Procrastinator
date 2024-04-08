@@ -37,6 +37,7 @@ export class IndexComponent {
         }
       }
   
+      //carga los niveles para colocarlos en la lista
       cargarNiveles():void{
       this.nivelservicio.getNiveles(this.clave).subscribe(
         data =>{
@@ -47,6 +48,7 @@ export class IndexComponent {
         });
     }
     
+    //elimina los niveles 
     eliminarNivel(id:any): void{
       console.log(id);
       this.nivelservicio.deleteNivel(id, this.clave).subscribe(
@@ -58,6 +60,7 @@ export class IndexComponent {
         });
       }
     
+      //edita niveles
       editarNivel(id:any): void{
         console.log(id);
         this._router.navigateByUrl("/nivel/editar/"+id);

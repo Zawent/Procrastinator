@@ -30,7 +30,7 @@ class PreguntaApiController extends Controller
 
         //no debe haber creacion de pregunta   
     }
-
+    //metodo para contar la cantidad de preguntas y limitar su creacion
     public function contar(){
         $preguntas=Pregunta::all();
         return count($preguntas);
@@ -67,6 +67,7 @@ class PreguntaApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //actualizar pregunta
     public function update(Request $request, $id)
     {
         $pregunta = Pregunta::find($id);
@@ -82,6 +83,7 @@ class PreguntaApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //destruir pregunta
     public function destroy($id)
     {
         $pregunta = Pregunta::find($id);

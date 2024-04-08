@@ -19,7 +19,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './index.component.scss'
 })
 export class IndexComponent {
-  listaApps: App[] = [];
+  listaApps: App[] = []; //lista para donde se almacena las aplicaciones del usuario
   clave: string | null = null;
   usuario: User | null = null;
 
@@ -28,11 +28,13 @@ export class IndexComponent {
   constructor (private fb: FormBuilder, private _router: Router, private appServicio: AppService, private aRoute: ActivatedRoute) {
     this.id = this.aRoute.snapshot.paramMap.get('id');}
 
+    // Método que se ejecuta al iniciar el componente
   ngOnInit(): void{
     this.validartoken();
     this.cargarApps();
     }
 
+    //para validar el token de autenticación del usuario
     validartoken(): void {
       if(this.clave==null){
         this.clave=localStorage.getItem("clave");
@@ -41,6 +43,7 @@ export class IndexComponent {
       }
     }
 
+    //carga las apps de acuerdo al id del usuario
     cargarApps():void{
       if (this.id != null) {
         this.appServicio.getApp(this.id, this.clave).subscribe(

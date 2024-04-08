@@ -48,6 +48,7 @@ export class UpdateComponent {
     }
   }
 
+  // donde al momento de actualizar una pregunta y aparezca los datos que esten para editar
   verEditar(): void {
     if (this.id != null) {
       this.preguntaservicio.getPregunta(this.id, this.clave).subscribe(
@@ -63,6 +64,7 @@ export class UpdateComponent {
     }
   }
 
+  //para que se guarde la actualizacion de esa pregunta
   actualizarPregunta(): void{
     const pregunta: Pregunta = {
       descripcion_pregunta: this.preguntaform.get('descripcion_pregunta')?.value,

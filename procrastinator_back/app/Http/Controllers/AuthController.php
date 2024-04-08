@@ -26,7 +26,7 @@ class AuthController extends Controller
             'name' => 'required|string||regex:/^[a-zA-Z\s]+$/', //para que solo reciba letras con espacios incluidos
             'email' => 'required|string|email|unique:users', //sea un correo valido con @
             'password' => 'required|string|min:8',// sea una contraseña con minimo 8 caracteres
-            'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->subYears(12)->format('Y-m-d'),// la edad minima de crear cuenta es de 12 años
+            'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->subYears(12)->format('Y-m-d') . '|date_format:Y-m-d',
             'ocupacion' => 'required|string||regex:/^[a-zA-Z\s]+$/'// recibe solo letras con espacios incluidos
         ], [
             'name.required' => 'El nombre es obligatorio.',
@@ -36,9 +36,10 @@ class AuthController extends Controller
             'email.unique' => 'Este correo electronico ya esta registrado.',
             'password.required' => 'La clave es obligatoria.',
             'password.min' => 'La clave debe tener al menos :min caracteres.',
-            'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',    
+            'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
             'fecha_nacimiento.date' => 'La fecha de nacimiento debe ser una fecha valida.',
-            'fecha_nacimiento.before_or_equal' => 'Debes tener mas edad',
+            'fecha_nacimiento.before_or_equal' => 'Debes tener mas edad (minimo 12).',
+            'fecha_nacimiento.date_format' => 'El formato de fecha de nacimiento no es valido.',
             'ocupacion.required' => 'La ocupacion es obligatoria.',
             'ocupacion.regex' => 'La ocupacion debe ser valida'
        
@@ -57,6 +58,7 @@ class AuthController extends Controller
                 return response()->json(['error' => $errors->first('ocupacion')], 400);
             }
         }
+        //$this->validacion($request);
         
         $user=User::create([
             'name' => $request->name,
@@ -96,8 +98,9 @@ class AuthController extends Controller
         /*return response()->json([
             'message' => 'Successfully created user!'
         ], 201);*/
-
     }
+
+   
 
     protected function sendVerificationEmail(User $user)
     {
@@ -167,6 +170,7 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        $user=Auth::user();
+        return response()->json($user);
     }
 }

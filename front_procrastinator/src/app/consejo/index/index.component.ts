@@ -19,7 +19,7 @@ import Swal from 'sweetalert2'
   styleUrl: './index.component.scss'
 })
 export class IndexComponent {
-listaConsejos: Consejo[] = [];
+listaConsejos: Consejo[] = [];//lista los consejos
 clave: string | null = null;
 usuario: User | null = null;
 
@@ -28,7 +28,8 @@ id: string | null;
   constructor (private consejoService: ConsejoService, private _router: Router, private aRoute: ActivatedRoute){
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
-  
+
+  // Método que se ejecuta al iniciar el componente
   ngOnInit(): void{
     this.validartoken();
     this.cargarConsejos();
@@ -38,6 +39,7 @@ id: string | null;
       console.log("paso changes");
     }
 
+  // Para validar el token de autenticación del usuario
     validartoken(): void {
       if(this.clave==null){
         this.clave=localStorage.getItem("clave");
@@ -46,6 +48,7 @@ id: string | null;
       }
     }
 
+  //ver los consejos en la tabla
   cargarConsejos():void{
     this.consejoService.getConsejos(this.clave).subscribe(
       data =>{
@@ -55,6 +58,8 @@ id: string | null;
         console.log(err);
       });
   }
+
+  //es una alerta para estar seguro del usuario de eliminar ese consejo
   mensajeSiono(text: string, deleteText: string, id: any, confirmButtonText?: string, timer?: number) {
     Swal.fire({
       title: "¿Estás seguro de eliminar el consejo?",
@@ -76,6 +81,7 @@ id: string | null;
     });
   }
 
+  //es un mensaje para cuando de error
   mensajeError(){
     Swal.fire({
       icon: "error",
@@ -84,6 +90,7 @@ id: string | null;
     });
   }
   
+  //para eliminar un consejo por id
   eliminarConsejo(id:any): void{
     console.log(id);
     this.consejoService.deleteConsejo(id, this.clave).subscribe(
@@ -96,6 +103,7 @@ id: string | null;
       });
     }
   
+    //envia a la siguiente pestaña para editar el  consejo enviandole el id del consjeo
     editarConsejo(id:any): void{
       this._router.navigateByUrl("/consejo/editar/"+id);
   }
