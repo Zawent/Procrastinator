@@ -17,52 +17,54 @@ export class IndexComponent {
   listaNiveles: Nivel[] = [];
   clave: string | null = null;
   usuario: User | null = null;
-  
-    constructor (private nivelservicio: NivelService, private _router: Router){}
-    
-    ngOnInit(): void{
-      this.validartoken();
-      this.cargarNiveles();
-      }
-    
-      ngOnchanges(): void{
-        console.log("paso changes");
-      }
-  
-      validartoken(): void {
-        if(this.clave==null){
-          this.clave=localStorage.getItem("clave");
-        }if(!this.clave){
-          this._router.navigate(['/home']);
-        }
-      }
-  
-      //carga los niveles para colocarlos en la lista
-      cargarNiveles():void{
-      this.nivelservicio.getNiveles(this.clave).subscribe(
-        data =>{
-          this.listaNiveles = data;
-        },
-        err => {
-          console.log(err);
-        });
+
+  constructor(private nivelservicio: NivelService, private _router: Router) { }
+
+  /** Método que se ejecuta al iniciar el componente */
+  ngOnInit(): void {
+    this.validartoken();
+    this.cargarNiveles();
+  }
+
+  ngOnchanges(): void {
+    console.log("paso changes");
+  }
+
+  /** Para validar el token de autenticación del usuario */
+  validartoken(): void {
+    if (this.clave == null) {
+      this.clave = localStorage.getItem("clave");
+    } if (!this.clave) {
+      this._router.navigate(['/home']);
     }
-    
-    //elimina los niveles 
-    eliminarNivel(id:any): void{
-      console.log(id);
-      this.nivelservicio.deleteNivel(id, this.clave).subscribe(
-        data => {
-          this.cargarNiveles();
+  }
+
+  /** carga los niveles para colocarlos en la lista */
+  cargarNiveles(): void {
+    this.nivelservicio.getNiveles(this.clave).subscribe(
+      data => {
+        this.listaNiveles = data;
       },
       err => {
         console.log(err);
-        });
-      }
-    
-      //edita niveles
-      editarNivel(id:any): void{
-        console.log(id);
-        this._router.navigateByUrl("/nivel/editar/"+id);
-    }
+      });
+  }
+
+  /** elimina los niveles */
+  eliminarNivel(id: any): void {
+    console.log(id);
+    this.nivelservicio.deleteNivel(id, this.clave).subscribe(
+      data => {
+        this.cargarNiveles();
+      },
+      err => {
+        console.log(err);
+      });
+  }
+
+  /** edita niveles */
+  editarNivel(id: any): void {
+    console.log(id);
+    this._router.navigateByUrl("/nivel/editar/" + id);
+  }
 }

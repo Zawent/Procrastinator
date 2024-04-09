@@ -8,11 +8,11 @@ import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 //imports de angular material 
-import {FormControl, Validators, FormsModule} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { FormControl, Validators, FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-body',
@@ -37,35 +37,29 @@ export class BodyComponent {
     private loginService: LoginService,
     private router: Router) { }
 
-  ngOnInit():void {
+  /** comprobacion de que la persona se haya registrado */
+  ngOnInit(): void {
     this.clave = localStorage.getItem('clave');
     if (this.clave) {
       this.router.navigate(['/home/']);
     }
   }
 
-  ngOnChanges(): void {
-    this.clave = localStorage.getItem('clave');
-    if (GlobalComponent.respuesta!=null){
-      this.router.navigate(['/ficha/index']);
-    }
-  }
-    
+  /** para poder iniciar sesion */
   login(): void {
-    //para poderse loguear
     this.loginService.login(this.loginForm.get('username')?.value,
       this.loginForm.get('password')?.value).subscribe(
         rs => {
           this.respuesta = rs;
           if (this.respuesta != null) {
-            if (this.respuesta.user.id_rol != 2){
-            GlobalComponent.respuesta = this.respuesta;
-            localStorage.setItem("clave",this.respuesta.access_token);
-            window.location.reload();
-          } else {
-            console.log('No estas autorizado');
+            if (this.respuesta.user.id_rol != 2) {
+              GlobalComponent.respuesta = this.respuesta;
+              localStorage.setItem("clave", this.respuesta.access_token);
+              window.location.reload();
+            } else {
+              console.log('No estas autorizado');
+            }
           }
-        }
         },
         err => {
           console.log(err);

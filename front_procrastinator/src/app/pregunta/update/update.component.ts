@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Pregunta } from '../../modelos/pregunta.model';
-import { PreguntaService} from '../../servicios/pregunta.service';
+import { PreguntaService } from '../../servicios/pregunta.service';
 import { Router } from '@angular/router';
 import { User } from '../../modelos/user.model';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-update',
   standalone: true,
-  imports: [CommonModule, MatInputModule,FormsModule, MatFormFieldModule, MatButtonModule, MatDividerModule, MatIconModule, MatCardModule, ReactiveFormsModule],
+  imports: [CommonModule, MatInputModule, FormsModule, MatFormFieldModule, MatButtonModule, MatDividerModule, MatIconModule, MatCardModule, ReactiveFormsModule],
   providers: [PreguntaService],
   templateUrl: './update.component.html',
   styleUrl: './update.component.scss'
@@ -35,20 +35,22 @@ export class UpdateComponent {
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
 
+  /** Método que se ejecuta al iniciar el componente */
   ngOnInit(): void {
     this.validartoken();
     this.verEditar();
   }
 
+  /** Para validar el token de autenticación del usuario **/
   validartoken(): void {
-    if(this.clave==null){
-      this.clave=localStorage.getItem("clave");
-    }if(!this.clave){
+    if (this.clave == null) {
+      this.clave = localStorage.getItem("clave");
+    } if (!this.clave) {
       this._router.navigate(['/home']);
     }
   }
 
-  // donde al momento de actualizar una pregunta y aparezca los datos que esten para editar
+  /** donde al momento de actualizar una pregunta y aparezca los datos que esten para editar */
   verEditar(): void {
     if (this.id != null) {
       this.preguntaservicio.getPregunta(this.id, this.clave).subscribe(
@@ -64,22 +66,22 @@ export class UpdateComponent {
     }
   }
 
-  //para que se guarde la actualizacion de esa pregunta
-  actualizarPregunta(): void{
+  /** para que se guarde la actualizacion de esa pregunta */
+  actualizarPregunta(): void {
     const pregunta: Pregunta = {
       descripcion_pregunta: this.preguntaform.get('descripcion_pregunta')?.value,
     }
-    if (this.id != null){
+    if (this.id != null) {
       this.preguntaservicio.updatePregunta(this.id, pregunta, this.clave).subscribe(
-        data =>{
+        data => {
           this._router.navigate(['/pregunta/index']);
         },
-        error =>{
+        error => {
           console.log(error);
           this._router.navigate(['/pregunta/index']);
         }
       )
     }
   }
-    
+
 }
