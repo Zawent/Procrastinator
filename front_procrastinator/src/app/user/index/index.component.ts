@@ -17,36 +17,39 @@ import Swal from 'sweetalert2'
   styleUrl: './index.component.scss'
 })
 export class IndexComponent {
-listaRol: Rol[] = [];
-listaUsuarios: User[] = [];
-clave: string | null = null;
-usuario: User | null = null;
-id: string | null;
+  listaRol: Rol[] = [];
+  listaUsuarios: User[] = [];
+  clave: string | null = null;
+  usuario: User | null = null;
+  id: string | null;
 
-  constructor (private userService: UserService, private rolService: RolService ,private _router: Router, private aRoute: ActivatedRoute){
-    this.id = this.aRoute.snapshot.paramMap.get('id')}
+  constructor(private userService: UserService, private rolService: RolService, private _router: Router, private aRoute: ActivatedRoute) {
+    this.id = this.aRoute.snapshot.paramMap.get('id')
+  }
 
-  ngOnInit(): void{
+  /** Método que se ejecuta al iniciar el componente */
+  ngOnInit(): void {
     this.validartoken();
     this.cargarUsuarios();
-    }
+  }
 
-    ngOnchanges(): void{
-      console.log("paso changes");
-    }
+  ngOnchanges(): void {
+    console.log("paso changes");
+  }
 
-    validartoken(): void {
-      if(this.clave==null){
-        this.clave=localStorage.getItem("clave");
-      }if(!this.clave){
-        this._router.navigate(['/home']);
-      }
+  /** Para validar el token de autenticación del usuario */
+  validartoken(): void {
+    if (this.clave == null) {
+      this.clave = localStorage.getItem("clave");
+    } if (!this.clave) {
+      this._router.navigate(['/home']);
     }
+  }
 
-    //para listar los usuarios 
-  cargarUsuarios():void{
+  /** para listar los usuarios */
+  cargarUsuarios(): void {
     this.userService.getUsuarios(this.clave).subscribe(
-      data =>{
+      data => {
         this.listaUsuarios = data;
       },
       err => {
@@ -54,7 +57,7 @@ id: string | null;
       });
   }
 
-  //mensaje para estar seguro de eliminar el usuario
+  /** mensaje para estar seguro de eliminar el usuario */
   mensajeSiono(text: string, deleteText: string, id: any, confirmButtonText?: string, timer?: number) {
     Swal.fire({
       title: "¿Estás seguro de eliminar el usuario?",
@@ -71,39 +74,40 @@ id: string | null;
           text: "El usuario ha sido borrado",
           icon: "success"
         });
-          this.eliminarUser(id);
+        this.eliminarUser(id);
       }
     });
   }
 
-  mensajeError(){
+  /** para que aparezca un mensaje de error al momento de tratar de eliminar usuario admin */
+  mensajeError() {
     Swal.fire({
       icon: "error",
       title: "Error",
       text: "No puedes eliminar el usuario administrador",
     });
   }
-  
-  // para eliminar usuario pero siempre y cuando el id de ese usuario no sea 2
-  eliminarUser(id:any): void{
+
+  /** para eliminar usuario pero siempre y cuando el id de ese usuario no sea 2 */
+  eliminarUser(id: any): void {
     console.log(id);
-    if (id >= 2){
+    if (id >= 2) {
       this.userService.deleteUsuario(id, this.clave).subscribe(
         data => {
           this.cargarUsuarios();
-      },
-      err => {
-        console.log(err);
+        },
+        err => {
+          console.log(err);
         });
-    }else{
+    } else {
       this.mensajeError();
       console.log("no puede eliminar el usuario administrador")
     }
-    
-    }
 
-    //para mandar a la otra pestaña y ver las aplicaciones de los usuarios
-    verApps(id:any): void{
-      this._router.navigateByUrl("/app/index/"+id);
+  }
+
+  /** para mandar a la otra pestaña y ver las aplicaciones de los usuarios */
+  verApps(id: any): void {
+    this._router.navigateByUrl("/app/index/" + id);
   }
 }

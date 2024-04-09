@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Nivel } from '../../modelos/nivel.model';
-import { NivelService} from '../../servicios/nivel.service';
+import { NivelService } from '../../servicios/nivel.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../modelos/user.model';
@@ -17,7 +17,7 @@ import { User } from '../../modelos/user.model';
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [CommonModule, MatInputModule,FormsModule, MatFormFieldModule, MatButtonModule, MatDividerModule, MatIconModule, MatCardModule, ReactiveFormsModule],
+  imports: [CommonModule, MatInputModule, FormsModule, MatFormFieldModule, MatButtonModule, MatDividerModule, MatIconModule, MatCardModule, ReactiveFormsModule],
   providers: [NivelService],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss'
@@ -35,20 +35,22 @@ export class CreateComponent {
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
 
+  /** Método que se ejecuta al iniciar el componente */
   ngOnInit(): void {
     this.validartoken();
     this.verEditar();
   }
 
+  /** valida el token  */
   validartoken(): void {
-    if(this.clave==null){
-      this.clave=localStorage.getItem("clave");
-    }if(!this.clave){
+    if (this.clave == null) {
+      this.clave = localStorage.getItem("clave");
+    } if (!this.clave) {
       this._router.navigate(['/home']);
     }
   }
 
-  //donde al momento de actualizar un nivel y aparezca los datos que esten para editar
+  /** donde al momento de actualizar un nivel y aparezca los datos que esten para editar */
   verEditar(): void {
     if (this.id != null) {
       this.nivelservicio.getNivel(this.id, this.clave).subscribe(
@@ -64,17 +66,17 @@ export class CreateComponent {
     }
   }
 
-  //se podra crear y actualizar nivel, aunque la funcion de crear nivel esta desabilitada recordar no habilitarla
+  /** se podra crear y actualizar nivel, aunque la funcion de crear nivel esta desabilitada recordar no habilitarla */
   agregarNivel(): void {
     const nivel: Nivel = {
       descripcion: this.nivelform.get('descripcion')?.value,
     }
     if (this.id != null) {
       this.nivelservicio.updateNivel(this.id, nivel, this.clave).subscribe(
-        data =>{
+        data => {
           this._router.navigate(['/nivel/index']);
         },
-        error =>{
+        error => {
           console.log(error);
           this._router.navigate(['/nivel/index']);
         }
@@ -82,9 +84,9 @@ export class CreateComponent {
     } else {
       this.nivelservicio.addNivel(nivel, this.clave).subscribe(
         data => {
-        console.log(data);
-        this._router.navigate(['/nivel/index']);
-      },
+          console.log(data);
+          this._router.navigate(['/nivel/index']);
+        },
         err => {
           console.log(err);
           this._router.navigate(['/nivel/index']);

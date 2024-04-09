@@ -14,13 +14,13 @@ import { ConsejoService } from '../../servicios/consejo.service';
 import { NivelService } from '../../servicios/nivel.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { User } from '../../modelos/user.model';
 
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [CommonModule, MatInputModule,FormsModule, MatFormFieldModule, MatButtonModule, MatDividerModule, MatIconModule, MatCardModule, ReactiveFormsModule, MatSelectModule],
+  imports: [CommonModule, MatInputModule, FormsModule, MatFormFieldModule, MatButtonModule, MatDividerModule, MatIconModule, MatCardModule, ReactiveFormsModule, MatSelectModule],
   providers: [ConsejoService, NivelService],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss'
@@ -40,24 +40,24 @@ export class CreateComponent {
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
 
-    // Método que se ejecuta al iniciar el componente
+  /** Método que se ejecuta al iniciar el componente */
   ngOnInit(): void {
     this.validartoken();
     this.verEditar();
     this.verNiveles();
   }
 
-  //para validar el token de autenticación del usuario
+  /** para validar el token de autenticación del usuario */
   validartoken(): void {
-    if(this.clave==null){
-      this.clave=localStorage.getItem("clave");
-    }if(!this.clave){
+    if (this.clave == null) {
+      this.clave = localStorage.getItem("clave");
+    } if (!this.clave) {
       this._router.navigate(['/inicio/body']);
     }
   }
 
-  //para poder mostrar los niveles en una lista escogible
-  verNiveles():void{
+  /** para poder mostrar los niveles en una lista escogible */
+  verNiveles(): void {
     this.nivelservicio.getNiveles(this.clave).subscribe(
       data => {
         this.listaniveles = data;
@@ -67,7 +67,7 @@ export class CreateComponent {
       });
   }
 
-  //donde al momento de actualizar un consejo y aparezca los datos que esten para editar
+  /** donde al momento de actualizar un consejo y aparezca los datos que esten para editar */
   verEditar(): void {
     if (this.id != null) {
       this.consejoservicio.getConsejo(this.id, this.clave).subscribe(
@@ -84,30 +84,30 @@ export class CreateComponent {
     }
   }
 
-  // para poder crear o actualizar un consejo
+  /** para poder crear o actualizar un consejo */
   agregarConsejo(): void {
     const consejo: Consejo = {
       id_nivel: this.consejoform.get('id_nivel')?.value!,
       consejo: this.consejoform.get('consejo')?.value,
     }
-    //aqui es donde el id es diferente a null actualice el consejo y se guarde esos cambios
+    /** aqui es donde el id es diferente a null actualice el consejo y se guarde esos cambios */
     if (this.id != null) {
       this.consejoservicio.updateConsejo(this.id, consejo, this.clave).subscribe(
-        data =>{
+        data => {
           this._router.navigate(['/consejo/index']);
         },
-        error =>{
+        error => {
           console.log(error);
           this._router.navigate(['/consejo/index']);
         }
       )
     } else {
-      //aqui es para crear un consejo nuevo porque el id es null
+      /** aqui es para crear un consejo nuevo porque el id es null */
       this.consejoservicio.addConsejo(consejo, this.clave).subscribe(
         data => {
-        console.log(data);
-        this._router.navigate(['/consejo/index']);
-      },
+          console.log(data);
+          this._router.navigate(['/consejo/index']);
+        },
         err => {
           console.log(err);
           this._router.navigate(['/consejo/index']);
