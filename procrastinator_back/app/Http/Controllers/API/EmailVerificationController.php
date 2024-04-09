@@ -9,21 +9,27 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class EmailVerificationController extends Controller
 {
-    //metodo para enviar el correo de verificacion
+    /**
+     * @param $request
+     * @return Response
+     * 
+     * Este método envía un correo de verificación al registrar un usuario 
+     * y valida si el usuario ya verificó su correo electrónico, si no se ha verificado,
+     * envía una notificación por correo, si el usuario ya verificó su correo, se marca
+     * como verificado.
+     */
+
     public function sendVerificationEmail(Request $request)
     {
-        //verifica si el usuario ya ahe verificado su correo electronico
         if ($request->user()->hasVerifiedEmail()) {
             return [
                 'message' => 'Already Verified'
             ];
         }
-        // Si no está verificado, enviar la notificación de verificación por correo electrónico
         $request->user()->sendEmailVerificationNotification();
 
         return ['status' => 'verification-link-sent'];
     }
-    //metodo para verificar el correo electronico
     public function verify(EmailVerificationRequest $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
@@ -31,7 +37,6 @@ class EmailVerificationController extends Controller
                 'message' => 'Email already verified'
             ];
         }
-//marcar el correo del usuario como verificado
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }

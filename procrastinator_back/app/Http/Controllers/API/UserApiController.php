@@ -12,9 +12,10 @@ use Carbon\Carbon;
 class UserApiController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método obtiene todos los usuarios.
      */
     public function index()
     {
@@ -23,12 +24,12 @@ class UserApiController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método crea los usuarios.
      */
-    //crear usuario
+  
     public function store(Request $request)
     {
         $user = new User();
@@ -43,12 +44,11 @@ class UserApiController extends Controller
         return response()->json($user, 201);
     }
 
-
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método muestra los usuarios.
      */
     public function show($id)
     {
@@ -57,20 +57,17 @@ class UserApiController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método actualiza la información del usuario con validaciones.
      */
     public function update(Request $request, $id)
     {
-
-        //actualizar la informaciond de usuario
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
-            'name' => 'required|string||regex:/^[a-zA-Z\s]+$/', //para que solo reciba letras con espacios incluidos
+            'name' => 'required|string||regex:/^[a-zA-Z\s]+$/',
             'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->subYears(12)->format('Y-m-d') . '|date_format:Y-m-d',
-            'ocupacion' => 'required|string||regex:/^[a-zA-Z\s]+$/'// recibe solo letras con espacios incluidos
+            'ocupacion' => 'required|string||regex:/^[a-zA-Z\s]+$/'
         ], [
             'name.required' => 'El nombre es obligatorio.',
             'name.regex' => 'El nombre debe ser valido',
@@ -112,13 +109,11 @@ class UserApiController extends Controller
         return response()->json($user, 201);
     }
 
-
-    //eliminar usuario
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método elimina usuarios.
      */
     public function destroy($id)
     {
@@ -126,6 +121,5 @@ class UserApiController extends Controller
         $user->delete();
         return response()->json(null, 204);
     }
-
 }
 

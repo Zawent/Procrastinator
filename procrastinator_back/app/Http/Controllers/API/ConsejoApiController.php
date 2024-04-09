@@ -10,71 +10,70 @@ use Carbon\Carbon;
 class ConsejoApiController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método obtiene todos los consejos.
      */
     public function index()
     {
-        //obtener todos los consejos
         $consejos = Consejo::all();
         return response()->json($consejos,200);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método vavlida el id del nivel y crea un consejo.
      */
     public function store(Request $request)
     {
-        //valida el id del nivel
         $request->validate([
             'id_nivel' => 'required|integer|between:1,4',
         ]);
-        //crea un nuevo consejo
         $consejo =new Consejo();
         $consejo->id_nivel = $request->id_nivel ;
         $consejo->consejo = $request->consejo ;
         $consejo->save();
-        //Consejo::create($request->all());
         return response()->json($consejo,201);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método actua según el id del nivel, para que salga el consejo de ese nivel, 
+     * tambien obtiene los consejos correspondientes al id de nivel dado.
      */
     public function show($id)
     {
-        $consejos = Consejo::find($id); // sirve para que segun el id_nivel salga el consejo de ese nivel
+        $consejos = Consejo::find($id);
         return response()->json($consejos,200,[],JSON_NUMERIC_CHECK);
     }
-    //obtener todos los consejos correspondientes al id de nivel dado
     public function consejosPorId($id_nivel)
     {
-        $consejos = Consejo::where('id_nivel', $id_nivel)->get(); // sirve para que segun el id_nivel salga el consejo de ese nivel
+        $consejos = Consejo::where('id_nivel', $id_nivel)->get();
         return response()->json($consejos,200,[],JSON_NUMERIC_CHECK);
     }
-
+    /**
+     * @param $request
+     * @return Response
+     * 
+     * Este método obtiene los consejos correspondientes al id de nivel del usuario y selecciona uno aleatoriamente.
+     */
 
     public function consejoDiario($id_nivel)
     {
-        //obtener todos los consejos correspondientes al id de nivel dado y seleccionar uno aleatoriamente
-        $consejos = Consejo::where('id_nivel', $id_nivel)->inRandomOrder()->get(); // sirve para que segun el id_nivel salga el consejo de ese nivel
+        $consejos = Consejo::where('id_nivel', $id_nivel)->inRandomOrder()->get();
         $consejoAleatorio = $consejos->random();
         return response()->json($consejoAleatorio,200,[],JSON_NUMERIC_CHECK);
     }
-
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método actualiza la información de un consejo.
      */
     public function update(Request $request, $id)
     {
@@ -87,27 +86,31 @@ class ConsejoApiController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * Este método elimina consejos por su id, pero debe haber al menos un consejo creado y no puede eliminar
+     * todos los consejos con el mismo nivel de id.
      */
+
     public function destroy($id)
-    {   //borrar un consejo por id
+    {   
         $consejos = Consejo::find($id);
         $suma = Consejo::where('id_nivel', $consejos->id_nivel)->count();
-        //si solo queda un consejo no se puede borrar
         if ($suma == 1) {
             return response()->json(['message' => 'No se puede eliminar todos los consejos con el mismo nivel'], 400);
         }
-        // si quedan más de un consejo con el mismo id de nivel, eliminar el consejo
         $consejos->delete();
         return response()->json($consejos,200);
     }
-    //cuenta y da la cantidad de consejos con id de nivel dado
+
+    /**
+     * @param $request
+     * @return Response
+     * Este método cuenta la cantidad de consejos según el id de nivel.
+     */
+
     public function contarConsejo($id_nivel){
         $suma = Consejo::where('id_nivel', $id_nivel)->count();
         return response()->json($suma);
     }
-
 }
