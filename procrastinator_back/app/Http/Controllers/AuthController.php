@@ -18,16 +18,25 @@ class AuthController extends Controller
 {
 
     /**
-     * Registro de usuario y validaciones
+     * Registro de usuario y validaciones:
+     * Recibe solo letras con espacios incluidos.
+     * Sea una contraseña con minimo 8 caracteres.
+     * Sea un correo valido con @.
+     * Para que solo reciba letras con espacios incluidos.
+     * Edad mínima de 12 años.
+     * Fecha valida.
+     * Ocupación valida.
+     * Clave obligatorria.
+     * Nombre valido.
      */
     public function signUp(Request $request)
     {       
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
-            'name' => 'required|string||regex:/^[a-zA-Z\s]+$/', //para que solo reciba letras con espacios incluidos
-            'email' => 'required|string|email|unique:users', //sea un correo valido con @
-            'password' => 'required|string|min:8',// sea una contraseña con minimo 8 caracteres
+            'name' => 'required|string||regex:/^[a-zA-Z\s]+$/',
+            'email' => 'required|string|email|unique:users', 
+            'password' => 'required|string|min:8',
             'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->subYears(12)->format('Y-m-d') . '|date_format:Y-m-d',
-            'ocupacion' => 'required|string||regex:/^[a-zA-Z\s]+$/'// recibe solo letras con espacios incluidos
+            'ocupacion' => 'required|string||regex:/^[a-zA-Z\s]+$/'
         ], [
             'name.required' => 'El nombre es obligatorio.',
             'name.regex' => 'El nombre debe ser valido',
@@ -57,9 +66,7 @@ class AuthController extends Controller
             }elseif ($errors->has('ocupacion')) {
                 return response()->json(['error' => $errors->first('ocupacion')], 400);
             }
-        }
-        //$this->validacion($request);
-        
+        }  
         $user=User::create([
             'name' => $request->name,
             'fecha_nacimiento' => $request->fecha_nacimiento,
@@ -74,18 +81,13 @@ class AuthController extends Controller
         $timeIni = $now;
 
         $this->sendVerificationEmail($user);
-        //QueuedVerifyEmailJob::dispatch($user);
-
         $tokenResult = $user->createToken('Personal Access Token');
-
         $now = date_create('now')->format('Y-m-d H:i:s');
         $timeFin = $now;
-
         $token = $tokenResult->token;
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
-
         return response()->json([
             'user' => $user,
             'access_token' => $tokenResult->accessToken,
@@ -94,22 +96,14 @@ class AuthController extends Controller
             'Inicio' => Carbon::parse($timeIni)->toDateTimeString(),
             'Fin' => Carbon::parse($timeFin)->toDateTimeString()
         ],200);
-
-        /*return response()->json([
-            'message' => 'Successfully created user!'
-        ], 201);*/
     }
 
-   
-
+    /**
+     * Este método envía el código de verificación.
+     */
     protected function sendVerificationEmail(User $user)
     {
-
         $user->sendEmailVerificationNotification();
-
-   /* return response()->json([
-        'message' => 'Verification email sent successfully'
-    ]);*/
     }
 
     /**

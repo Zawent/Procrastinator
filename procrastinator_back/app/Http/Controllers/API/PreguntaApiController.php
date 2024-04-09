@@ -9,9 +9,10 @@ use App\Models\Pregunta;
 class PreguntaApiController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método obtiene todas las preguntas.
      */
     public function index()
     {
@@ -20,24 +21,18 @@ class PreguntaApiController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método cuenta la cantidad de preguntas y limita su creación a 8 preguntas.
      */
-    public function store(Request $request)
-    {
 
-        //no debe haber creacion de pregunta   
-    }
-    //metodo para contar la cantidad de preguntas y limitar su creacion
-    public function contar(){
+     public function contar(){
         $preguntas=Pregunta::all();
         return count($preguntas);
 
         $limite_preguntas = 7;
-        $cantidad_preguntas = Pregunta::count();//contador para que al momento de crear preguntas solo sean 8
-                                                //inicia en 3 por las las semillas guardadas
+        $cantidad_preguntas = Pregunta::count();
         if ($cantidad_preguntas >= $limite_preguntas) {
             return response()->json(['error' => 'Limite de preguntas creadas (8).'], 400);
         }else{
@@ -46,13 +41,13 @@ class PreguntaApiController extends Controller
             $pregunta->save();
             return response()->json($pregunta,201);
         }
-}
+    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+   /**
+     * @param $request
+     * @return Response
+     * 
+     * Este método muestra las preguntas.
      */
     public function show($id)
     {
@@ -61,33 +56,18 @@ class PreguntaApiController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método actualiza las preguntas.
      */
-    //actualizar pregunta
+
     public function update(Request $request, $id)
     {
         $pregunta = Pregunta::find($id);
         $pregunta->descripcion_pregunta = $request->descripcion_pregunta;
         $pregunta->update();
         
-        return response()->json($pregunta,200);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    //destruir pregunta
-    public function destroy($id)
-    {
-        $pregunta = Pregunta::find($id);
-        $pregunta->delete();
         return response()->json($pregunta,200);
     }
 }

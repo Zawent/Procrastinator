@@ -9,31 +9,49 @@ use App\Models\Nivel;
 class NivelApiController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return Response
+     * 
+     * Este método obtiene todos los niveles.
      */
+
     public function index()
     {
-       
         $nivel = Nivel::all();
         return response()->json($nivel,200);
     }
-    //mostrar un nivel
+
+    /**
+     * @param $request
+     * @return Response
+     * 
+     * Este método muestra los niveles.
+     */
     public function show($id)
     {
         $nivel = Nivel::find($id);
         return response()->json($nivel,200);
     }
 
-    //crear un nivel
+    /**
+     * @param $request
+     * @return Response
+     * 
+     * Este método crea un nivel.
+     */
     public function store(Request $request){
         $nivel = new Nivel();
         $nivel->descripcion = $request->descripcion;
         $nivel->save();
         return response()->json($nivel,201);
     }
-    //actualizar un nivel
+
+    /**
+     * @param $request
+     * @return Response
+     * 
+     * Este método actualiza los niveles
+     */
     public function update(Request $request, $id)
     {
         $nivel = Nivel::find($id);
@@ -42,7 +60,13 @@ class NivelApiController extends Controller
         
         return response()->json($nivel,200);
     }
-    //eliminar un nivel
+
+    /**
+     * @param $request
+     * @return Response
+     * 
+     * Este método elimina los niveles.
+     */
     public function destroy($id)
     {
         $nivel = Nivel::find($id);
