@@ -75,9 +75,9 @@ class UserApiController extends Controller
             'name.required' => 'El nombre es obligatorio.',
             'name.regex' => 'El nombre debe ser valido',
             'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
-            'fecha_nacimiento.date' => 'La fecha de nacimiento debe ser una fecha válida.',
-            'fecha_nacimiento.before_or_equal' => 'Debes tener más de 12 años.',
-            'fecha_nacimiento.date_format' => 'El formato de fecha de nacimiento no es válido.',
+            'fecha_nacimiento.date' => 'La fecha de nacimiento debe ser una fecha valida.',
+            'fecha_nacimiento.before_or_equal' => 'Debes tener mas edad (minimo 12).',
+            'fecha_nacimiento.date_format' => 'El formato de fecha de nacimiento no es valido.',
             'ocupacion.required' => 'La ocupacion es obligatoria.',
             'ocupacion.regex' => 'La ocupacion debe ser valida'
        
